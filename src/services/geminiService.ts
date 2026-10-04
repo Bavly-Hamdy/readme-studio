@@ -20,9 +20,12 @@ export function getActiveGeminiKey(): string | null {
     return fromStorage.trim();
   }
 
-  const fromEnv = (import.meta as { env?: Record<string, string> }).env?.VITE_GEMINI_API_KEY;
-  if (fromEnv && fromEnv.trim().length > 0) {
-    return fromEnv.trim();
+  const metaEnv = (import.meta as { env?: Record<string, string> }).env;
+  if (metaEnv?.VITE_GEMINI_API_KEY && metaEnv.VITE_GEMINI_API_KEY.trim().length > 0) {
+    return metaEnv.VITE_GEMINI_API_KEY.trim();
+  }
+  if (metaEnv?.GEMINI_API_KEY && metaEnv.GEMINI_API_KEY.trim().length > 0) {
+    return metaEnv.GEMINI_API_KEY.trim();
   }
 
   return null;
