@@ -1,0 +1,58 @@
+import React from 'react';
+
+interface LogoIconProps {
+  size?: number;
+  className?: string;
+}
+
+export const LogoIcon: React.FC<LogoIconProps> = ({ size = 32, className = '' }) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`shrink-0 select-none ${className}`}
+    >
+      {/* Outer Squircle Container with tactile border */}
+      <rect width="64" height="64" rx="16" fill="#18191C" />
+      <rect x="1" y="1" width="62" height="62" rx="15" stroke="#2E3238" strokeWidth="1.5" />
+
+      {/* Document Folio Background */}
+      <path
+        d="M17 14C17 11.7909 18.7909 10 21 10H38L47 19V50C47 52.2091 45.2091 54 43 54H21C18.7909 54 17 52.2091 17 50V14Z"
+        fill="#FFFFFF"
+      />
+
+      {/* Dog-ear Folio Fold */}
+      <path
+        d="M38 10V16C38 17.6569 39.3431 19 41 19H47L38 10Z"
+        fill="#5A7188"
+      />
+
+      {/* Subtle Document Header Rule */}
+      <line x1="23" y1="18" x2="33" y2="18" stroke="#D1D5DB" strokeWidth="2" strokeLinecap="round" />
+
+      {/* The Editorial "R" Craft Monogram */}
+      {/* Stem */}
+      <rect x="23" y="24" width="3.5" height="22" rx="1.75" fill="#18191C" />
+      
+      {/* Upper Loop */}
+      <path
+        d="M24.5 24H33.5C36.5376 24 39 26.4624 39 29.5C39 32.5376 36.5376 35 33.5 35H24.5V24Z"
+        fill="#18191C"
+      />
+      <path
+        d="M26.5 26.5H33C34.6569 26.5 36 27.8431 36 29.5C36 31.1569 34.6569 32.5 33 32.5H26.5V26.5Z"
+        fill="#FFFFFF"
+      />
+      
+      {/* Dynamic Slate Leg */}
+      <path
+        d="M31.5 33.5L39.2 44.6C39.6 45.2 40.5 45.4 41.1 45C41.7 44.6 41.9 43.7 41.5 43.1L34.2 32.5H31.5V33.5Z"
+        fill="#5A7188"
+      />
+    </svg>
+  );
+};

@@ -1,0 +1,6 @@
+{
+  "name": "README Studio",
+  "description": "Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
