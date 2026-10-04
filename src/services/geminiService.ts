@@ -113,17 +113,29 @@ ${topRepos.map(r => `  * ${r.name} (${r.language}, ${r.stars} stars): ${r.descri
 
 Generate the 3 variations now.`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: [
-        { role: 'user', parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }
-      ],
-      config: {
-        responseMimeType: 'application/json',
-      },
-    });
+    const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+    let rawText = '';
+    let lastError: unknown;
 
-    const rawText = response.text || '';
+    for (const candidateModel of candidateModels) {
+      try {
+        const response = await ai.models.generateContent({
+          model: candidateModel,
+          contents: [
+            { role: 'user', parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }
+          ],
+          config: {
+            responseMimeType: 'application/json',
+          },
+        });
+        if (response && response.text) {
+          rawText = response.text;
+          break;
+        }
+      } catch (err) {
+        lastError = err;
+      }
+    }
     if (!rawText.trim()) {
       throw new Error('Empty response from Gemini');
     }
