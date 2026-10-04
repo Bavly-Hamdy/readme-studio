@@ -1,29 +1,34 @@
 <div align="center">
 
-# 🏛️ README Studio
+# Bavly-Hamdy / README Studio
 
-**The Architectural Profile Engineering Platform for Modern Developers**
-
-*Craft authentic, byte-accurate GitHub profile READMEs with non-sampled telemetry, Gemini 2.5 Flash bio synthesis, and atomic 1-click publishing. Zero tracking, 100% client-side.*
+**An enterprise-grade orchestration platform for automated repository documentation, GitHub telemetry analytics, and AI-driven developer persona synthesis.**
 
 <br />
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Gemini 2.5 Flash](https://img.shields.io/badge/Gemini_2.5_Flash-Google_GenAI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+<img src="public/favicon.svg" width="96" height="96" alt="README Studio Logo" />
+
+<br /><br />
+
+[![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Frontend: React 19](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Build: Vite 6.2](https://img.shields.io/badge/Build-Vite_6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![AI: Google Gemini](https://img.shields.io/badge/AI-Google_Gemini_2.5_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![Styling: Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <br />
 
-[Explore Features](#-key-features) •
-[Architecture](#-system-architecture) •
-[Execution Workflow](#-live-execution-pipeline) •
+[Overview](#-overview--architectural-intent) •
+[Architecture & Workflow](#-architecture--workflow) •
 [Interface Gallery](#-interface-gallery) •
-[Security & Privacy](#-security--privacy-architecture) •
-[Local Setup](#-installation--local-setup) •
-[Creator](#-creator--lead-architect)
+[Core Features](#-core-features--capabilities) •
+[Technology Matrix](#-technologies--ecosystem-matrix) •
+[Project Structure](#-project-structure) •
+[Modules Breakdown](#-main-modules--technical-breakdown) •
+[Installation & CLI](#-requirements--installation-guide) •
+[Security & Privacy](#-security--configuration-isolation) •
+[Author & License](#-authors--contributors)
 
 ---
 
@@ -31,40 +36,62 @@
 
 <br />
 
-## 📖 Overview
-
-Most GitHub profile READMEs suffer from the same issues: cookie-cutter badge bloat, generic AI hallucinations, and outdated manual lists. 
-
-**README Studio** re-architects profile documentation from the ground up:
-- **Direct GitHub REST v3 Ingestion:** Paginates through **100% of your public repositories** without sampling approximations.
-- **Byte-Accurate Language DNA:** Computes real, non-sampled language byte distributions across your codebases.
-- **Gemini 2.5 Flash Contextual Synthesis:** Analyzes your real project descriptions, topics, and stack to synthesize three high-conviction engineering voices.
-- **Four Handcrafted Design Systems:** Minimalist Clean, Architectural Showcase, Ivory Paper, and Terminal Monospace.
-- **1-Click Atomic Publishing:** Direct GitHub Contents API commit with automatic repo initialization, SHA conflict verification, and instant rollback snapshots.
-- **100% Client-Side Privacy:** Zero middleman servers, zero remote databases, and encrypted browser `localStorage` credentials.
+## 📋 Table of Contents
+1. [Overview & Architectural Intent](#-overview--architectural-intent)
+2. [Architecture & Workflow](#-architecture--workflow)
+   - [System Topology](#system-topology)
+   - [Live Execution Sequence](#live-execution-sequence)
+   - [Engineering Trade-offs & Strategic Decisions](#engineering-trade-offs--strategic-decisions)
+3. [Interface Gallery & Visual Telemetry](#-interface-gallery)
+4. [Core Features & Capabilities](#-core-features--capabilities)
+5. [Technologies & Ecosystem Matrix](#-technologies--ecosystem-matrix)
+6. [Requirements & Installation Guide](#-requirements--installation-guide)
+7. [Project Structure](#-project-structure)
+8. [Main Modules & Technical Breakdown](#-main-modules--technical-breakdown)
+9. [CLI & Script Execution Matrix](#-cli--script-execution-matrix)
+10. [Security & Configuration Isolation](#-security--configuration-isolation)
+11. [Deployment & Environment Matrix](#-deployment--environment-matrix)
+12. [Authors & Contributors](#-authors--contributors)
+13. [License](#-license)
 
 ---
 
-## 🏗️ System Architecture
+## 🔍 Overview & Architectural Intent
 
-README Studio operates as a **zero-trust, pure client-side web application**. All API queries, AST heuristic analyses, LLM inferences, and Git commits are orchestrated directly within the client browser via TLS 1.3 encrypted HTTPS channels.
+**README Studio** addresses the chronic technical debt of stagnant, boilerplate project documentation. Traditional profile READMEs frequently rely on badge spam, generic AI hallucinations, and brittle manual updates.
+
+By integrating directly with **GitHub’s REST v3 Metadata APIs** and leveraging **Google Gemini 2.5 Flash** for deep contextual synthesis, README Studio transforms raw repository graphs into high-fidelity, maintainable developer documentation.
+
+### The "Data-to-Documentation" Paradigm
+The architecture strictly decouples the three core responsibilities:
+1. **Data Ingestion Layer (`src/services/githubAnalyzer.ts`):** Paginates across **100% of public repositories** with zero sampling approximations and client-side ETag caching.
+2. **Contextual Synthesis Layer (`src/services/geminiService.ts`):** Translates language byte matrices, repository topics, and commit velocity into three coherent engineering voices via Gemini 2.5 Flash.
+3. **Presentation & AST Compiler Layer (`src/services/markdownRenderer.ts`):** Compiles structured JSON models into GitHub-Flavored Markdown across 4 handcrafted design systems.
+
+---
+
+## 📌 Architecture & Workflow
+
+### System Topology
+
+The system operates as an **isolated client-side zero-trust runtime**. No proxy server or intermediary database ever intercepts tokens or repository telemetry.
 
 ```mermaid
 flowchart TB
     subgraph ClientBrowser [" Client Browser (Zero-Trust Sandbox) "]
         direction TB
-        UI["Modern UI / UX Engine<br/>(Tailwind v4 + Framer Motion)"]
+        UIEngine["React 19 UI / UX Engine<br/>(Tailwind v4 • Ink Wash Design System)"]
         
-        subgraph CoreServices [" Core Processing Pipeline "]
-            IngestEngine["GitHub REST v3 Ingestion<br/>(ETag Caching + Full Pagination)"]
+        subgraph Pipeline [" Core Processing Pipeline "]
+            IngestEngine["GitHub REST v3 Ingestion<br/>(ETag Caching • Full Pagination)"]
             ASTParser["Tech Detection & Manifest Heuristics<br/>(Dependency & Topic Categorization)"]
             DNASummarizer["Byte-Accurate Language DNA<br/>(Raw Byte Summation Matrix)"]
             GeminiSynthesizer["Gemini 2.5 Flash Engine<br/>(@google/genai SDK • 3 Voices)"]
-            MarkdownAST["GFM AST & Theme Compiler<br/>(Marked Parser + Tokenizer)"]
+            MarkdownAST["GFM AST & Theme Compiler<br/>(Marked Parser • Tokenizer)"]
         end
 
         subgraph LocalPersistence [" Browser LocalStorage "]
-            LocalPAT["Encrypted PAT Store"]
+            LocalPAT["Encrypted GitHub Token"]
             LocalSnapshots["Atomic Rollback Snapshots"]
             LocalSettings["Theme & Locale Settings"]
         end
@@ -75,7 +102,7 @@ flowchart TB
         GoogleAI["generativelanguage.googleapis.com<br/>(Gemini 2.5 Flash API)"]
     end
 
-    UI --> IngestEngine
+    UIEngine --> IngestEngine
     IngestEngine <-->|Direct REST v3| GitHubAPI
     IngestEngine --> ASTParser
     IngestEngine --> DNASummarizer
@@ -88,34 +115,23 @@ flowchart TB
     DNASummarizer --> MarkdownAST
     GeminiSynthesizer --> MarkdownAST
     
-    MarkdownAST --> UI
+    MarkdownAST --> UIEngine
     
-    UI -->|1-Click Atomic Commit| GitHubAPI
-    UI <--> LocalPersistence
+    UIEngine -->|1-Click Atomic Commit| GitHubAPI
+    UIEngine <--> LocalPersistence
 ```
-
-### Architectural Pillars
-
-| Component | Responsibility | Performance Target |
-| :--- | :--- | :--- |
-| **Ingestion Engine** | Paginates `/users/:login/repos` with ETag caching | Complete repo graph in <800ms |
-| **DNA Matrix** | Sums raw bytes across every language without sampling | 100% deterministic accuracy |
-| **Tech Detector** | Maps repo topics, package manifests & code to 10 tech domains | Instant client-side classification |
-| **Gemini Engine** | Prompts `gemini-2.5-flash` with repo telemetry to draft 3 bios | Synthesis in <1.2s |
-| **GFM Compiler** | Compiles markdown into scoped, theme-aware GitHub CSS | Instant preview with 0 layout shifts |
-| **Atomic Publisher** | Executes `PUT /repos/:owner/:owner/contents/README.md` | SHA conflict safe with undo snapshot |
 
 ---
 
-## ⚡ Live Execution Pipeline
+### Live Execution Sequence
 
-From raw GitHub username to production profile README in 6 deterministic stages:
+From initial username ingestion to atomic GitHub commit verification:
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Dev as Developer / Engineer
-    participant App as README Studio
+    participant App as README Studio UI
     participant GH as GitHub REST v3 API
     participant AI as Gemini 2.5 Flash
     participant Store as Browser LocalStorage
@@ -144,12 +160,24 @@ sequenceDiagram
 
 ---
 
+### Engineering Trade-offs & Strategic Decisions
+
+| Dimension | Architectural Strategy | Trade-off Rationale |
+| :--- | :--- | :--- |
+| **Execution Sandbox** | Pure Client-Side SPA (Vite + React) | Eliminates server-side hosting costs, eliminates token leakage vectors, and guarantees sub-second UI interactions. |
+| **Language Aggregation** | Non-sampled Byte Summation | Paginating through all public repos incurs minor rate-limit overhead, but delivers 100% mathematical fidelity. |
+| **AI Synthesis** | Google Gemini 2.5 Flash SDK | `gemini-2.5-flash` offers sub-second inference latency, strict JSON adherence, and native Arabic/English bilingual reasoning. |
+| **Publishing Mechanism** | GitHub Contents API (`PUT`) | Checks existing SHA and creates automatic client-side rollback backups before committing, eliminating git merge conflicts. |
+| **State Persistence** | Scoped `localStorage` | Zero remote user database. All personal access tokens, draft READMEs, and rollback snapshots reside on the developer's machine. |
+
+---
+
 ## 🖼️ Interface Gallery
 
-High-resolution retina captures directly from the production application:
+All screenshots are captured at **2x Retina resolution** from the live production build via the automated Playwright pipeline (`capture_screenshots.py`):
 
 ### 1. Landing Page Hero & Real-Time Ingestion
-*Features live GitHub API quota telemetry, verified creator ribbon, and direct profile ingestion.*
+*Live rate limit quota monitor (`API: 58/60`), verified creator ribbon, and direct profile ingestion.*
 
 ![01 Landing Hero](public/screenshots/01_landing_hero.png)
 
@@ -163,7 +191,7 @@ High-resolution retina captures directly from the production application:
 ---
 
 ### 3. Byte-Accurate Language DNA Matrix
-*Non-sampled calculation showing exact byte percentages and which specific repositories use each language.*
+*Non-sampled calculation showing exact byte percentages and which specific repositories contribute to each language.*
 
 ![03 Language DNA](public/screenshots/03_live_sandbox_dna.png)
 
@@ -177,7 +205,7 @@ High-resolution retina captures directly from the production application:
 ---
 
 ### 5. Creator Spotlight & Real Repositories
-*Highlighting Lead Architect Bavly Hamdy with real metrics, verified location, and live open-source projects.*
+*Highlighting Lead Architect Bavly Hamdy with real metrics, verified Cairo location, and live open-source projects.*
 
 ![05 Creator Spotlight](public/screenshots/05_creator_spotlight.png)
 
@@ -204,97 +232,168 @@ High-resolution retina captures directly from the production application:
 
 ---
 
-## ✨ Key Features
+## ✨ Core Features & Capabilities
 
-### 🎨 4 Bespoke Markdown Design Themes
-- **Minimalist Clean:** Pure typography, subtle horizontal rules, clean badges, zero visual noise.
-- **Architectural Showcase:** Capsule badges, grouped tech stacks, structured project tables, and dynamic typing banners.
-- **Ivory Paper:** Editorial aesthetic with serif headings, warm margins, and classic literary composition.
-- **Terminal Monospace:** Hacker aesthetic formatted inside code blocks, terminal prompt styling, and monospace metrics.
-
-### 🧬 Non-Sampled Language DNA
-Unlike tools that sample only the top 5 repos or guess from names, README Studio:
-- Paginates all original public repositories via GitHub REST API v3.
-- Aggregates raw language byte compositions.
-- Generates a multi-segmented visual DNA bar with exact percentage distribution.
-- Lists the exact repositories contributing to each language upon inspection.
-
-### 🤖 Gemini 2.5 Flash Contextual Bios
-- Uses `@google/genai` to analyze your repository descriptions, stars, and language stack.
-- Synthesizes **three distinct developer voices**:
-  1. **Architectural & Systems:** Focused on distributed architectures, scalability, and code hygiene.
-  2. **Open-Source Collaborator:** Welcoming, community-oriented, highlighting libraries and mentorship.
-  3. **Minimalist Engineer:** Direct, concise, bullet-driven, zero corporate buzzwords.
-- Bilingual support: Generates native, culturally fluent Arabic or English bios.
-
-### 🚀 1-Click Atomic Publishing & Safe Rollback
-- Automatically checks if your special `username/username` repository exists on GitHub.
-- If missing, initializes the repository via GitHub API.
-- Backs up your current `README.md` to browser `localStorage` before every commit.
-- Executes an atomic `PUT` commit with SHA verification to prevent accidental overwrites.
-- Provides a 1-click **Rollback** button to restore your previous README instantly if needed.
+* **🤖 AI-Powered Bio Synthesis:** Harnesses `@google/genai` (Gemini 2.5 Flash) to synthesize 3 bespoke developer narratives (Architectural, Community, Minimalist) based on actual repository descriptions and languages.
+* **🧬 Byte-Accurate Language DNA:** Bypasses superficial repo sampling by calculating the exact byte-level breakdown across all original codebases.
+* **🎨 4 Handcrafted Design Systems:**
+  - `Minimalist`: Editorial clarity, subtle lines, clean badges, zero visual noise.
+  - `Showcase`: Architectural capsule headers, grouped tech cards, and dynamic typing banners.
+  - `Ivory Paper`: Classic literary layout with serif headers and clean margins.
+  - `Terminal Mono`: Monospaced command-line aesthetic formatted inside code blocks.
+* **🚀 1-Click Atomic Safe Commits:** Automatically creates the special `username/username` repository if missing, validates the file SHA, and executes an atomic commit with instant rollback capability.
+* **📊 Deep Developer Intelligence:** Evaluates developer archetypes (System Architect, Full-Stack Polyglot, OSS Craftsman) and circadian commit rhythms.
+* **🌐 Bilingual RTL/LTR Architecture:** Native English (LTR) and Arabic (RTL) localization with typography fine-tuned via `Newsreader`, `JetBrains Mono`, and `IBM Plex Sans Arabic`.
 
 ---
 
-## 🔒 Security & Privacy Architecture
+## 🛠️ Technologies & Ecosystem Matrix
 
-README Studio is engineered with an uncompromising privacy-first stance:
+| Layer | Dependency | Version | Strategic Role |
+| :--- | :--- | :--- | :--- |
+| **Core Framework** | `react` / `react-dom` | `^19.0.1` | Concurrent rendering, declarative component tree |
+| **Build Engine** | `vite` | `^8.3.0` | Sub-second HMR, optimized ES modules compilation |
+| **Language Runtime**| `typescript` | `^7.0.2` | Strict type safety, zero `any` short-circuits |
+| **Styling & Theme** | `tailwindcss` | `^4.3.3` | Modern CSS tokens, Combination 8 Ink Wash palette |
+| **Motion Physics** | `motion` | `^12.23.24` | Micro-interactions and fluid layout transitions |
+| **AI Integration** | `@google/genai` | `^2.4.0` | Client-side Google Gemini 2.5 Flash inference |
+| **Markdown Parser** | `marked` | `^18.0.14` | GFM AST compilation and sanitization |
+| **Diagram Engine** | `mermaid` | `^11.4.0` | Architectural diagrams-as-code rendering |
+| **Iconography** | `lucide-react` | `^0.546.0` | Consistent vector symbols across all views |
+| **E2E Automation** | `playwright` | Python SDK | Automated 2x Retina high-DPI screenshot pipeline |
+
+---
+
+## 📁 Project Structure
+
+```text
+README-Studio/
+├── public/
+│   ├── favicon.svg               # Architectural SVG monogram brand icon
+│   └── screenshots/              # 2x Retina production UI captures
+│       ├── 01_landing_hero.png
+│       ├── 02_live_sandbox_preview.png
+│       ├── 03_live_sandbox_dna.png
+│       ├── 04_gemini_bio_engine.png
+│       ├── 05_creator_spotlight.png
+│       ├── 06_studio_builder.png
+│       ├── 07_publish_modal.png
+│       └── 08_analytics_dashboard.png
+├── src/
+│   ├── components/               # View orchestrators & UI primitives
+│   │   ├── AnalyticsDashboard.tsx# Developer archetype & rhythm intelligence
+│   │   ├── ErrorBoundary.tsx     # Resilient React catch-boundary
+│   │   ├── Header.tsx            # Navigation, API quota meter & brand header
+│   │   ├── LandingPage.tsx       # Live sandbox, bio comparator & creator showcase
+│   │   ├── LivePreview.tsx       # Dual-pane real-time GFM & code renderer
+│   │   ├── LogoIcon.tsx          # Bespoke SVG brand identity
+│   │   ├── PublishModal.tsx      # Atomic GitHub commit modal with rollback
+│   │   ├── SectionEditor.tsx     # Granular section data & badge editor
+│   │   ├── SettingsModal.tsx     # Client-side PAT & Gemini key config
+│   │   ├── SidebarSections.tsx   # Tactile drag/toggle section navigation
+│   │   ├── TokenGuideModal.tsx   # In-app GitHub PAT acquisition walkthrough
+│   │   └── UsernameBar.tsx       # Fast-switcher profile input & ingestion bar
+│   ├── services/                 # Domain logic & headless services
+│   │   ├── aiBio.ts              # Deterministic rule-based 3-tone bio engine
+│   │   ├── archetypes.ts         # Developer taxonomy & rhythm definitions
+│   │   ├── geminiService.ts      # Google Gemini 2.5 Flash inference client
+│   │   ├── github.ts             # GitHub REST v3 client, auth & fallback data
+│   │   ├── githubAnalyzer.ts     # Non-sampled repo pagination & byte analyzer
+│   │   ├── languageColors.ts     # Authentic GitHub language hex map
+│   │   ├── markdownRenderer.ts   # Multi-theme GFM string compiler
+│   │   └── techDetection.ts      # Heuristic tech classifier (10 categories)
+│   ├── i18n/
+│   │   └── translations.ts       # English & Arabic bilingual dictionary
+│   ├── types/
+│   │   └── index.ts              # Strict TypeScript interfaces & domains
+│   ├── App.tsx                   # Master root state machine & router
+│   ├── index.css                 # Ink Wash design tokens (Light/Dark mode)
+│   └── main.tsx                  # React 19 application entry point
+├── capture_screenshots.py        # Automated Playwright screenshot pipeline
+├── package.json                  # Dependencies & script declarations
+├── tsconfig.json                 # TypeScript compiler options
+└── vite.config.ts                # Vite bundler configuration
+```
+
+---
+
+## 🧩 Main Modules & Technical Breakdown
+
+### 1. `src/App.tsx` (State Orchestrator)
+Acts as the central finite state machine. Manages routing between `'landing'`, `'builder'`, and `'analytics'`, orchestrates the fetching lifecycle of GitHub profile graphs, coordinates auto-draft saving, and applies synchronized RTL/LTR and dark/light mode classes to the document root.
+
+### 2. `src/components/LandingPage.tsx` (Interactive Showcase)
+Houses the live interactive sandbox where developers can input any live GitHub username, test theme changes (`minimal`, `showcase`, `paper`, `mono`), inspect their byte-accurate language DNA, preview Gemini 2.5 Flash synthesized bios, and view the creator spotlight.
+
+### 3. `src/services/githubAnalyzer.ts` (Non-Sampled Telemetry)
+Paginates through `/users/:login/repos` across all pages. Aggregates byte-accurate language distributions, calculates circadian commit rhythms (peak hours, peak days), evaluates repository stargazers/forks, and manages real-time rate limit subscription callbacks.
+
+### 4. `src/services/geminiService.ts` (LLM Persona Synthesis)
+Constructs a structured prompt containing the developer's top repositories, detected tech stack, and primary language weights. Dispatches the payload directly to `gemini-2.5-flash` via `@google/genai` to generate 3 tailored voices with bilingual Arabic/English support.
+
+### 5. `src/components/PublishModal.tsx` (Atomic GitHub Commits)
+Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit.
+
+---
+
+## 💻 CLI & Script Execution Matrix
+
+| Command | Purpose | Target Environment |
+| :--- | :--- | :--- |
+| `npm run dev` | Spins up Vite dev server on `http://localhost:3000` | Local Development |
+| `npm run build` | Compiles optimized production bundle in `dist/` | Staging / Production |
+| `npm run preview` | Locally serves the compiled production build | Pre-flight Validation |
+| `npm run lint` | Runs strict TypeScript compiler check (`tsc --noEmit`) | Continuous Integration |
+| `npm run clean` | Deletes build output and temporary server files | Workspace Hygiene |
+| `python capture_screenshots.py` | Headless Playwright script capturing 8 2x Retina screenshots | Documentation / Release |
+
+---
+
+## 🛡️ Security & Configuration Isolation
+
+README Studio enforces a strict **Zero-Exposure Policy**:
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              ZERO SERVER-SIDE FOOTPRINT                 │
-├──────────────────────────┬───────────────────────────────┤
-│ Central Databases        │ 0 bytes stored                │
-│ Remote User Accounts     │ None required                 │
-│ Third-Party Trackers     │ 0 analytics / tracking pixels │
-│ Cookie Storage           │ 0 tracking cookies            │
-│ Personal Access Tokens   │ Browser localStorage only     │
-│ Gemini API Keys          │ Browser localStorage only     │
-│ API Communication        │ Direct Client -> GitHub / Google│
-└──────────────────────────┴───────────────────────────────┘
+┌───────────────────────────────────────────────────────────────┐
+│               ENTERPRISE PRIVACY GUARANTEE                    │
+├──────────────────────────┬────────────────────────────────────┤
+│ Remote Database Storage  │ ZERO bytes (No central DB)         │
+│ Telemetry / Ad Trackers  │ ZERO scripts or tracking pixels    │
+│ GitHub PAT Storage       │ Client-side browser localStorage   │
+│ Gemini API Key Storage   │ Client-side browser localStorage   │
+│ Network Transmission     │ Direct Client -> GitHub / Google   │
+│ Encryption Protocol      │ TLS 1.3 End-to-End                 │
+└──────────────────────────┴────────────────────────────────────┘
 ```
 
-1. **Zero Intermediate Proxy:** All requests to `api.github.com` and `generativelanguage.googleapis.com` are initiated directly by your browser via encrypted TLS 1.3.
-2. **Encrypted Local Storage:** Tokens are stored locally on your machine and are never included in outbound telemetry.
-3. **Transparent Open Source:** Every single line of TypeScript is public under the MIT License for independent audit.
+1. **Client-Side Credential Isolation:** Personal Access Tokens and Gemini API keys entered via the Settings Modal are stored exclusively in the browser's `localStorage`. They are never passed to an intermediary backend.
+2. **Deterministic Fallbacks:** If no Gemini API key is configured, the application falls back cleanly to deterministic, rule-based bio generation (`src/services/aiBio.ts`) with zero service disruption.
+3. **Atomic Safe Rollbacks:** Before any write commit is dispatched to GitHub, the existing profile README is backed up in browser storage, enabling 1-click restoration at any point.
 
 ---
 
-## 🛠️ Technology Stack
-
-| Layer | Technologies |
-| :--- | :--- |
-| **Framework** | [React 19](https://react.dev/), [Next.js / Vite 6.2](https://vitejs.dev/) |
-| **Language** | [TypeScript 5.8](https://www.typescriptlang.org/) (Strict Mode, 0 `any` shortcuts) |
-| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/), Vanilla CSS Variables |
-| **Typography** | Newsreader (Editorial Serif), JetBrains Mono, IBM Plex Sans Arabic |
-| **Icons** | [Lucide React](https://lucide.dev/) |
-| **AI Synthesis** | [@google/genai](https://www.npmjs.com/package/@google/genai) (Google Gemini 2.5 Flash) |
-| **Markdown Engine** | [Marked](https://marked.js.org/) (GitHub-Flavored Markdown AST) |
-| **Automation** | [Playwright](https://playwright.dev/) (Automated 2x Retina Screenshot Pipeline) |
-
----
-
-## 🚀 Installation & Local Setup
+## 🚀 Requirements & Installation Guide
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
-- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
-- Python 3.9+ (Optional, for running automated screenshot captures)
+* **Node.js**: `v18.0.0` or higher
+* **npm**: `v9.0.0` or higher (or `pnpm` / `bun`)
+* **Python 3.9+**: (Optional, only required for running the automated screenshot pipeline)
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Bavly-Hamdy/README-Studio.git
-cd README-Studio
-```
+### Quick Start Setup
 
-### 2. Install Dependencies
 ```bash
+# 1. Clone the repository
+git clone https://github.com/Bavly-Hamdy/readme-studio.git
+cd readme-studio
+
+# 2. Install dependencies
 npm install
+
+# 3. Configure optional environment variables
+cp .env.example .env.local
 ```
 
-### 3. Configure Environment Variables (Optional)
-Create a `.env.local` file in the root directory:
+#### Optional `.env.local` Configuration:
 ```env
 # Optional: Pre-populate Gemini API key for local development
 VITE_GEMINI_API_KEY=your_gemini_api_key_here
@@ -303,25 +402,28 @@ VITE_GEMINI_API_KEY=your_gemini_api_key_here
 VITE_GITHUB_TOKEN=your_github_pat_here
 ```
 
-### 4. Run the Development Server
 ```bash
+# 4. Launch development server
 npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 5. Build for Production
-```bash
-npm run build
-```
-
-### 6. Run Screenshot Capture Pipeline (Optional)
-```bash
-python capture_screenshots.py
+# 5. Open http://localhost:3000 in your browser
 ```
 
 ---
 
-## 👨‍💻 Creator & Lead Architect
+## 🌐 Deployment & Environment Matrix
+
+| Environment | Host Target | Configuration Required | Deployment Command |
+| :--- | :--- | :--- | :--- |
+| **Development** | `localhost:3000` | Optional `.env.local` | `npm run dev` |
+| **Staging** | Vercel / Netlify | None (SPA static output) | `npm run build` |
+| **Production** | GitHub Pages / Cloud CDN | Zero server config needed | Deploy `/dist` folder |
+
+Because README Studio is compiled as a static Single Page Application (SPA), it can be deployed seamlessly to any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages) without needing a Node.js backend.
+
+---
+
+## 👥 Authors & Contributors
 
 README Studio was designed, architected, and engineered with precision by:
 
@@ -339,19 +441,21 @@ README Studio was designed, architected, and engineered with precision by:
 
 </div>
 
-#### Other Notable Open-Source Work:
-- **[ReadmeForge](https://github.com/Bavly-Hamdy/ReadmeForge):** Engineering-grade README generator with AST parsing and visual Mermaid architecture topologies.
-- **[GitArmorAI](https://github.com/Bavly-Hamdy/GitArmorAI):** Autonomous DevSecOps platform powered by Gemini 2.5 AI — Deterministic AST scanning and 1-click surgical PR remediation.
-- **[BOSSLA-CAREER-PRO](https://github.com/Bavly-Hamdy/BOSSLA-CAREER-PRO):** Forensic ATS Resume Auditor, Google X-Y-Z Bullet Rewriter, Keyword Gap Detector & AI Career Co-Pilot.
-- **[focusos](https://github.com/Bavly-Hamdy/focusos):** High-performance ambient productivity operating system with diurnal chronotype scheduling and zero-trust architecture.
+#### Other Open-Source Engineering Projects by Bavly Hamdy:
+* **[ReadmeForge](https://github.com/Bavly-Hamdy/ReadmeForge):** Engineering-grade README generator with AST parsing and visual Mermaid architecture topologies.
+* **[GitArmorAI](https://github.com/Bavly-Hamdy/GitArmorAI):** Autonomous DevSecOps platform powered by Gemini 2.5 AI — Deterministic AST scanning and 1-click surgical PR remediation.
+* **[BOSSLA-CAREER-PRO](https://github.com/Bavly-Hamdy/BOSSLA-CAREER-PRO):** Forensic ATS Resume Auditor, Google X-Y-Z Bullet Rewriter, Keyword Gap Detector & AI Career Co-Pilot.
+* **[focusos](https://github.com/Bavly-Hamdy/focusos):** High-performance ambient productivity operating system with diurnal chronotype scheduling and zero-trust architecture.
 
 ---
 
-## 📄 License
+## 📄 LICENSE
 
-README Studio is open-source software licensed under the **[MIT License](LICENSE)**.
+This project is open-source software licensed under the **MIT License**.
 
 ```
+MIT License
+
 Copyright (c) 2026 Bavly Hamdy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -363,8 +467,16 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 <div align="center">
-  <sub>Crafted with intention and architectural precision by <a href="https://github.com/Bavly-Hamdy">Bavly Hamdy</a>.</sub>
+  <sub>Engineered with intention, architectural empathy, and extreme technical candor by <a href="https://github.com/Bavly-Hamdy">Bavly Hamdy</a>.</sub>
 </div>
