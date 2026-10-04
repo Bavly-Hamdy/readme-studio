@@ -509,8 +509,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* Subtitle */}
         <p className="text-xs sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
           {isAr
-            ? 'تحليل مباشر لمستودعاتك الحقيقية بدقة البايت، استكشاف دقيق لمجموعة تقنياتك، صياغة ذكية بالـ Gemini 2.5 Flash، ونشر ذري مباشر لمستودعك بضغطة زر. مجاني 100% وبدون خوادم وسيطة.'
-            : 'Live non-sampled repository analytics, byte-accurate language DNA, Gemini 2.5 Flash developer bios, and 1-click atomic publishing. Zero tracking, 100% client-side privacy.'}
+            ? 'تحليل مباشر لمستودعاتك الحقيقية بدقة البايت، استكشاف دقيق لمجموعة تقنياتك، صياغة ذكية بالـ Gemini 3.8 Flash، ونشر ذري مباشر لمستودعك بضغطة زر. مجاني 100% وبدون خوادم وسيطة.'
+            : 'Live non-sampled repository analytics, byte-accurate language DNA, Gemini 3.8 Flash developer bios, and 1-click atomic publishing. Zero tracking, 100% client-side privacy.'}
         </p>
 
         {/* Real Live Ingestion Search Input */}
@@ -898,13 +898,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 4. Interactive Gemini 2.5 Flash Bio Tone Comparator (Anchor: #tone-engine) */}
+      {/* 4. Interactive Gemini 3.8 Flash Bio Tone Comparator (Anchor: #tone-engine) */}
       <section id="tone-engine" className="py-16 px-4 sm:px-8 border-y border-[var(--border)] bg-[var(--surface-2)]/30 scroll-mt-20">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Gemini 2.5 Flash Developer Bio Synthesis</span>
+              <span>Gemini 3.8 Flash Developer Bio Synthesis</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[var(--text)]">
               {isAr ? 'صياغة تعريفية ذكية تعكس هويتك الهندسية الحقيقية' : 'AI-synthesized bios grounded in your actual code'}
@@ -948,7 +948,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
               </div>
               <span className="text-[11px] font-mono text-[var(--text-muted)]">
-                Model: gemini-2.5-flash
+                Model: gemini-3.8-flash
               </span>
             </div>
 
@@ -1139,14 +1139,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
           </div>
 
-          {/* Card 2: AI Bio by Gemini 2.5 Flash */}
+          {/* Card 2: AI Bio by Gemini 3.8 Flash */}
           <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs hover:border-[var(--accent)]/50 transition-all flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-xl bg-[var(--surface-2)] flex items-center justify-center text-amber-500">
                 <Sparkles className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-medium text-[var(--text)]">
-                {isAr ? 'صياغة ذكية بالـ Gemini 2.5 Flash' : 'Gemini 2.5 Flash Synthesis'}
+                {isAr ? 'صياغة ذكية بالـ Gemini 3.8 Flash' : 'Gemini 3.8 Flash Synthesis'}
               </h3>
               <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                 {isAr

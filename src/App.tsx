@@ -604,7 +604,7 @@ export default function App() {
           locale={locale}
         />
 
-        {/* Settings Modal (Gemini 2.5 Flash + Rate Limit Monitor + PAT) */}
+        {/* Settings Modal (Gemini 3.8 Flash + Rate Limit Monitor + PAT) */}
         <SettingsModal
           isOpen={isSettingsOpen}
           onClose={() => setIsSettingsOpen(false)}

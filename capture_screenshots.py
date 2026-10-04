@@ -38,7 +38,7 @@ def capture_readme_studio():
                 page.wait_for_timeout(600)
                 page.screenshot(path=os.path.join(output_dir, '03_live_sandbox_dna.png'))
 
-        # 4. Landing Page - Gemini 2.5 Flash Bio Tone Engine
+        # 4. Landing Page - Gemini 3.8 Flash Bio Tone Engine
         print('4. Capturing Gemini Bio Tone Engine...')
         tone_el = page.locator('#tone-engine')
         if tone_el.count() > 0:

@@ -32,7 +32,7 @@ export function getActiveGeminiKey(): string | null {
 }
 
 /**
- * Generate bespoke, production-grade developer bios and headlines using Gemini 2.5 Flash.
+ * Generate bespoke, production-grade developer bios and headlines using Gemini 3.8 Flash.
  * Falls back to deterministic rule-based generation if no API key is available or on network failure.
  */
 export async function generateDeveloperBioWithGemini(

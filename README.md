@@ -13,7 +13,7 @@
 [![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Frontend: React 19](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Build: Vite 6.2](https://img.shields.io/badge/Build-Vite_6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![AI: Google Gemini](https://img.shields.io/badge/AI-Google_Gemini_2.5_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![AI: Google Gemini](https://img.shields.io/badge/AI-Google_Gemini_3.8_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Styling: Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -60,12 +60,12 @@
 
 **README Studio** addresses the chronic technical debt of stagnant, boilerplate project documentation. Traditional profile READMEs frequently rely on badge spam, generic AI hallucinations, and brittle manual updates.
 
-By integrating directly with **GitHub’s REST v3 Metadata APIs** and leveraging **Google Gemini 2.5 Flash** for deep contextual synthesis, README Studio transforms raw repository graphs into high-fidelity, maintainable developer documentation.
+By integrating directly with **GitHub’s REST v3 Metadata APIs** and leveraging **Google Gemini 3.8 Flash** for deep contextual synthesis, README Studio transforms raw repository graphs into high-fidelity, maintainable developer documentation.
 
 ### The "Data-to-Documentation" Paradigm
 The architecture strictly decouples the three core responsibilities:
 1. **Data Ingestion Layer (`src/services/githubAnalyzer.ts`):** Paginates across **100% of public repositories** with zero sampling approximations and client-side ETag caching.
-2. **Contextual Synthesis Layer (`src/services/geminiService.ts`):** Translates language byte matrices, repository topics, and commit velocity into three coherent engineering voices via Gemini 2.5 Flash.
+2. **Contextual Synthesis Layer (`src/services/geminiService.ts`):** Translates language byte matrices, repository topics, and commit velocity into three coherent engineering voices via Gemini 3.8 Flash.
 3. **Presentation & AST Compiler Layer (`src/services/markdownRenderer.ts`):** Compiles structured JSON models into GitHub-Flavored Markdown across 4 handcrafted design systems.
 
 ---
@@ -86,7 +86,7 @@ flowchart TB
             IngestEngine["GitHub REST v3 Ingestion<br/>(ETag Caching • Full Pagination)"]
             ASTParser["Tech Detection & Manifest Heuristics<br/>(Dependency & Topic Categorization)"]
             DNASummarizer["Byte-Accurate Language DNA<br/>(Raw Byte Summation Matrix)"]
-            GeminiSynthesizer["Gemini 2.5 Flash Engine<br/>(@google/genai SDK • 3 Voices)"]
+            GeminiSynthesizer["Gemini 3.8 Flash Engine<br/>(@google/genai SDK • 3 Voices)"]
             MarkdownAST["GFM AST & Theme Compiler<br/>(Marked Parser • Tokenizer)"]
         end
 
@@ -99,7 +99,7 @@ flowchart TB
 
     subgraph ExternalAPIs [" External Direct Endpoints (TLS 1.3) "]
         GitHubAPI["api.github.com<br/>(Users, Repos, Contents API)"]
-        GoogleAI["generativelanguage.googleapis.com<br/>(Gemini 2.5 Flash API)"]
+        GoogleAI["generativelanguage.googleapis.com<br/>(Gemini 3.8 Flash API)"]
     end
 
     UIEngine --> IngestEngine
@@ -133,7 +133,7 @@ sequenceDiagram
     actor Dev as Developer / Engineer
     participant App as README Studio UI
     participant GH as GitHub REST v3 API
-    participant AI as Gemini 2.5 Flash
+    participant AI as Gemini 3.8 Flash
     participant Store as Browser LocalStorage
 
     Dev->>App: Enter GitHub Handle (e.g. Bavly-Hamdy)
@@ -144,7 +144,7 @@ sequenceDiagram
     App->>App: Detect Tech Stack & Libraries across manifests
     
     Dev->>App: Select Bio Tone (Architectural / Community / Minimalist)
-    App->>AI: Invoke gemini-2.5-flash with structured repo telemetry
+    App->>AI: Invoke gemini-3.8-flash with structured repo telemetry
     AI-->>App: Return 3 high-impact bios & developer headlines
     
     App->>App: Render GFM with selected Theme (Minimal / Showcase / Paper / Mono)
@@ -166,7 +166,7 @@ sequenceDiagram
 | :--- | :--- | :--- |
 | **Execution Sandbox** | Pure Client-Side SPA (Vite + React) | Eliminates server-side hosting costs, eliminates token leakage vectors, and guarantees sub-second UI interactions. |
 | **Language Aggregation** | Non-sampled Byte Summation | Paginating through all public repos incurs minor rate-limit overhead, but delivers 100% mathematical fidelity. |
-| **AI Synthesis** | Google Gemini 2.5 Flash SDK | `gemini-2.5-flash` offers sub-second inference latency, strict JSON adherence, and native Arabic/English bilingual reasoning. |
+| **AI Synthesis** | Google Gemini 3.8 Flash SDK | `gemini-3.8-flash` offers sub-second inference latency, strict JSON adherence, and native Arabic/English bilingual reasoning. |
 | **Publishing Mechanism** | GitHub Contents API (`PUT`) | Checks existing SHA and creates automatic client-side rollback backups before committing, eliminating git merge conflicts. |
 | **State Persistence** | Scoped `localStorage` | Zero remote user database. All personal access tokens, draft READMEs, and rollback snapshots reside on the developer's machine. |
 
@@ -197,7 +197,7 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 
 ---
 
-### 4. Gemini 2.5 Flash Bio Tone Comparator
+### 4. Gemini 3.8 Flash Bio Tone Comparator
 *Real-time AI bio synthesis comparing Architectural, Open-Source Community, and Minimalist voices.*
 
 ![04 Gemini Bio Engine](public/screenshots/04_gemini_bio_engine.png)
@@ -234,7 +234,7 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 
 ## ✨ Core Features & Capabilities
 
-* **🤖 AI-Powered Bio Synthesis:** Harnesses `@google/genai` (Gemini 2.5 Flash) to synthesize 3 bespoke developer narratives (Architectural, Community, Minimalist) based on actual repository descriptions and languages.
+* **🤖 AI-Powered Bio Synthesis:** Harnesses `@google/genai` (Gemini 3.8 Flash) to synthesize 3 bespoke developer narratives (Architectural, Community, Minimalist) based on actual repository descriptions and languages.
 * **🧬 Byte-Accurate Language DNA:** Bypasses superficial repo sampling by calculating the exact byte-level breakdown across all original codebases.
 * **🎨 4 Handcrafted Design Systems:**
   - `Minimalist`: Editorial clarity, subtle lines, clean badges, zero visual noise.
@@ -256,7 +256,7 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 | **Language Runtime**| `typescript` | `^7.0.2` | Strict type safety, zero `any` short-circuits |
 | **Styling & Theme** | `tailwindcss` | `^4.3.3` | Modern CSS tokens, Combination 8 Ink Wash palette |
 | **Motion Physics** | `motion` | `^12.23.24` | Micro-interactions and fluid layout transitions |
-| **AI Integration** | `@google/genai` | `^2.4.0` | Client-side Google Gemini 2.5 Flash inference |
+| **AI Integration** | `@google/genai` | `^2.4.0` | Client-side Google Gemini 3.8 Flash inference |
 | **Markdown Parser** | `marked` | `^18.0.14` | GFM AST compilation and sanitization |
 | **Diagram Engine** | `mermaid` | `^11.4.0` | Architectural diagrams-as-code rendering |
 | **Iconography** | `lucide-react` | `^0.546.0` | Consistent vector symbols across all views |
@@ -296,7 +296,7 @@ README-Studio/
 │   ├── services/                 # Domain logic & headless services
 │   │   ├── aiBio.ts              # Deterministic rule-based 3-tone bio engine
 │   │   ├── archetypes.ts         # Developer taxonomy & rhythm definitions
-│   │   ├── geminiService.ts      # Google Gemini 2.5 Flash inference client
+│   │   ├── geminiService.ts      # Google Gemini 3.8 Flash inference client
 │   │   ├── github.ts             # GitHub REST v3 client, auth & fallback data
 │   │   ├── githubAnalyzer.ts     # Non-sampled repo pagination & byte analyzer
 │   │   ├── languageColors.ts     # Authentic GitHub language hex map
@@ -323,13 +323,13 @@ README-Studio/
 Acts as the central finite state machine. Manages routing between `'landing'`, `'builder'`, and `'analytics'`, orchestrates the fetching lifecycle of GitHub profile graphs, coordinates auto-draft saving, and applies synchronized RTL/LTR and dark/light mode classes to the document root.
 
 ### 2. `src/components/LandingPage.tsx` (Interactive Showcase)
-Houses the live interactive sandbox where developers can input any live GitHub username, test theme changes (`minimal`, `showcase`, `paper`, `mono`), inspect their byte-accurate language DNA, preview Gemini 2.5 Flash synthesized bios, and view the creator spotlight.
+Houses the live interactive sandbox where developers can input any live GitHub username, test theme changes (`minimal`, `showcase`, `paper`, `mono`), inspect their byte-accurate language DNA, preview Gemini 3.8 Flash synthesized bios, and view the creator spotlight.
 
 ### 3. `src/services/githubAnalyzer.ts` (Non-Sampled Telemetry)
 Paginates through `/users/:login/repos` across all pages. Aggregates byte-accurate language distributions, calculates circadian commit rhythms (peak hours, peak days), evaluates repository stargazers/forks, and manages real-time rate limit subscription callbacks.
 
 ### 4. `src/services/geminiService.ts` (LLM Persona Synthesis)
-Constructs a structured prompt containing the developer's top repositories, detected tech stack, and primary language weights. Dispatches the payload directly to `gemini-2.5-flash` via `@google/genai` to generate 3 tailored voices with bilingual Arabic/English support.
+Constructs a structured prompt containing the developer's top repositories, detected tech stack, and primary language weights. Dispatches the payload directly to `gemini-3.8-flash` via `@google/genai` to generate 3 tailored voices with bilingual Arabic/English support.
 
 ### 5. `src/components/PublishModal.tsx` (Atomic GitHub Commits)
 Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit.

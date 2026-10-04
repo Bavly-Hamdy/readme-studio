@@ -206,12 +206,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
 
-          {/* Real AI (Gemini 2.5 Flash) API Configuration */}
+          {/* Real AI (Gemini 3.8 Flash) API Configuration */}
           <div className="space-y-2 pt-2 border-t border-[var(--border)]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
                 <Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" />
-                <span>{isAr ? 'محرّك الذكاء الاصطناعي (Gemini 2.5 Flash)' : 'Gemini 2.5 Flash AI Engine'}</span>
+                <span>{isAr ? 'محرّك الذكاء الاصطناعي (Gemini 3.8 Flash)' : 'Gemini 3.8 Flash AI Engine'}</span>
               </div>
               <a
                 href="https://aistudio.google.com/app/apikey"

@@ -650,7 +650,7 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                     <span className="font-medium text-[var(--accent)]">{t.editor.suggestBio}</span>
                     <span className="text-[10px] font-mono text-[var(--text-muted)] px-1.5 py-0.5 rounded bg-[var(--surface-2)]">
                       {bioSource === 'gemini'
-                        ? (isAr ? '✨ مدعوم بنموذج Gemini 2.5 Flash' : '✨ Powered by Gemini 2.5 Flash')
+                        ? (isAr ? '✨ مدعوم بنموذج Gemini 3.8 Flash' : '✨ Powered by Gemini 3.8 Flash')
                         : (isAr ? 'قواعد ذكية مبنية على بياناتك الحقيقية' : 'Tailored synthesis from public repos')}
                     </span>
                   </div>
