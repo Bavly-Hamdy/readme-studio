@@ -30,6 +30,7 @@ import { DEMO_PROFILES, rankTopProjects } from './services/github';
 import { analyzeGitHubProfile, getDemoAnalysis, readCachedAnalysis } from './services/githubAnalyzer';
 import { detectTechStack } from './services/techDetection';
 import { generateReadmeMarkdown } from './services/markdownRenderer';
+import { inferDeveloperPersona } from './services/aiBio';
 import { translations } from './i18n/translations';
 import { SlidersHorizontal, Edit3, Eye, CheckCircle2, RotateCcw } from 'lucide-react';
 
@@ -141,39 +142,7 @@ export default function App() {
       fullName: r.full_name,
     }));
 
-    const primaryLangs = Array.from(new Set(userRepos.map(r => r.language).filter(Boolean))).slice(0, 4);
-    const primaryStackStr = primaryLangs.join(', ') || 'Next.js, TypeScript, React';
-    const primaryStackAr = primaryLangs.join(' و') || 'TypeScript وNext.js وReact';
-    const flagProject = topProjects[0]?.name || (isAr ? 'منصات الويب السحابية' : 'modern web platforms');
-
-    // Smart About Me generation grounded in the developer's real profile and stack
-    const defaultSummary = userProfile.bio
-      ? (isAr
-          ? `${userProfile.bio}. مهندس برمجيات متخصص في بناء معماريات برمجية موثوقة وتجارب مستخدم فائقة الأداء وتطبيقات الويب الذكية.`
-          : `${userProfile.bio} Passionate about clean architecture, high-performance web systems, and AI integration.`)
-      : (isAr
-          ? `مهندس برمجيات ومصمم معماريات برمجية. متخصص في تطوير تطبيقات الويب الحديثة وحلول الأداء العالي.`
-          : `Software engineer dedicated to writing clean, maintainable code and architecting resilient digital products.`);
-
-    const defaultRole = userProfile.bio
-      ? (isAr ? 'مهندس برمجيات ومصمم واجهات وتطبيقات الويب' : 'Full-Stack Software Engineer & UI/UX Architect')
-      : (isAr ? 'مهندس برمجيات Full-Stack' : 'Full-Stack Software Engineer');
-
-    const defaultWork = isAr
-      ? `تطوير وصيانة ${flagProject} ومشروعات برمجية متقدمة`
-      : `Architecting and scaling ${flagProject}`;
-
-    const defaultLearning = isAr
-      ? 'تقنيات الويب السحابية المتقدمة، نماذج Gemini 3.8 Flash والأنظمة الذكية'
-      : 'Agentic workflows, Gemini 3.8 Flash & advanced distributed systems';
-
-    const defaultAskMe = isAr
-      ? `${primaryStackAr}، وتصميم المعماريات البرمجية وحلول الأداء`
-      : `${primaryStackStr}, System Design, Cloud Performance`;
-
-    const defaultFunFact = isAr
-      ? 'أهتم بهندسة التفاصيل الدقيقة للأداء وسلاسة واجهات المستخدم، مع التركيز على كود نظيف وتجربة استثنائية.'
-      : 'Obsessed with sub-100ms UI latency, micro-interactions, and pristine code architectures.';
+    const persona = inferDeveloperPersona(userProfile, userRepos, locale);
 
     return {
       header: {
@@ -181,8 +150,10 @@ export default function App() {
         data: {
           greeting: isAr ? 'مرحباً، أنا' : "Hi there, I'm",
           name: userProfile.name || userProfile.login,
-          headline: userProfile.bio || (isAr ? 'مهندس برمجيات ومصمم معماريات برمجية' : 'Software Engineer building reliable systems'),
-          status: isAr ? 'تطوير أدوات مفتوحة المصدر وحلول تقنية مبتكرة' : 'Building open-source tools & high-performance software',
+          headline: userProfile.bio || persona.role,
+          status: isAr
+            ? `تطوير مشروعات برمجية مبتكرة في ${persona.focus}`
+            : `Building high-impact software in ${persona.focus}`,
           location: userProfile.location || '',
           showAvatar: true,
           avatarShape: 'circle',
@@ -191,9 +162,9 @@ export default function App() {
           bannerTheme: 'inkwash',
           showTyping: true,
           typingLines: [
-            userProfile.bio || (isAr ? 'مهندس برمجيات' : 'Software Engineer'),
-            isAr ? 'مطور برمجيات Full-Stack ومساهم في المصادر المفتوحة' : 'Full-Stack Developer & Open Source Contributor',
-            isAr ? 'شغوف بهندسة الأداء العالي والأنظمة الذكية' : 'Passionate about high-performance software & AI integration',
+            userProfile.bio || persona.role,
+            persona.role,
+            isAr ? `متخصص في ${persona.focus}` : `Focus: ${persona.focus}`,
           ],
           showViewsCounter: true,
           viewsCounterColor: '6d8196',
@@ -203,13 +174,13 @@ export default function App() {
       about: {
         enabled: true,
         data: {
-          summary: defaultSummary,
-          currentRole: defaultRole,
-          currentWork: defaultWork,
-          currentLearning: defaultLearning,
-          askMeAbout: defaultAskMe,
+          summary: persona.summary,
+          currentRole: persona.role,
+          currentWork: persona.currentWork,
+          currentLearning: persona.learning,
+          askMeAbout: persona.askMeAbout,
           howToReach: userProfile.email || (userProfile.blog ? userProfile.blog : `@${userProfile.login} on GitHub`),
-          funFact: defaultFunFact,
+          funFact: persona.funFact,
         },
       },
       techStack: {

@@ -225,12 +225,17 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
   const detectedWeights = new Map<string, number>();
 
   for (const repo of repos) {
+    const isLabOrHomework = /\b(lab|labs|homework|test|task|exercise|tutorial)\b/i.test(repo.name);
+    // Discount lab repositories if the developer has many real projects
+    const weightFactor = isLabOrHomework && repos.length > 8 ? 0.4 : 1.0;
+
     // 1. Direct language check (10 points per repo)
     if (repo.language) {
       const normalizedLang = repo.language.toLowerCase().trim();
       const mappedId = LANGUAGE_NAME_MAP[normalizedLang];
       if (mappedId) {
-        detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + 10);
+        const pts = Math.round(10 * weightFactor);
+        detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + pts);
       }
     }
 
@@ -244,7 +249,8 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
             tech.badgeSlug === t ||
             tech.keywords.includes(t)
           ) {
-            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
+            const pts = Math.round(8 * weightFactor);
+            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + pts);
           }
         }
       }
@@ -253,21 +259,22 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
     // 3. Name & Description matching with strict tokenization (3 points per repo)
     const textBlob = `${repo.name || ''} ${repo.description || ''}`.toLowerCase();
     for (const tech of ALL_TECH_CATALOG) {
-      // Skip single letter or very short keywords from text blob matching to prevent false positives
+      // Skip single letter or short keywords from text blob matching
       for (const kw of tech.keywords) {
         if (kw.length <= 2 && !['ts', 'js', 'py'].includes(kw)) {
           continue; // Guard against 'c', 'r', 'ai', 'sh' matching English text
         }
         const regex = new RegExp(`(^|[^a-z0-9])${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^a-z0-9]|$)`, 'i');
         if (regex.test(textBlob)) {
-          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 3);
+          const pts = Math.round(3 * weightFactor);
+          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + pts);
           break;
         }
       }
     }
   }
 
-  // Always enable Git if developer has public repositories
+  // Always enable Git and GitHub if developer has public repositories
   if (repos.length > 0) {
     detectedWeights.set('git', (detectedWeights.get('git') ?? 0) + 15);
     detectedWeights.set('github_tool', (detectedWeights.get('github_tool') ?? 0) + 15);
@@ -275,19 +282,24 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
 
   // Fallback defaults if very few detected
   if (detectedWeights.size === 0) {
-    ['git', 'typescript', 'react', 'nodejs'].forEach(id => detectedWeights.set(id, 10));
+    ['git', 'github_tool'].forEach(id => detectedWeights.set(id, 10));
   }
 
-  // Return full catalog with detected items enabled and prioritized
-  const items = ALL_TECH_CATALOG.map(tech => ({
-    id: tech.id,
-    name: tech.name,
-    category: tech.category,
-    badgeSlug: tech.badgeSlug,
-    color: tech.color,
-    enabled: detectedWeights.has(tech.id),
-    weight: detectedWeights.get(tech.id) ?? 0,
-  }));
+  // Return catalog with high-confidence items enabled (weight >= 7)
+  const items = ALL_TECH_CATALOG.map(tech => {
+    const weight = detectedWeights.get(tech.id) ?? 0;
+    // An item is auto-enabled only if it has solid evidence (weight >= 7, or top 5 if very few)
+    const enabled = weight >= 7;
+    return {
+      id: tech.id,
+      name: tech.name,
+      category: tech.category,
+      badgeSlug: tech.badgeSlug,
+      color: tech.color,
+      enabled,
+      weight,
+    };
+  });
 
   // Sort: Enabled items come first ordered by frequency/confidence weight descending
   items.sort((a, b) => {

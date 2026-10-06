@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import { GitHubUserProfile, GitHubRepository, ProfileAnalytics, Locale } from '../types';
-import { BioVariation, generateBioVariations } from './aiBio';
+import { BioVariation, generateBioVariations, inferDeveloperPersona } from './aiBio';
 
 export interface GeminiBioOptions {
   profile: GitHubUserProfile;
@@ -58,8 +58,13 @@ export async function generateDeveloperBioWithGemini(
       stars: r.stargazers_count,
     }));
 
-    const languages = Array.from(new Set(options.repos.map(r => r.language).filter(Boolean))).slice(0, 6);
-    const archetype = options.analytics?.archetype || 'generalist';
+    const langCounts = new Map<string, number>();
+    options.repos.forEach(r => {
+      if (r.language) langCounts.set(r.language, (langCounts.get(r.language) ?? 0) + 1);
+    });
+    const languages = [...langCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([l]) => l);
+    const persona = inferDeveloperPersona(options.profile, options.repos, options.locale);
+    const archetype = options.analytics?.archetype || persona.domain;
 
     const isAr = options.locale === 'ar';
     const languageInstruction = isAr
@@ -74,7 +79,10 @@ Your job is to generate 3 distinct developer profile summaries for a developer's
 
 Guidelines:
 - Ground every claim strictly in the user's real public GitHub data. Do not invent imaginary achievements.
-- Highlight real projects (${topRepos.map(r => r.name).join(', ')}) and actual technologies (${languages.join(', ')}).
+- Developer's verified specialization: ${persona.role} (Domain: ${persona.domain}). Focus strictly on this actual domain. DO NOT assume or invent full-stack web or unrelated fields unless explicitly in their profile.
+- Highlight real projects (${topRepos.map(r => r.name).join(', ')}) and actual dominant technologies (${languages.join(', ')}).
+- In "focus", accurately reflect: ${persona.focus}.
+- In "askMeAbout", highlight: ${persona.askMeAbout}.
 - Avoid corporate buzzwords and robotic AI clichés (e.g. avoid phrases like "passionate visionary", "synergizing", etc.).
 - ${languageInstruction}
 

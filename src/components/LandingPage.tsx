@@ -217,9 +217,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           bannerTheme: 'inkwash' as const,
           showTyping: true,
           typingLines: [
-            prof.bio || 'Software Engineer',
-            'Full-Stack Developer & UI/UX Architect',
-            'Passionate about high-performance software',
+            prof.bio || activeBio.focus,
+            activeBio.focus,
+            isAr ? 'شغوف بهندسة البرمجيات والحلول التقنية' : 'Passionate about engineering excellence',
           ],
           showViewsCounter: true,
           viewsCounterColor: '5a7188',
@@ -229,13 +229,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       about: {
         enabled: sandboxSections.header,
         data: {
-          summary: activeBio.summary || prof.bio || 'Senior engineer focused on resilient systems, clean code, and developer tooling.',
-          currentRole: activeBio.focus || 'Distributed software architectures',
-          currentWork: reps[0]?.name || 'developer tooling',
-          currentLearning: activeBio.learning || 'Modern web architectures and system design patterns',
-          askMeAbout: 'TypeScript, React, Next.js, System Architecture',
+          summary: activeBio.summary || prof.bio || 'Engineer focused on resilient systems, clean code, and reliable solutions.',
+          currentRole: activeBio.focus || 'Software Engineering',
+          currentWork: activeBio.currentWork || reps[0]?.name || 'software tooling',
+          currentLearning: activeBio.learning || 'Modern software architectures and design patterns',
+          askMeAbout: activeBio.askMeAbout || 'Software Engineering, Problem Solving',
           howToReach: prof.email || `@${prof.login} on GitHub`,
-          funFact: 'I design software with architectural precision and high-contrast typography.',
+          funFact: activeBio.funFact || 'Committed to simplicity over accidental complexity.',
         },
       },
       techStack: {

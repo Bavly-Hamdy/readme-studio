@@ -175,7 +175,7 @@ function renderHeader(
   const badgeStyle = h.badgeStyle || (theme === 'showcase' ? 'for-the-badge' : 'flat-square');
 
   // Common lines for Typing Animation (carefully sanitized to prevent clipping)
-  const defaultHeadline = h.headline ? sanitizeTypingLine(h.headline) : 'Full-Stack Software Engineer';
+  const defaultHeadline = h.headline ? sanitizeTypingLine(h.headline) : 'Software Engineer';
   const defaultArchetype = analytics ? `${ARCHETYPES[analytics.archetype].emoji} ${ARCHETYPES[analytics.archetype].label[locale]}` : '';
   const defaultStatus = h.status ? sanitizeTypingLine(h.status) : 'Building impactful open-source software';
   const defaultStars = analytics && analytics.totals.stars > 0 ? `${compact(analytics.totals.stars)} ⭐ across public repositories` : '';
@@ -433,15 +433,16 @@ function renderAnalytics(
   const parts: string[] = [];
   const date = new Date(a.generatedAt).toISOString().slice(0, 10);
   const src = a.contributions.source === 'graphql' ? c.srcGraphql : c.srcEvents;
+  const totalPublicRepos = profile?.public_repos ?? (a.totals.ownedRepos + a.totals.forkedRepos);
 
-  parts.push(`## ${fancy ? '📊 ' : ''}${c.analytics}\n\n> ${c.analyticsNote(a.totals.ownedRepos, date, src)}`);
+  parts.push(`## ${fancy ? '📊 ' : ''}${c.analytics}\n\n> ${c.analyticsNote(totalPublicRepos, date, src)}`);
 
   // --- Snapshot
   if (d.showSnapshot) {
     const cells: Array<[string, string]> = [
       [`⭐ ${c.stars}`, compact(a.totals.stars)],
       [`🍴 ${c.forks}`, compact(a.totals.forks)],
-      [`📦 ${c.repos}`, String(a.totals.ownedRepos)],
+      [`📦 ${c.repos}`, String(totalPublicRepos)],
       [`👥 ${c.followers}`, compact(profile?.followers ?? 0)],
       [`🔥 ${c.contribs}`, compact(a.contributions.total)],
       [`📅 ${c.years}`, String(a.accountAgeYears)],

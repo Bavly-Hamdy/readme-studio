@@ -145,7 +145,11 @@ class GitHubClient {
   private readonly headers: Record<string, string>;
 
   constructor(private readonly token?: string) {
-    this.headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+    this.headers = {
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Cache-Control': 'no-cache',
+    };
     if (token?.trim()) this.headers.Authorization = `Bearer ${token.trim()}`;
   }
 
@@ -861,6 +865,21 @@ function demoResult(login: string): AnalysisResult | null {
       longestStreak: 3,
       bestDay: { date: '2026-03-15', count: 18 },
       activeDays: 142,
+      days: [],
+    };
+  } else if (login === 'andrewsameh7') {
+    demoContributions = {
+      source: 'graphql',
+      total: 114,
+      commits: 108,
+      pullRequests: 4,
+      issues: 2,
+      reviews: 0,
+      reposContributedTo: 8,
+      currentStreak: 2,
+      longestStreak: 3,
+      bestDay: { date: '2026-09-12', count: 7 },
+      activeDays: 29,
       days: [],
     };
   }

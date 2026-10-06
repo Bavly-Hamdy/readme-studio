@@ -343,6 +343,115 @@ export const DEMO_PROFILES: Record<string, { profile: GitHubUserProfile; repos: 
         updated_at: '2026-08-11T12:00:00Z',
       }
     ]
+  },
+  andrewsameh7: {
+    profile: {
+      login: 'AndrewSameh7',
+      name: 'Andrew Sameh',
+      avatar_url: 'https://avatars.githubusercontent.com/u/229541708?v=4',
+      html_url: 'https://github.com/AndrewSameh7',
+      bio: 'B.Sc. Software Engineering Fresh Graduate||AI / ML Engineer||Robotics Ethautisic||Problem Solver Competitive|| Former Open Source ITI Traniee',
+      company: null,
+      blog: '',
+      location: 'Egypt',
+      email: 'andrewsameh2003@gmail.com',
+      public_repos: 37,
+      followers: 19,
+      following: 63,
+      created_at: '2023-01-15T10:00:00Z',
+    },
+    repos: [
+      {
+        id: 1366904944,
+        name: 'Household-Energy-Consumption-Forecasting',
+        full_name: 'AndrewSameh7/Household-Energy-Consumption-Forecasting',
+        html_url: 'https://github.com/AndrewSameh7/Household-Energy-Consumption-Forecasting',
+        description: 'Time series forecasting and predictive modeling for household energy consumption patterns using Machine Learning.',
+        stargazers_count: 2,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['machine-learning', 'time-series', 'forecasting', 'python', 'energy'],
+        homepage: null,
+        updated_at: '2026-10-03T05:43:37Z',
+        created_at: '2026-09-12T03:26:51Z',
+        pushed_at: '2026-09-12T03:30:01Z',
+      },
+      {
+        id: 1328225039,
+        name: 'LLM-ZoomCamp-Agentic-RAG-Homework',
+        full_name: 'AndrewSameh7/LLM-ZoomCamp-Agentic-RAG-Homework',
+        html_url: 'https://github.com/AndrewSameh7/LLM-ZoomCamp-Agentic-RAG-Homework',
+        description: 'Agentic Retrieval-Augmented Generation (RAG) system with dynamic query routing, vector search, and LLM orchestration.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['llm', 'rag', 'agentic-ai', 'vector-search', 'python'],
+        homepage: null,
+        updated_at: '2026-08-09T19:00:59Z',
+        created_at: '2026-08-08T22:38:44Z',
+        pushed_at: '2026-08-09T06:46:04Z',
+      },
+      {
+        id: 1403536461,
+        name: 'Tips_Hindawi_Third_Task-HR_Candidate_Profile_Parser',
+        full_name: 'AndrewSameh7/Tips_Hindawi_Third_Task-HR_Candidate_Profile_Parser',
+        html_url: 'https://github.com/AndrewSameh7/Tips_Hindawi_Third_Task-HR_Candidate_Profile_Parser',
+        description: 'Automated HR candidate profile parser and NLP entity extractor using Large Language Models and document processing.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['nlp', 'llm', 'resume-parser', 'python', 'information-extraction'],
+        homepage: null,
+        updated_at: '2026-10-05T13:37:36Z',
+        created_at: '2026-10-03T18:47:06Z',
+        pushed_at: '2026-10-03T20:04:52Z',
+      },
+      {
+        id: 1393797895,
+        name: 'Tips_Hindawi_First_Task-Youtube_Vedio_Summarization',
+        full_name: 'AndrewSameh7/Tips_Hindawi_First_Task-Youtube_Vedio_Summarization',
+        html_url: 'https://github.com/AndrewSameh7/Tips_Hindawi_First_Task-Youtube_Vedio_Summarization',
+        description: 'Intelligent video content summarization pipeline leveraging speech-to-text transcripts and LLM abstractive summarization.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['summarization', 'llm', 'nlp', 'python', 'audio-processing'],
+        homepage: null,
+        updated_at: '2026-10-05T13:37:39Z',
+        created_at: '2026-09-28T20:29:02Z',
+        pushed_at: '2026-09-28T20:31:47Z',
+      },
+      {
+        id: 1329211849,
+        name: 'LLM-ZoomCamp-Vector-Search-Homework',
+        full_name: 'AndrewSameh7/LLM-ZoomCamp-Vector-Search-Homework',
+        html_url: 'https://github.com/AndrewSameh7/LLM-ZoomCamp-Vector-Search-Homework',
+        description: 'Dense vector embeddings indexing and semantic retrieval pipeline using vector databases.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['vector-search', 'embeddings', 'llm', 'python'],
+        homepage: null,
+        updated_at: '2026-09-28T20:02:52Z',
+        created_at: '2026-08-09T21:39:44Z',
+        pushed_at: '2026-08-09T21:46:45Z',
+      },
+      {
+        id: 1366983256,
+        name: 'Graduation-Project-2025',
+        full_name: 'AndrewSameh7/Graduation-Project-2025',
+        html_url: 'https://github.com/AndrewSameh7/Graduation-Project-2025',
+        description: 'Software Engineering graduation project integrating intelligent autonomous control and computer vision algorithms.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'Python',
+        topics: ['computer-vision', 'deep-learning', 'robotics', 'python'],
+        homepage: null,
+        updated_at: '2026-09-28T20:02:40Z',
+        created_at: '2026-09-12T05:35:42Z',
+        pushed_at: '2026-09-12T05:42:34Z',
+      }
+    ]
   }
 };
 
@@ -417,6 +526,7 @@ export async function fetchGitHubData(
   // If matches a demo profile and no token provided, try fetching or fallback seamlessly
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github.v3+json',
+    'Cache-Control': 'no-cache',
   };
   if (token) {
     headers.Authorization = `Bearer ${token.trim()}`;
@@ -474,24 +584,27 @@ export async function fetchGitHubData(
     if (reposRes.ok) {
       const rawRepos = await reposRes.json();
       if (Array.isArray(rawRepos)) {
-        const mapped = rawRepos
-          .filter(r => !r.fork) // Prioritize original non-fork repos
-          .map(r => ({
-            id: r.id,
-            name: r.name,
-            full_name: r.full_name,
-            html_url: r.html_url,
-            description: r.description,
-            stargazers_count: r.stargazers_count || 0,
-            forks_count: r.forks_count || 0,
-            language: r.language,
-            topics: Array.isArray(r.topics) ? r.topics : [],
-            homepage: r.homepage,
-            updated_at: r.updated_at,
-            created_at: r.created_at,
-            pushed_at: r.pushed_at,
-          }));
-        repos = rankTopProjects(mapped, profile.login);
+        const mapped = rawRepos.map(r => ({
+          id: r.id,
+          name: r.name,
+          full_name: r.full_name,
+          html_url: r.html_url,
+          description: r.description,
+          stargazers_count: r.stargazers_count || 0,
+          forks_count: r.forks_count || 0,
+          language: r.language,
+          topics: Array.isArray(r.topics) ? r.topics : [],
+          homepage: r.homepage,
+          updated_at: r.updated_at,
+          created_at: r.created_at,
+          pushed_at: r.pushed_at,
+          fork: Boolean(r.fork),
+        }));
+        // Rank top projects to the front, preserving total repository set
+        const topRanked = rankTopProjects(mapped, profile.login);
+        const topIds = new Set(topRanked.map(r => r.id));
+        const rest = mapped.filter(r => !topIds.has(r.id));
+        repos = [...topRanked, ...rest];
       }
     }
 
