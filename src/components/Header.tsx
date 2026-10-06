@@ -103,17 +103,12 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         {activeUsername && activeView !== 'landing' && (
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] text-xs text-[var(--text)] font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text)] font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>@{activeUsername}</span>
             {grade && (
-              <span className="px-1.5 py-0.2 rounded font-bold text-[10px] bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/25">
-                {grade}
-              </span>
-            )}
-            {arch && (
-              <span className="text-xs" title={arch.label[locale]}>
-                {arch.emoji}
+              <span className="px-1.5 py-0.2 rounded font-semibold text-[10px] bg-[var(--surface)] text-[var(--text-muted)] border border-[var(--border)]">
+                Grade {grade}
               </span>
             )}
           </div>
