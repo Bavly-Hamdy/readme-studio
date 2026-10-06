@@ -25,7 +25,7 @@ import {
   RepoHighlight,
   ScoreCard,
 } from '../types';
-import { DEMO_PROFILES } from './github';
+import { DEMO_PROFILES, rankTopProjects } from './github';
 import { languageColor } from './languageColors';
 
 /* ------------------------------------------------------------------ */
@@ -845,16 +845,36 @@ function demoResult(login: string): AnalysisResult | null {
     pushed_at: r.updated_at,
     size: Math.round(Math.log10(1 + r.stargazers_count) * 4000),
   }));
+
+  // Create authentic demo contributions if available
+  let demoContributions: ContributionSummary | null = null;
+  if (login === 'bavly-hamdy') {
+    demoContributions = {
+      source: 'graphql',
+      total: 361,
+      commits: 345,
+      pullRequests: 12,
+      issues: 4,
+      reviews: 0,
+      reposContributedTo: 14,
+      currentStreak: 2,
+      longestStreak: 3,
+      bestDay: { date: '2026-03-15', count: 18 },
+      activeDays: 142,
+      days: [],
+    };
+  }
+
   const analytics = computeAnalytics({
     profile: demo.profile,
     allRepos,
     languageBytes: new Map(),
     events: [],
     orgs: [],
-    contributions: null,
+    contributions: demoContributions,
     dataQuality: 'demo',
   });
-  return { profile: demo.profile, repos: allRepos, analytics, rateLimitRemaining: 0 };
+  return { profile: demo.profile, repos: rankTopProjects(allRepos, demo.profile.login), analytics, rateLimitRemaining: 0 };
 }
 
 /* ------------------------------------------------------------------ */
@@ -865,6 +885,47 @@ const CONTRIB_QUERY = `query($login:String!){user(login:$login){contributionsCol
   totalCommitContributions totalPullRequestContributions totalIssueContributions
   totalPullRequestReviewContributions totalRepositoriesWithContributedCommits restrictedContributionsCount
   contributionCalendar{totalContributions weeks{contributionDays{date contributionCount contributionLevel}}}}}}`;
+
+async function fetchPublicContributionCalendar(login: string): Promise<ContributionSummary | null> {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(login)}?y=last`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data || !Array.isArray(data.contributions) || data.contributions.length === 0) return null;
+
+    const days: ContributionDay[] = data.contributions.map((d: { date: string; count: number; level: number }) => ({
+      date: d.date,
+      count: d.count || 0,
+      level: Math.min(4, Math.max(0, d.level || 0)) as ContributionDay['level'],
+    }));
+
+    const { current, longest } = computeStreaks(days);
+    const best = days.reduce<ContributionDay | null>((acc, d) => (!acc || d.count > acc.count ? d : acc), null);
+    const total = typeof data.total?.lastYear === 'number' ? data.total.lastYear : days.reduce((acc, d) => acc + d.count, 0);
+
+    return {
+      source: 'graphql',
+      total,
+      commits: total,
+      pullRequests: 0,
+      issues: 0,
+      reviews: 0,
+      reposContributedTo: 0,
+      currentStreak: current,
+      longestStreak: longest,
+      bestDay: best && best.count > 0 ? { date: best.date, count: best.count } : null,
+      activeDays: days.filter(d => d.count > 0).length,
+      days,
+    };
+  } catch {
+    return null;
+  }
+}
 
 export async function analyzeGitHubProfile(
   username: string,
@@ -947,11 +1008,19 @@ export async function analyzeGitHubProfile(
     const orgsRes = await client.get<RawOrg[]>(`/users/${encodeURIComponent(login)}/orgs`);
     const orgs = orgsRes.data ?? [];
 
-    // 5. Contribution calendar (GraphQL, token only)
+    // 5. Contribution calendar (GraphQL with token, or fallback to public 365-day calendar API)
     onProgress?.('contributions', 0.84);
     let contributions: ContributionSummary | null = null;
-    const gql = await client.graphql(CONTRIB_QUERY, { login });
-    if (gql) contributions = contributionsFromGraphQL(gql);
+    if (client.hasToken) {
+      const gql = await client.graphql(CONTRIB_QUERY, { login });
+      if (gql) contributions = contributionsFromGraphQL(gql);
+    }
+    if (!contributions) {
+      contributions = await fetchPublicContributionCalendar(login);
+    }
+    if (!contributions) {
+      contributions = contributionsFromEvents(events, 90);
+    }
 
     // 6. Compute
     onProgress?.('insights', 0.94);
@@ -965,7 +1034,7 @@ export async function analyzeGitHubProfile(
       dataQuality: partial || !contributions ? 'partial' : 'full',
     });
 
-    const repos = [...owned].sort((a, b) => b.stargazers_count - a.stargazers_count);
+    const repos = rankTopProjects(owned, profile.login);
     const result: AnalysisResult = { profile, repos, analytics, rateLimitRemaining: client.rateLimitRemaining };
     writeCache(login, client.hasToken, result);
     onProgress?.('done', 1);

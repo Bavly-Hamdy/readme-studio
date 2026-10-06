@@ -84,19 +84,28 @@ Return ONLY a valid JSON array of 3 objects with this exact structure:
     "tone": "formal",
     "summary": "...",
     "focus": "...",
-    "learning": "..."
+    "currentWork": "...",
+    "learning": "...",
+    "askMeAbout": "...",
+    "funFact": "..."
   },
   {
     "tone": "friendly",
     "summary": "...",
     "focus": "...",
-    "learning": "..."
+    "currentWork": "...",
+    "learning": "...",
+    "askMeAbout": "...",
+    "funFact": "..."
   },
   {
     "tone": "direct",
     "summary": "...",
     "focus": "...",
-    "learning": "..."
+    "currentWork": "...",
+    "learning": "...",
+    "askMeAbout": "...",
+    "funFact": "..."
   }
 ]`;
 

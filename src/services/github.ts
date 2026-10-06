@@ -9,35 +9,61 @@ export const DEMO_PROFILES: Record<string, { profile: GitHubUserProfile; repos: 
       avatar_url: 'https://avatars.githubusercontent.com/u/108342478?v=4',
       html_url: 'https://github.com/Bavly-Hamdy',
       bio: 'Full-Stack Software Engineer & UI/UX Architect | Next.js, TypeScript, React & Node.js. Building modern, high-performance web experiences.',
-      company: null,
+      company: 'Freelance',
       blog: 'https://github.com/Bavly-Hamdy',
       location: 'Cairo, Egypt',
       email: null,
-      public_repos: 40,
-      followers: 1,
-      following: 0,
+      public_repos: 41,
+      followers: 2,
+      following: 3,
       created_at: '2022-03-04T13:44:06Z',
     },
     repos: [
       {
         id: 91283120,
+        name: 'Engagement',
+        full_name: 'Bavly-Hamdy/Engagement',
+        html_url: 'https://github.com/Bavly-Hamdy/Engagement',
+        description: 'An elegant, interactive digital celebration and memory guestbook application built with Next.js, Framer Motion, and Tailwind CSS.',
+        stargazers_count: 5,
+        forks_count: 2,
+        language: 'TypeScript',
+        topics: ['nextjs', 'react', 'tailwind', 'framer-motion', 'guestbook', 'interactive'],
+        homepage: 'https://github.com/Bavly-Hamdy/Engagement',
+        updated_at: '2026-10-04T22:00:00Z',
+      },
+      {
+        id: 91283121,
         name: 'ReadmeForge',
         full_name: 'Bavly-Hamdy/ReadmeForge',
         html_url: 'https://github.com/Bavly-Hamdy/ReadmeForge',
         description: 'Engineering-grade README generator for modern software repositories with AST parsing and visual Mermaid architecture topologies.',
-        stargazers_count: 2,
+        stargazers_count: 3,
         forks_count: 0,
         language: 'TypeScript',
         topics: ['readme', 'developer-tools', 'github-profile', 'markdown', 'react', 'typescript'],
         homepage: 'https://github.com/Bavly-Hamdy/ReadmeForge',
-        updated_at: '2026-10-04T22:00:00Z',
+        updated_at: '2026-10-04T20:00:00Z',
+      },
+      {
+        id: 91283122,
+        name: 'readme-studio',
+        full_name: 'Bavly-Hamdy/readme-studio',
+        html_url: 'https://github.com/Bavly-Hamdy/readme-studio',
+        description: 'Architectural GitHub profile README builder, developer telemetry analytics & AI persona synthesizer powered by Gemini 3.8 Flash.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'TypeScript',
+        topics: ['readme-generator', 'gemini-ai', 'developer-tools', 'nextjs', 'tailwind'],
+        homepage: 'https://github.com/Bavly-Hamdy/readme-studio',
+        updated_at: '2026-10-04T18:00:00Z',
       },
       {
         id: 88123011,
         name: 'GitArmorAI',
         full_name: 'Bavly-Hamdy/GitArmorAI',
         html_url: 'https://github.com/Bavly-Hamdy/GitArmorAI',
-        description: 'Autonomous DevSecOps platform powered by Gemini 2.5 AI — Deterministic AST scanning, 94%+ false-positive reduction, and 1-click surgical Pull Request remediation.',
+        description: 'Autonomous DevSecOps platform powered by Gemini 3.8 Flash — Deterministic AST scanning, 94%+ false-positive reduction, and surgical PR remediation.',
         stargazers_count: 1,
         forks_count: 0,
         language: 'TypeScript',
@@ -50,7 +76,7 @@ export const DEMO_PROFILES: Record<string, { profile: GitHubUserProfile; repos: 
         name: 'BOSSLA-CAREER-PRO',
         full_name: 'Bavly-Hamdy/BOSSLA-CAREER-PRO',
         html_url: 'https://github.com/Bavly-Hamdy/BOSSLA-CAREER-PRO',
-        description: 'Forensic ATS Resume Auditor, Google X-Y-Z Bullet Rewriter, Keyword Gap Detector & AI Career Co-Pilot powered by Gemini 2.5 Flash.',
+        description: 'Forensic ATS Resume Auditor, Google X-Y-Z Bullet Rewriter, Keyword Gap Detector & AI Career Co-Pilot powered by Gemini 3.8 Flash.',
         stargazers_count: 1,
         forks_count: 0,
         language: 'TypeScript',
@@ -70,6 +96,32 @@ export const DEMO_PROFILES: Record<string, { profile: GitHubUserProfile; repos: 
         topics: ['focus', 'productivity', 'ambient', 'nextjs', 'tailwind'],
         homepage: null,
         updated_at: '2026-09-18T10:00:00Z',
+      },
+      {
+        id: 85102450,
+        name: 'Clinic-OS',
+        full_name: 'Bavly-Hamdy/Clinic-OS',
+        html_url: 'https://github.com/Bavly-Hamdy/Clinic-OS',
+        description: 'A professional, bilingual Clinic and Healthcare Operating System with appointment orchestration, patient EHR, and analytics.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'TypeScript',
+        topics: ['clinic-management', 'healthcare', 'nextjs', 'tailwind', 'typescript'],
+        homepage: null,
+        updated_at: '2026-09-12T10:00:00Z',
+      },
+      {
+        id: 84102450,
+        name: 'devmetrics-pro',
+        full_name: 'Bavly-Hamdy/devmetrics-pro',
+        html_url: 'https://github.com/Bavly-Hamdy/devmetrics-pro',
+        description: 'Deterministic GitHub Developer Telemetry & Productivity Metrics Suite with deep AST commit analysis.',
+        stargazers_count: 1,
+        forks_count: 0,
+        language: 'TypeScript',
+        topics: ['developer-metrics', 'github-telemetry', 'analytics', 'typescript'],
+        homepage: null,
+        updated_at: '2026-09-05T10:00:00Z',
       }
     ],
   },
@@ -295,6 +347,65 @@ export const DEMO_PROFILES: Record<string, { profile: GitHubUserProfile; repos: 
 };
 
 /**
+ * Deterministically rank and curate top repositories for showcase:
+ * 1. Excludes profile README repository (username/username).
+ * 2. Filters out fork repositories.
+ * 3. Weights stars, forks, detailed descriptions, rich topics, live homepage demos, and recency.
+ */
+export function rankTopProjects(repos: GitHubRepository[], username: string): GitHubRepository[] {
+  const userLower = username.trim().toLowerCase();
+
+  return [...repos]
+    .filter(r => {
+      // Exclude profile README repository (e.g., username/username)
+      if (r.name.toLowerCase() === userLower) return false;
+      // Exclude fork repositories if any
+      if (r.fork) return false;
+      return true;
+    })
+    .map(r => {
+      let score = 0;
+      // Stars & forks weight
+      score += (r.stargazers_count || 0) * 8;
+      score += (r.forks_count || 0) * 12;
+
+      // Meaningful description gives huge boost
+      if (r.description && r.description.trim().length > 15) {
+        score += 25;
+      } else if (!r.description || r.description.trim().length === 0) {
+        score -= 20; // Deprioritize repos with no description
+      }
+
+      // Rich topics
+      if (Array.isArray(r.topics) && r.topics.length > 0) {
+        score += Math.min(r.topics.length * 4, 20);
+      }
+
+      // Has live demo / homepage
+      if (r.homepage && r.homepage.trim().length > 0) {
+        score += 10;
+      }
+
+      // Has recognized language
+      if (r.language) {
+        score += 5;
+      }
+
+      // Recency
+      const dateStr = r.updated_at || r.pushed_at || r.created_at;
+      if (dateStr) {
+        const ageDays = (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+        if (ageDays < 90) score += 15;
+        else if (ageDays < 365) score += 8;
+      }
+
+      return { repo: r, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.repo);
+}
+
+/**
  * Fetch GitHub user profile and repositories
  */
 export async function fetchGitHubData(
@@ -345,16 +456,16 @@ export async function fetchGitHubData(
 
     const profile: GitHubUserProfile = await userRes.json();
 
-    // Fetch repositories
+    // Fetch repositories with maximum allowable per_page limit
     let reposRes = await fetch(
-      `https://api.github.com/users/${encodeURIComponent(normalized)}/repos?sort=updated&per_page=30`,
+      `https://api.github.com/users/${encodeURIComponent(normalized)}/repos?sort=pushed&per_page=100`,
       { headers }
     );
 
     if (reposRes.status === 401 && headers.Authorization) {
       delete headers.Authorization;
       reposRes = await fetch(
-        `https://api.github.com/users/${encodeURIComponent(normalized)}/repos?sort=updated&per_page=30`,
+        `https://api.github.com/users/${encodeURIComponent(normalized)}/repos?sort=pushed&per_page=100`,
         { headers }
       );
     }
@@ -363,7 +474,7 @@ export async function fetchGitHubData(
     if (reposRes.ok) {
       const rawRepos = await reposRes.json();
       if (Array.isArray(rawRepos)) {
-        repos = rawRepos
+        const mapped = rawRepos
           .filter(r => !r.fork) // Prioritize original non-fork repos
           .map(r => ({
             id: r.id,
@@ -377,8 +488,10 @@ export async function fetchGitHubData(
             topics: Array.isArray(r.topics) ? r.topics : [],
             homepage: r.homepage,
             updated_at: r.updated_at,
-          }))
-          .sort((a, b) => b.stargazers_count - a.stargazers_count);
+            created_at: r.created_at,
+            pushed_at: r.pushed_at,
+          }));
+        repos = rankTopProjects(mapped, profile.login);
       }
     }
 

@@ -173,13 +173,13 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
         <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] transition-all hover:border-[var(--border-strong)]">
           <div className="flex items-center gap-2 text-[var(--text-muted)] mb-1 text-xs">
             <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
-            <span>{isAr ? 'المستودعات' : 'Repositories'}</span>
+            <span>{isAr ? 'المستودعات العامة' : 'Public Repositories'}</span>
           </div>
           <div className="text-xl sm:text-2xl font-bold font-mono text-[var(--text)]">
-            {analytics.totals.ownedRepos}
+            {(profile?.public_repos ?? (analytics.totals.ownedRepos + analytics.totals.forkedRepos)).toLocaleString()}
           </div>
           <div className="text-[11px] text-[var(--text-subtle)] mt-1">
-            {analytics.totals.forkedRepos} {isAr ? 'مستودعات منسوخة' : 'forked repos'}
+            {analytics.totals.ownedRepos} {isAr ? 'مشروع أصلي' : 'original'} · {analytics.totals.forkedRepos} {isAr ? 'منسوخ' : 'forked'}
           </div>
         </div>
 
@@ -199,13 +199,13 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
         <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] transition-all hover:border-[var(--border-strong)]">
           <div className="flex items-center gap-2 text-[var(--text-muted)] mb-1 text-xs">
             <Flame className="w-3.5 h-3.5 text-orange-500" />
-            <span>{isAr ? 'المساهمات' : 'Contributions'}</span>
+            <span>{isAr ? 'المساهمات والتتابع' : 'Contributions & Streak'}</span>
           </div>
           <div className="text-xl sm:text-2xl font-bold font-mono text-[var(--text)]">
             {contribs.total.toLocaleString()}
           </div>
           <div className="text-[11px] text-[var(--text-subtle)] mt-1">
-            {contribs.longestStreak} {isAr ? 'يوم تتابع' : 'days peak streak'}
+            {contribs.longestStreak} {isAr ? 'أطول سلسلة' : 'longest streak'} · {contribs.currentStreak} {isAr ? 'تتابع حالي' : 'current'}
           </div>
         </div>
 

@@ -118,6 +118,9 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
       summary: bio.summary,
       currentRole: bio.focus,
       currentLearning: bio.learning || config.about.data.currentLearning,
+      currentWork: bio.currentWork || config.about.data.currentWork,
+      askMeAbout: bio.askMeAbout || config.about.data.askMeAbout,
+      funFact: bio.funFact || config.about.data.funFact,
     });
   };
 
