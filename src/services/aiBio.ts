@@ -119,9 +119,10 @@ export function inferDeveloperPersona(
   // 4. Role extraction (extract real title from bio tokens if possible)
   let extractedRole = '';
   if (rawBio) {
-    const segments = rawBio.split(/[|/•,;\n]+/).map(s => s.trim()).filter(Boolean);
+    // Split on pipes, bullets, commas, or newlines, preserving slashes for AI/ML, UI/UX, etc.
+    const segments = rawBio.split(/(\|\||\||•|;|,\s+|\n+)/).map(s => s.trim()).filter(Boolean);
     const roleSegment = segments.find(s =>
-      /\b(engineer|developer|architect|scientist|specialist|trainee|enthusiast)\b/i.test(s)
+      !/^[|•;,\n]+$/.test(s) && /\b(engineer|developer|architect|scientist|specialist|trainee|enthusiast)\b/i.test(s)
     );
     if (roleSegment && roleSegment.length <= 50) {
       extractedRole = roleSegment;
