@@ -18,6 +18,9 @@ const COPY = {
     about: 'About Me',
     focus: 'Focus', working: 'Working on', learning: 'Learning', ask: 'Ask me about', reach: 'Reach me', fun: 'Fun fact',
     tech: 'Tech Stack',
+    experience: 'Work Experience',
+    education: 'Education & Academic Background',
+    certifications: 'Licenses & Certifications',
     projects: 'Featured Projects',
     project: 'Project', description: 'Description', stack: 'Stack',
     analytics: 'Profile Analytics',
@@ -51,6 +54,9 @@ const COPY = {
     about: 'نبذة عني',
     focus: 'التركيز', working: 'أعمل على', learning: 'أتعلّم', ask: 'اسألني عن', reach: 'تواصل معي', fun: 'معلومة طريفة',
     tech: 'التقنيات',
+    experience: 'الخبرات المهنية',
+    education: 'التعليم والمؤهلات الأكاديمية',
+    certifications: 'الشهادات والاعتمادات',
     projects: 'مشاريع مميزة',
     project: 'المشروع', description: 'الوصف', stack: 'التقنية',
     analytics: 'تحليلات الملف الشخصي',
@@ -373,6 +379,101 @@ function renderTech(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy):
   return md.trim();
 }
 
+function renderExperience(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string | null {
+  const exp = config.experience?.data;
+  if (!exp || !exp.items || !exp.items.length) return null;
+  const heading = theme === 'showcase' ? `## 💼 ${c.experience}` : `## ${c.experience}`;
+
+  if (theme === 'mono') {
+    let md = `${heading}\n\n\`\`\`text\n`;
+    exp.items.forEach((item, idx) => {
+      md += `[${String(idx + 1).padStart(2, '0')}] ${item.role} @ ${item.company} (${item.period})\n`;
+      if (item.location) md += `     Location: ${item.location}\n`;
+      if (item.description) md += `     ${item.description}\n`;
+      if (item.highlights && item.highlights.length) {
+        item.highlights.forEach(h => {
+          md += `     * ${h}\n`;
+        });
+      }
+      if (item.technologies && item.technologies.length) {
+        md += `     Stack: ${item.technologies.join(', ')}\n`;
+      }
+      md += '\n';
+    });
+    return `${md.trimEnd()}\n\`\`\``;
+  }
+
+  if (theme === 'paper') {
+    let md = `${heading}\n\n`;
+    exp.items.forEach(item => {
+      md += `### ${item.role} — *${item.company}*\n`;
+      md += `**${item.period}**${item.location ? ` | ${item.location}` : ''}\n\n`;
+      if (item.description) md += `${item.description}\n\n`;
+      if (item.highlights && item.highlights.length) {
+        item.highlights.forEach(h => {
+          md += `- ${h}\n`;
+        });
+        md += '\n';
+      }
+      if (item.technologies && item.technologies.length) {
+        md += `*Technologies: ${item.technologies.join(', ')}*\n\n`;
+      }
+    });
+    return md.trim();
+  }
+
+  // Showcase / Minimal
+  let md = `${heading}\n\n`;
+  exp.items.forEach(item => {
+    md += `### 🔹 ${item.role} · **${item.company}**\n`;
+    md += `\`${item.period}\`${item.location ? ` · *${item.location}*` : ''}\n\n`;
+    if (item.description) md += `${item.description}\n\n`;
+    if (item.highlights && item.highlights.length) {
+      item.highlights.forEach(h => {
+        md += `- ${h}\n`;
+      });
+      md += '\n';
+    }
+    if (item.technologies && item.technologies.length) {
+      const techBadges = item.technologies.map(t => `\`${t}\``).join(' · ');
+      md += `🛠️ **Tech:** ${techBadges}\n\n`;
+    }
+  });
+  return md.trim();
+}
+
+function renderEducation(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string | null {
+  const edu = config.education?.data;
+  if (!edu || !edu.items || !edu.items.length) return null;
+  const heading = theme === 'showcase' ? `## 🎓 ${c.education}` : `## ${c.education}`;
+
+  let md = `${heading}\n\n`;
+  edu.items.forEach(item => {
+    md += `### 🏛️ ${item.degree}${item.field ? ` in ${item.field}` : ''}\n`;
+    md += `**${item.institution}** · \`${item.period}\`${item.gradeOrGpa ? ` · *Grade: ${item.gradeOrGpa}*` : ''}\n\n`;
+    if (item.highlights && item.highlights.length) {
+      item.highlights.forEach(h => {
+        md += `- ${h}\n`;
+      });
+      md += '\n';
+    }
+  });
+  return md.trim();
+}
+
+function renderCertifications(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string | null {
+  const cert = config.certifications?.data;
+  if (!cert || !cert.items || !cert.items.length) return null;
+  const heading = theme === 'showcase' ? `## 📜 ${c.certifications}` : `## ${c.certifications}`;
+
+  let md = `${heading}\n\n`;
+  cert.items.forEach(item => {
+    const link = item.url ? ` [↗](${item.url})` : '';
+    md += `- 🎖️ **${item.name}** — *${item.issuer}*${item.year ? ` (\`${item.year}\`)` : ''}${link}\n`;
+  });
+  return md.trim();
+}
+
 function renderProjects(config: ProfileSectionsConfig, theme: ReadmeTheme, username: string, c: Copy): string | null {
   const p = config.projects.data;
   if (!p.projects.length) return null;
@@ -682,6 +783,18 @@ export function generateReadmeMarkdown(
   if (config.techStack.enabled) {
     const t = renderTech(config, theme, c);
     if (t) parts.push(t);
+  }
+  if (config.experience?.enabled) {
+    const exp = renderExperience(config, theme, c);
+    if (exp) parts.push(exp);
+  }
+  if (config.education?.enabled) {
+    const edu = renderEducation(config, theme, c);
+    if (edu) parts.push(edu);
+  }
+  if (config.certifications?.enabled) {
+    const cert = renderCertifications(config, theme, c);
+    if (cert) parts.push(cert);
   }
   if (config.projects.enabled) {
     const p = renderProjects(config, theme, username, c);

@@ -12,6 +12,9 @@ import {
   Eye,
   EyeOff,
   Sparkles,
+  Briefcase,
+  GraduationCap,
+  Award,
 } from 'lucide-react';
 
 export type SectionKey = keyof ProfileSectionsConfig;
@@ -45,6 +48,9 @@ export const SidebarSections: React.FC<SidebarSectionsProps> = ({
     { key: 'header', label: t.sections.header, icon: <User className="w-4 h-4" /> },
     { key: 'about', label: t.sections.about, icon: <FileText className="w-4 h-4" /> },
     { key: 'techStack', label: t.sections.techStack, icon: <Code className="w-4 h-4" /> },
+    { key: 'experience', label: (t.sections as any).experience || 'Work Experience', icon: <Briefcase className="w-4 h-4 text-sky-500" /> },
+    { key: 'education', label: (t.sections as any).education || 'Education', icon: <GraduationCap className="w-4 h-4 text-indigo-500" /> },
+    { key: 'certifications', label: (t.sections as any).certifications || 'Certifications', icon: <Award className="w-4 h-4 text-emerald-500" /> },
     { key: 'projects', label: t.sections.projects, icon: <FolderGit2 className="w-4 h-4" /> },
     { key: 'analytics', label: (t.sections as any).analytics || 'Deep Analytics', icon: <Sparkles className="w-4 h-4 text-amber-500" /> },
     { key: 'stats', label: t.sections.stats, icon: <BarChart3 className="w-4 h-4" /> },
@@ -70,13 +76,13 @@ export const SidebarSections: React.FC<SidebarSectionsProps> = ({
             {t.sections.title}
           </h2>
           <span className="text-[11px] text-[var(--text-subtle)] font-mono">
-            {Object.values(config).filter(s => s.enabled).length}/{sectionsList.length}
+            {Object.values(config).filter(s => s && s.enabled).length}/{sectionsList.length}
           </span>
         </div>
 
         <div className="space-y-0.5">
           {sectionsList.map(({ key, label, icon }) => {
-            const isEnabled = config[key].enabled;
+            const isEnabled = config[key]?.enabled ?? false;
             const isActive = activeSection === key;
 
             return (

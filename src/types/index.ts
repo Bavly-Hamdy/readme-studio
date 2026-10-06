@@ -282,10 +282,76 @@ export interface ConnectSectionData {
   customCta: string;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Career & Resume Ingestion Domain                                   */
+/* ------------------------------------------------------------------ */
+
+export interface ExperienceItem {
+  id: string;
+  company: string;
+  role: string;
+  period: string;
+  location?: string;
+  description?: string;
+  highlights: string[];
+  technologies?: string[];
+}
+
+export interface ExperienceSectionData {
+  style: 'timeline' | 'cards' | 'compact';
+  items: ExperienceItem[];
+}
+
+export interface EducationItem {
+  id: string;
+  institution: string;
+  degree: string;
+  field?: string;
+  period: string;
+  gradeOrGpa?: string;
+  highlights?: string[];
+}
+
+export interface EducationSectionData {
+  items: EducationItem[];
+}
+
+export interface CertificationItem {
+  id: string;
+  name: string;
+  issuer: string;
+  year?: string;
+  url?: string;
+}
+
+export interface CertificationsSectionData {
+  items: CertificationItem[];
+}
+
+export interface ParsedResume {
+  fullName?: string;
+  headline?: string;
+  summary?: string;
+  email?: string;
+  phone?: string;
+  location?: string;
+  linkedin?: string;
+  website?: string;
+  githubUsername?: string;
+  experiences: ExperienceItem[];
+  education: EducationItem[];
+  certifications: CertificationItem[];
+  skills: string[];
+  languages?: string[];
+}
+
 export interface ProfileSectionsConfig {
   header: { enabled: boolean; data: HeaderSectionData };
   about: { enabled: boolean; data: AboutSectionData };
   techStack: { enabled: boolean; data: TechStackSectionData };
+  experience: { enabled: boolean; data: ExperienceSectionData };
+  education: { enabled: boolean; data: EducationSectionData };
+  certifications: { enabled: boolean; data: CertificationsSectionData };
   projects: { enabled: boolean; data: FeaturedProjectsSectionData };
   analytics: { enabled: boolean; data: AnalyticsSectionData };
   stats: { enabled: boolean; data: StatsSectionData };

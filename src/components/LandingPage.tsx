@@ -246,6 +246,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           items: detected,
         },
       },
+      experience: {
+        enabled: false,
+        data: {
+          style: 'timeline' as const,
+          items: [],
+        },
+      },
+      education: {
+        enabled: false,
+        data: {
+          items: [],
+        },
+      },
+      certifications: {
+        enabled: false,
+        data: {
+          items: [],
+        },
+      },
       projects: {
         enabled: sandboxSections.projects,
         data: {

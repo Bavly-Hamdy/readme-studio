@@ -13,6 +13,7 @@ import {
   FileText,
   Activity,
   Home,
+  Sparkles,
 } from 'lucide-react';
 import { LogoIcon } from './LogoIcon';
 import { getRateLimitInfo, subscribeRateLimit, RateLimitInfo } from '../services/githubAnalyzer';
@@ -31,6 +32,7 @@ interface HeaderProps {
   archetype?: ArchetypeId;
   grade?: string;
   onDownloadReadme?: () => void;
+  onOpenResumeModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -46,6 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
   archetype,
   grade,
   onDownloadReadme,
+  onOpenResumeModal,
 }) => {
   const t = translations[locale];
   const isAr = locale === 'ar';
@@ -163,6 +166,23 @@ export const Header: React.FC<HeaderProps> = ({
             <Activity className={`w-3 h-3 ${rateLimit.remaining < 10 ? 'text-red-500 animate-pulse' : 'text-emerald-500'}`} />
             <span>{rateLimit.remaining}/{rateLimit.limit}</span>
           </div>
+        )}
+
+        {/* Resume Ingestion AI Action Button */}
+        {onOpenResumeModal && (
+          <button
+            type="button"
+            onClick={onOpenResumeModal}
+            title={t.resumeModal.button}
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-[var(--accent)]/30 bg-gradient-to-r from-[var(--accent)]/10 to-purple-500/10 hover:from-[var(--accent)]/20 hover:to-purple-500/20 text-[var(--accent)] font-medium text-xs transition-all min-h-[34px] shadow-2xs"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" />
+            <span className="hidden sm:inline font-semibold">{t.resumeModal.button}</span>
+            <span className="sm:hidden">{isAr ? 'الـ CV' : 'Resume'}</span>
+            <span className="hidden md:inline text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-[var(--accent)] text-white font-bold">
+              AI
+            </span>
+          </button>
         )}
 
         {/* Quick Download README.md action */}

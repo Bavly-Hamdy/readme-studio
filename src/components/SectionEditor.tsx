@@ -9,6 +9,12 @@ import {
   HeaderStyle,
   BannerPattern,
   BannerTheme,
+  ExperienceItem,
+  ExperienceSectionData,
+  EducationItem,
+  EducationSectionData,
+  CertificationItem,
+  CertificationsSectionData,
 } from '../types';
 import { SectionKey } from './SidebarSections';
 import { translations } from '../i18n/translations';
@@ -40,6 +46,10 @@ import {
   CheckCircle2,
   Loader2,
   ShieldCheck,
+  Briefcase,
+  GraduationCap,
+  Award,
+  FileText,
 } from 'lucide-react';
 import { generateDeveloperBioWithGemini, getActiveGeminiKey } from '../services/geminiService';
 import { ProfileAnalytics } from '../types';
@@ -53,6 +63,7 @@ interface SectionEditorProps {
   repos: GitHubRepository[];
   analytics?: ProfileAnalytics | null;
   onResetToDefaults?: () => void;
+  onOpenResumeModal?: () => void;
 }
 
 export const SectionEditor: React.FC<SectionEditorProps> = ({
@@ -64,6 +75,7 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
   repos,
   analytics,
   onResetToDefaults,
+  onOpenResumeModal,
 }) => {
   const t = translations[locale];
   const isAr = locale === 'ar';
@@ -1632,6 +1644,600 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                 onChange={(e) => updateSectionData('analytics', { languageLimit: parseInt(e.target.value) || 8 })}
                 className="w-full sm:w-64 accent-[var(--accent)]"
               />
+            </div>
+          </div>
+        )}
+
+        {/* --- 5B. EXPERIENCE SECTION EDITOR --- */}
+        {activeSection === 'experience' && (
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[var(--border)]">
+              <div>
+                <h3 className="font-serif text-lg font-medium text-[var(--text)] flex items-center gap-2">
+                  <Briefcase className="w-5 h-5 text-sky-500" />
+                  <span>{(t.editor as any).experienceTitle || 'Work Experience'}</span>
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  {(t.editor as any).experienceNotice || 'Highlight relevant engineering roles, internships, and technical impact.'}
+                </p>
+              </div>
+
+              {onOpenResumeModal && (
+                <button
+                  type="button"
+                  onClick={onOpenResumeModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] text-[var(--accent)] hover:bg-[var(--accent)]/15 text-xs font-semibold transition-all shrink-0 self-start sm:self-auto"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{(t.editor as any).importFromResume || 'Import from Resume / CV'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Experience Items List */}
+            <div className="space-y-4">
+              {(config.experience?.data?.items || []).map((item, idx) => (
+                <div
+                  key={item.id || idx}
+                  className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/50 space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-semibold text-[var(--accent)]">
+                      #{idx + 1} {item.role || 'Role'} {item.company ? `@ ${item.company}` : ''}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextItems = (config.experience?.data?.items || []).filter((_, i) => i !== idx);
+                        onChangeConfig({
+                          ...config,
+                          experience: {
+                            enabled: config.experience?.enabled ?? true,
+                            data: {
+                              style: config.experience?.data?.style || 'timeline',
+                              items: nextItems,
+                            },
+                          },
+                        });
+                      }}
+                      className="p-1 rounded text-[var(--text-subtle)] hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                      title={t.common.delete}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).expRole || 'Role / Job Title'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.role}
+                        onChange={(e) => {
+                          const nextItems = [...(config.experience?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], role: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            experience: {
+                              enabled: config.experience?.enabled ?? true,
+                              data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. Machine Learning Engineer"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).expCompany || 'Company / Organization'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.company}
+                        onChange={(e) => {
+                          const nextItems = [...(config.experience?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], company: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            experience: {
+                              enabled: config.experience?.enabled ?? true,
+                              data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. ITI / Siemens / Independent"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).expPeriod || 'Period'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.period}
+                        onChange={(e) => {
+                          const nextItems = [...(config.experience?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], period: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            experience: {
+                              enabled: config.experience?.enabled ?? true,
+                              data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. 2023 - Present"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).expLocation || 'Location'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.location || ''}
+                        onChange={(e) => {
+                          const nextItems = [...(config.experience?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], location: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            experience: {
+                              enabled: config.experience?.enabled ?? true,
+                              data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. Cairo, Egypt (or Remote)"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                      {(t.editor as any).expHighlights || 'Key Highlights / Achievements (one per line)'}
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={(item.highlights || []).join('\n')}
+                      onChange={(e) => {
+                        const lines = e.target.value.split('\n').filter(l => l.trim().length > 0);
+                        const nextItems = [...(config.experience?.data?.items || [])];
+                        nextItems[idx] = { ...nextItems[idx], highlights: lines };
+                        onChangeConfig({
+                          ...config,
+                          experience: {
+                            enabled: config.experience?.enabled ?? true,
+                            data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                          },
+                        });
+                      }}
+                      placeholder="• Built end-to-end model pipeline..."
+                      className="w-full p-2 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)] font-sans"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                      {(t.editor as any).expTech || 'Technologies Used (comma separated)'}
+                    </label>
+                    <input
+                      type="text"
+                      value={(item.technologies || []).join(', ')}
+                      onChange={(e) => {
+                        const tags = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                        const nextItems = [...(config.experience?.data?.items || [])];
+                        nextItems[idx] = { ...nextItems[idx], technologies: tags };
+                        onChangeConfig({
+                          ...config,
+                          experience: {
+                            enabled: config.experience?.enabled ?? true,
+                            data: { style: config.experience?.data?.style || 'timeline', items: nextItems },
+                          },
+                        });
+                      }}
+                      placeholder="Python, PyTorch, Docker, ROS2"
+                      className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)] font-mono"
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const currentItems = config.experience?.data?.items || [];
+                  const newItem: ExperienceItem = {
+                    id: `exp-${currentItems.length + 1}`,
+                    role: isAr ? 'مهندس برمجيات' : 'Software Engineer',
+                    company: isAr ? 'شركة تقنية' : 'Tech Company',
+                    period: isAr ? '2023 - حتى الآن' : '2023 - Present',
+                    location: '',
+                    highlights: [],
+                    technologies: [],
+                  };
+                  onChangeConfig({
+                    ...config,
+                    experience: {
+                      enabled: true,
+                      data: {
+                        style: config.experience?.data?.style || 'timeline',
+                        items: [...currentItems, newItem],
+                      },
+                    },
+                  });
+                }}
+                className="w-full py-2.5 rounded-xl border border-dashed border-[var(--border)] hover:border-[var(--accent)] text-xs text-[var(--text-muted)] hover:text-[var(--text)] flex items-center justify-center gap-1.5 transition-all"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>{(t.editor as any).addExperience || 'Add Experience'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* --- 5C. EDUCATION SECTION EDITOR --- */}
+        {activeSection === 'education' && (
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[var(--border)]">
+              <div>
+                <h3 className="font-serif text-lg font-medium text-[var(--text)] flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-indigo-500" />
+                  <span>{(t.editor as any).educationTitle || 'Education & Academic Background'}</span>
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  {(t.editor as any).educationNotice || 'Add academic degrees, universities, and graduation honors.'}
+                </p>
+              </div>
+
+              {onOpenResumeModal && (
+                <button
+                  type="button"
+                  onClick={onOpenResumeModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] text-[var(--accent)] hover:bg-[var(--accent)]/15 text-xs font-semibold transition-all shrink-0 self-start sm:self-auto"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{(t.editor as any).importFromResume || 'Import from Resume / CV'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Education Items List */}
+            <div className="space-y-4">
+              {(config.education?.data?.items || []).map((item, idx) => (
+                <div
+                  key={item.id || idx}
+                  className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/50 space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-semibold text-[var(--accent)]">
+                      #{idx + 1} {item.degree || 'Degree'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextItems = (config.education?.data?.items || []).filter((_, i) => i !== idx);
+                        onChangeConfig({
+                          ...config,
+                          education: {
+                            enabled: config.education?.enabled ?? true,
+                            data: { items: nextItems },
+                          },
+                        });
+                      }}
+                      className="p-1 rounded text-[var(--text-subtle)] hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                      title={t.common.delete}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).eduDegree || 'Degree Title'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.degree}
+                        onChange={(e) => {
+                          const nextItems = [...(config.education?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], degree: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            education: {
+                              enabled: config.education?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. B.Sc. in Software Engineering"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).eduInstitution || 'University / Institution'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.institution}
+                        onChange={(e) => {
+                          const nextItems = [...(config.education?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], institution: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            education: {
+                              enabled: config.education?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. Helwan University"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).eduPeriod || 'Years'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.period}
+                        onChange={(e) => {
+                          const nextItems = [...(config.education?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], period: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            education: {
+                              enabled: config.education?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. 2020 - 2024"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).eduGrade || 'Grade / Honors'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.gradeOrGpa || ''}
+                        onChange={(e) => {
+                          const nextItems = [...(config.education?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], gradeOrGpa: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            education: {
+                              enabled: config.education?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. Very Good (GPA: 3.4)"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const currentItems = config.education?.data?.items || [];
+                  const newItem: EducationItem = {
+                    id: `edu-${currentItems.length + 1}`,
+                    institution: isAr ? 'جامعة حلوان' : 'Faculty of Computers and AI',
+                    degree: isAr ? 'بكالوريوس هندسة البرمجيات' : 'B.Sc. in Software Engineering',
+                    period: '2020 - 2024',
+                  };
+                  onChangeConfig({
+                    ...config,
+                    education: {
+                      enabled: true,
+                      data: { items: [...currentItems, newItem] },
+                    },
+                  });
+                }}
+                className="w-full py-2.5 rounded-xl border border-dashed border-[var(--border)] hover:border-[var(--accent)] text-xs text-[var(--text-muted)] hover:text-[var(--text)] flex items-center justify-center gap-1.5 transition-all"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>{(t.editor as any).addEducation || 'Add Education'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* --- 5D. CERTIFICATIONS SECTION EDITOR --- */}
+        {activeSection === 'certifications' && (
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[var(--border)]">
+              <div>
+                <h3 className="font-serif text-lg font-medium text-[var(--text)] flex items-center gap-2">
+                  <Award className="w-5 h-5 text-emerald-500" />
+                  <span>{(t.editor as any).certificationsTitle || 'Licenses & Certifications'}</span>
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  {(t.editor as any).certificationsNotice || 'Showcase verified certifications, specializations, and professional courses.'}
+                </p>
+              </div>
+
+              {onOpenResumeModal && (
+                <button
+                  type="button"
+                  onClick={onOpenResumeModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent-soft)] text-[var(--accent)] hover:bg-[var(--accent)]/15 text-xs font-semibold transition-all shrink-0 self-start sm:self-auto"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{(t.editor as any).importFromResume || 'Import from Resume / CV'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Certifications Items List */}
+            <div className="space-y-4">
+              {(config.certifications?.data?.items || []).map((item, idx) => (
+                <div
+                  key={item.id || idx}
+                  className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/50 space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-semibold text-[var(--accent)]">
+                      #{idx + 1} {item.name || 'Certification'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextItems = (config.certifications?.data?.items || []).filter((_, i) => i !== idx);
+                        onChangeConfig({
+                          ...config,
+                          certifications: {
+                            enabled: config.certifications?.enabled ?? true,
+                            data: { items: nextItems },
+                          },
+                        });
+                      }}
+                      className="p-1 rounded text-[var(--text-subtle)] hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                      title={t.common.delete}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).certName || 'Certification Name'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={(e) => {
+                          const nextItems = [...(config.certifications?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], name: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            certifications: {
+                              enabled: config.certifications?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. Deep Learning Specialization"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).certIssuer || 'Issuing Organization'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.issuer}
+                        onChange={(e) => {
+                          const nextItems = [...(config.certifications?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], issuer: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            certifications: {
+                              enabled: config.certifications?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. DeepLearning.AI / Coursera / ITI"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).certYear || 'Year'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.year || ''}
+                        onChange={(e) => {
+                          const nextItems = [...(config.certifications?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], year: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            certifications: {
+                              enabled: config.certifications?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="e.g. 2024"
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[var(--text-muted)] mb-1">
+                        {(t.editor as any).certUrl || 'Credential URL (Optional)'}
+                      </label>
+                      <input
+                        type="text"
+                        value={item.url || ''}
+                        onChange={(e) => {
+                          const nextItems = [...(config.certifications?.data?.items || [])];
+                          nextItems[idx] = { ...nextItems[idx], url: e.target.value };
+                          onChangeConfig({
+                            ...config,
+                            certifications: {
+                              enabled: config.certifications?.enabled ?? true,
+                              data: { items: nextItems },
+                            },
+                          });
+                        }}
+                        placeholder="https://coursera.org/verify/..."
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] rounded outline-none focus:border-[var(--accent)] font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const currentItems = config.certifications?.data?.items || [];
+                  const newItem: CertificationItem = {
+                    id: `cert-${currentItems.length + 1}`,
+                    name: isAr ? 'شهادة مسار المصادر المفتوحة والذكاء الاصطناعي' : 'Open Source & AI Track Graduate',
+                    issuer: isAr ? 'معهد تكنولوجيا المعلومات (ITI)' : 'Information Technology Institute (ITI)',
+                    year: '2024',
+                  };
+                  onChangeConfig({
+                    ...config,
+                    certifications: {
+                      enabled: true,
+                      data: { items: [...currentItems, newItem] },
+                    },
+                  });
+                }}
+                className="w-full py-2.5 rounded-xl border border-dashed border-[var(--border)] hover:border-[var(--accent)] text-xs text-[var(--text-muted)] hover:text-[var(--text)] flex items-center justify-center gap-1.5 transition-all"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>{(t.editor as any).addCertification || 'Add Certification'}</span>
+              </button>
             </div>
           </div>
         )}

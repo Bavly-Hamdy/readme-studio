@@ -24,6 +24,7 @@ import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 import { PublishModal } from './components/PublishModal';
 import { TokenGuideModal } from './components/TokenGuideModal';
 import { SettingsModal } from './components/SettingsModal';
+import { ResumeModal } from './components/ResumeModal';
 import { LandingPage } from './components/LandingPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { DEMO_PROFILES, rankTopProjects } from './services/github';
@@ -113,6 +114,7 @@ export default function App() {
   const [isPublishOpen, setIsPublishOpen] = useState(false);
   const [isTokenGuideOpen, setIsTokenGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   // Synchronize document dir and class on theme/locale change
   useEffect(() => {
@@ -194,6 +196,25 @@ export default function App() {
           items: detected,
         },
       },
+      experience: {
+        enabled: false,
+        data: {
+          style: 'timeline',
+          items: [],
+        },
+      },
+      education: {
+        enabled: false,
+        data: {
+          items: [],
+        },
+      },
+      certifications: {
+        enabled: false,
+        data: {
+          items: [],
+        },
+      },
       projects: {
         enabled: topProjects.length > 0,
         data: {
@@ -264,18 +285,34 @@ export default function App() {
   // Initialize Config from saved draft or freshly generated
   const [config, setConfig] = useState<ProfileSectionsConfig>(() => {
     const active = (localStorage.getItem('readme_studio_active_user') || 'bavly-hamdy').toLowerCase();
+    const defaultProfile = DEMO_PROFILES[active]?.profile || DEMO_PROFILES['bavly-hamdy'].profile;
+    const defaultRepos = DEMO_PROFILES[active]?.repos || DEMO_PROFILES['bavly-hamdy'].repos;
+    const initialDefault = createInitialConfig(defaultProfile, defaultRepos);
+
     const savedDraft = localStorage.getItem(`readme_studio_draft_${active}`);
     if (savedDraft && !isStaleDraft(savedDraft)) {
       try {
-        return JSON.parse(savedDraft);
+        const parsed = JSON.parse(savedDraft);
+        return {
+          ...initialDefault,
+          ...parsed,
+          header: parsed.header || initialDefault.header,
+          about: parsed.about || initialDefault.about,
+          techStack: parsed.techStack || initialDefault.techStack,
+          experience: parsed.experience || initialDefault.experience,
+          education: parsed.education || initialDefault.education,
+          certifications: parsed.certifications || initialDefault.certifications,
+          projects: parsed.projects || initialDefault.projects,
+          analytics: parsed.analytics || initialDefault.analytics,
+          stats: parsed.stats || initialDefault.stats,
+          connect: parsed.connect || initialDefault.connect,
+        };
       } catch {
         // malformed draft fallback
       }
     }
 
-    const defaultProfile = DEMO_PROFILES[active]?.profile || DEMO_PROFILES['bavly-hamdy'].profile;
-    const defaultRepos = DEMO_PROFILES[active]?.repos || DEMO_PROFILES['bavly-hamdy'].repos;
-    return createInitialConfig(defaultProfile, defaultRepos);
+    return initialDefault;
   });
 
   // Auto-save user edits to persistent draft (debounced)
@@ -450,6 +487,7 @@ export default function App() {
           archetype={analytics?.archetype}
           grade={analytics?.scores.grade}
           onDownloadReadme={handleDownloadReadme}
+          onOpenResumeModal={() => setIsResumeOpen(true)}
         />
 
         {/* Username Ingestion & Progress Bar */}
@@ -566,6 +604,7 @@ export default function App() {
                   repos={repos}
                   analytics={analytics}
                   onResetToDefaults={handleResetToFreshData}
+                  onOpenResumeModal={() => setIsResumeOpen(true)}
                 />
               </div>
 
@@ -599,6 +638,22 @@ export default function App() {
             </main>
           </>
         )}
+
+        {/* Resume & CV AI Ingestion and Fusion Modal */}
+        <ResumeModal
+          isOpen={isResumeOpen}
+          onClose={() => setIsResumeOpen(false)}
+          locale={locale}
+          profile={profile}
+          repos={repos}
+          analytics={analytics}
+          currentConfig={config}
+          onApplyConfig={(updatedConfig) => {
+            setConfig(updatedConfig);
+            setActiveView('builder');
+            setActiveSection('experience');
+          }}
+        />
 
         {/* Publish Modal (Atomic GitHub Commits + Backups) */}
         <PublishModal
