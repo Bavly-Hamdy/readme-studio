@@ -17,7 +17,7 @@ export const ALL_TECH_CATALOG: TechCatalogItem[] = [
   { id: 'go', name: 'Go', category: 'languages', badgeSlug: 'go', color: '00ADD8', keywords: ['golang', 'go-lang'] },
   { id: 'rust', name: 'Rust', category: 'languages', badgeSlug: 'rust', color: '000000', keywords: ['rust', 'cargo', 'rustlang'] },
   { id: 'java', name: 'Java', category: 'languages', badgeSlug: 'openjdk', color: 'ED8B00', keywords: ['java'] },
-  { id: 'cpp', name: 'C++', category: 'languages', badgeSlug: 'cplusplus', color: '00599C', keywords: ['c++', 'cpp'] },
+  { id: 'cpp', name: 'C++', category: 'languages', badgeSlug: 'cplusplus', color: '00599C', keywords: ['c++', 'cpp', 'cplusplus', 'oop'] },
   { id: 'c', name: 'C', category: 'languages', badgeSlug: 'c', color: 'A8B9CC', keywords: ['c-lang', 'clanguage'] },
   { id: 'csharp', name: 'C#', category: 'languages', badgeSlug: 'csharp', color: '239120', keywords: ['c#', 'csharp', 'dotnet'] },
   { id: 'php', name: 'PHP', category: 'languages', badgeSlug: 'php', color: '777BB4', keywords: ['php'] },
@@ -34,7 +34,7 @@ export const ALL_TECH_CATALOG: TechCatalogItem[] = [
   { id: 'haskell', name: 'Haskell', category: 'languages', badgeSlug: 'haskell', color: '5D4F85', keywords: ['haskell'] },
   { id: 'solidity', name: 'Solidity', category: 'languages', badgeSlug: 'solidity', color: '363636', keywords: ['solidity', 'smart-contracts', 'evm'] },
   { id: 'zig', name: 'Zig', category: 'languages', badgeSlug: 'zig', color: 'F7A41D', keywords: ['zig'] },
-  { id: 'bash', name: 'Bash / Shell', category: 'languages', badgeSlug: 'gnubash', color: '4EAA25', keywords: ['bash', 'shell-script', 'sh'] },
+  { id: 'bash', name: 'Bash / Shell', category: 'languages', badgeSlug: 'gnubash', color: '4EAA25', keywords: ['bash', 'shell-script', 'sh', 'shell'] },
   { id: 'powershell', name: 'PowerShell', category: 'languages', badgeSlug: 'powershell', color: '5391FE', keywords: ['powershell', 'ps1'] },
   { id: 'html5', name: 'HTML5', category: 'languages', badgeSlug: 'html5', color: 'E34F26', keywords: ['html', 'html5'] },
   { id: 'css3', name: 'CSS3', category: 'languages', badgeSlug: 'css3', color: '1572B6', keywords: ['css', 'css3'] },
@@ -74,7 +74,7 @@ export const ALL_TECH_CATALOG: TechCatalogItem[] = [
   { id: 'django', name: 'Django', category: 'backend', badgeSlug: 'django', color: '092E20', keywords: ['django'] },
   { id: 'flask', name: 'Flask', category: 'backend', badgeSlug: 'flask', color: '000000', keywords: ['flask'] },
   { id: 'spring', name: 'Spring Boot', category: 'backend', badgeSlug: 'springboot', color: '6DB33F', keywords: ['spring', 'springboot'] },
-  { id: 'laravel', name: 'Laravel', category: 'backend', badgeSlug: 'laravel', color: 'FF2D20', keywords: ['laravel'] },
+  { id: 'laravel', name: 'Laravel', category: 'backend', badgeSlug: 'laravel', color: 'FF2D20', keywords: ['laravel', 'blade'] },
   { id: 'rails', name: 'Ruby on Rails', category: 'backend', badgeSlug: 'rubyonrails', color: 'CC0000', keywords: ['rails', 'rubyonrails'] },
   { id: 'dotnet', name: '.NET / ASP.NET', category: 'backend', badgeSlug: 'dotnet', color: '512BD4', keywords: ['aspnet', 'asp.net', 'dotnet'] },
   { id: 'trpc', name: 'tRPC', category: 'backend', badgeSlug: 'trpc', color: '2596BE', keywords: ['trpc'] },
@@ -110,7 +110,7 @@ export const ALL_TECH_CATALOG: TechCatalogItem[] = [
   { id: 'cockroachdb', name: 'CockroachDB', category: 'database', badgeSlug: 'cockroachlabs', color: '6933FF', keywords: ['cockroach'] },
 
   // ===================== 6. DEVOPS, CLOUD & SERVERS =====================
-  { id: 'docker', name: 'Docker', category: 'devops', badgeSlug: 'docker', color: '2496ED', keywords: ['docker', 'container'] },
+  { id: 'docker', name: 'Docker', category: 'devops', badgeSlug: 'docker', color: '2496ED', keywords: ['docker', 'container', 'orchestration'] },
   { id: 'kubernetes', name: 'Kubernetes', category: 'devops', badgeSlug: 'kubernetes', color: '326CE5', keywords: ['kubernetes', 'k8s'] },
   { id: 'aws', name: 'AWS', category: 'devops', badgeSlug: 'amazonwebservices', color: '232F3E', keywords: ['aws', 'amazon', 'lambda', 's3', 'ec2'] },
   { id: 'gcp', name: 'Google Cloud', category: 'devops', badgeSlug: 'googlecloud', color: '4285F4', keywords: ['gcp', 'google-cloud', 'googlecloud'] },
@@ -132,20 +132,20 @@ export const ALL_TECH_CATALOG: TechCatalogItem[] = [
   { id: 'grafana', name: 'Grafana', category: 'devops', badgeSlug: 'grafana', color: 'F46800', keywords: ['grafana'] },
 
   // ===================== 7. ML, DL & AI =====================
-  { id: 'gemini', name: 'Google Gemini', category: 'ml_ai', badgeSlug: 'googlegemini', color: '4285F4', keywords: ['gemini', 'google-gemini', 'gemini-flash', 'gemini-ai', 'google-ai', 'genai'] },
+  { id: 'gemini', name: 'Google Gemini', category: 'ml_ai', badgeSlug: 'googlegemini', color: '4285F4', keywords: ['gemini', 'google-gemini', 'gemini-flash', 'gemini-ai', 'google-ai', 'genai', 'hackathon_2026', 'ai_hackathon'] },
   { id: 'openai', name: 'OpenAI', category: 'ml_ai', badgeSlug: 'openai', color: '412991', keywords: ['openai', 'chatgpt', 'gpt-4', 'gpt4', 'gpt-3'] },
   { id: 'claude', name: 'Anthropic Claude', category: 'ml_ai', badgeSlug: 'anthropic', color: 'D97757', keywords: ['claude', 'anthropic'] },
   { id: 'streamlit', name: 'Streamlit', category: 'ml_ai', badgeSlug: 'streamlit', color: 'FF4B4B', keywords: ['streamlit', 'streamlit-app'] },
-  { id: 'pytorch', name: 'PyTorch', category: 'ml_ai', badgeSlug: 'pytorch', color: 'EE4C2C', keywords: ['pytorch', 'torch'] },
+  { id: 'pytorch', name: 'PyTorch', category: 'ml_ai', badgeSlug: 'pytorch', color: 'EE4C2C', keywords: ['pytorch', 'torch', 'lstm', 'bilstm', 'deep-learning'] },
   { id: 'tensorflow', name: 'TensorFlow', category: 'ml_ai', badgeSlug: 'tensorflow', color: 'FF6F00', keywords: ['tensorflow', 'tf'] },
   { id: 'keras', name: 'Keras', category: 'ml_ai', badgeSlug: 'keras', color: 'D00000', keywords: ['keras'] },
-  { id: 'scikitlearn', name: 'Scikit-Learn', category: 'ml_ai', badgeSlug: 'scikitlearn', color: 'F7931E', keywords: ['scikit', 'sklearn', 'scikit-learn'] },
+  { id: 'scikitlearn', name: 'Scikit-Learn', category: 'ml_ai', badgeSlug: 'scikitlearn', color: 'F7931E', keywords: ['scikit', 'sklearn', 'scikit-learn', 'prediction', 'forecasting'] },
   { id: 'pandas', name: 'Pandas', category: 'ml_ai', badgeSlug: 'pandas', color: '150458', keywords: ['pandas'] },
   { id: 'numpy', name: 'NumPy', category: 'ml_ai', badgeSlug: 'numpy', color: '013243', keywords: ['numpy'] },
-  { id: 'opencv', name: 'OpenCV', category: 'ml_ai', badgeSlug: 'opencv', color: '5C3EE8', keywords: ['opencv'] },
+  { id: 'opencv', name: 'OpenCV', category: 'ml_ai', badgeSlug: 'opencv', color: '5C3EE8', keywords: ['opencv', 'cv2', 'color-detector', 'computer-vision'] },
   { id: 'huggingface', name: 'Hugging Face', category: 'ml_ai', badgeSlug: 'huggingface', color: 'FFD21E', keywords: ['huggingface', 'transformers'] },
-  { id: 'langchain', name: 'LangChain', category: 'ml_ai', badgeSlug: 'langchain', color: '1C3C3C', keywords: ['langchain'] },
-  { id: 'jupyter', name: 'Jupyter', category: 'ml_ai', badgeSlug: 'jupyter', color: 'F37626', keywords: ['jupyter', 'ipynb'] },
+  { id: 'langchain', name: 'LangChain', category: 'ml_ai', badgeSlug: 'langchain', color: '1C3C3C', keywords: ['langchain', 'rag', 'vector-search', 'agentic-ai', 'agentic'] },
+  { id: 'jupyter', name: 'Jupyter', category: 'ml_ai', badgeSlug: 'jupyter', color: 'F37626', keywords: ['jupyter', 'ipynb', 'notebook'] },
 
   // ===================== 8. TESTING =====================
   { id: 'jest', name: 'Jest', category: 'testing', badgeSlug: 'jest', color: 'C21325', keywords: ['jest'] },
@@ -190,6 +190,8 @@ const LANGUAGE_NAME_MAP: Record<string, string> = {
   rust: 'rust',
   java: 'java',
   'c++': 'cpp',
+  cpp: 'cpp',
+  cplusplus: 'cpp',
   c: 'c',
   'c#': 'csharp',
   php: 'php',
@@ -212,30 +214,40 @@ const LANGUAGE_NAME_MAP: Record<string, string> = {
   html: 'html5',
   css: 'css3',
   scss: 'sass',
+  sass: 'sass',
+  blade: 'laravel',
+  'jupyter notebook': 'jupyter',
 };
 
 /**
  * Intelligent and deterministic Tech Stack detection:
- * 1. 100% direct verification from GitHub repository primary languages.
+ * 1. 100% direct verification from GitHub repository primary and secondary languages.
  * 2. High-confidence verification from repository topic tags.
- * 3. Strict word-boundary matching on repo names and descriptions (avoids false-positives like 'ai' -> Illustrator or 'go' -> Go).
+ * 3. Exact tokenized matching on repository names and descriptions.
  * 4. Ranks detected tech by frequency of occurrence across the developer's repositories.
  */
 export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
   const detectedWeights = new Map<string, number>();
 
   for (const repo of repos) {
-    const isLabOrHomework = /\b(lab|labs|homework|test|task|exercise|tutorial)\b/i.test(repo.name);
-    // Discount lab repositories if the developer has many real projects
-    const weightFactor = isLabOrHomework && repos.length > 8 ? 0.4 : 1.0;
-
     // 1. Direct language check (10 points per repo)
     if (repo.language) {
       const normalizedLang = repo.language.toLowerCase().trim();
       const mappedId = LANGUAGE_NAME_MAP[normalizedLang];
       if (mappedId) {
-        const pts = Math.round(10 * weightFactor);
-        detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + pts);
+        detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + 10);
+      }
+    }
+
+    // Secondary languages in repository byte breakdown (5 points per significant language >1KB)
+    if (repo.languages) {
+      for (const [lang, bytes] of Object.entries(repo.languages)) {
+        if (bytes > 1000) {
+          const mappedId = LANGUAGE_NAME_MAP[lang.toLowerCase().trim()];
+          if (mappedId) {
+            detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + 5);
+          }
+        }
       }
     }
 
@@ -249,25 +261,30 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
             tech.badgeSlug === t ||
             tech.keywords.includes(t)
           ) {
-            const pts = Math.round(8 * weightFactor);
-            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + pts);
+            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
           }
         }
       }
     }
 
-    // 3. Name & Description matching with strict tokenization (3 points per repo)
-    const textBlob = `${repo.name || ''} ${repo.description || ''}`.toLowerCase();
+    // 3. Name & Description matching with strict tokenization
+    const nameStr = (repo.name || '').toLowerCase();
+    const descStr = (repo.description || '').toLowerCase();
+
     for (const tech of ALL_TECH_CATALOG) {
-      // Skip single letter or short keywords from text blob matching
       for (const kw of tech.keywords) {
-        if (kw.length <= 2 && !['ts', 'js', 'py'].includes(kw)) {
-          continue; // Guard against 'c', 'r', 'ai', 'sh' matching English text
+        // Skip single letter or short keywords unless explicitly recognized
+        if (kw.length <= 2 && !['ts', 'js', 'py', 'sh', 'c++'].includes(kw)) {
+          continue;
         }
-        const regex = new RegExp(`(^|[^a-z0-9])${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^a-z0-9]|$)`, 'i');
-        if (regex.test(textBlob)) {
-          const pts = Math.round(3 * weightFactor);
-          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + pts);
+        const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, 'i');
+
+        if (regex.test(nameStr)) {
+          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
+          break;
+        } else if (regex.test(descStr)) {
+          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 4);
           break;
         }
       }
@@ -285,11 +302,11 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
     ['git', 'github_tool'].forEach(id => detectedWeights.set(id, 10));
   }
 
-  // Return catalog with high-confidence items enabled (weight >= 7)
+  // Return catalog with high-confidence items enabled (weight >= 5)
   const items = ALL_TECH_CATALOG.map(tech => {
     const weight = detectedWeights.get(tech.id) ?? 0;
-    // An item is auto-enabled only if it has solid evidence (weight >= 7, or top 5 if very few)
-    const enabled = weight >= 7;
+    // An item is auto-enabled if it has solid evidence (weight >= 5)
+    const enabled = weight >= 5;
     return {
       id: tech.id,
       name: tech.name,

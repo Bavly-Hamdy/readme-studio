@@ -44,6 +44,7 @@ export interface GitHubRepository {
   watchers_count?: number;
   open_issues_count?: number;
   license?: string | null;
+  languages?: Record<string, number>;
 }
 
 /* ------------------------------------------------------------------ */

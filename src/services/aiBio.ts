@@ -41,20 +41,26 @@ export function inferDeveloperPersona(
     if (r.language) {
       langCounts.set(r.language, (langCounts.get(r.language) ?? 0) + 1);
     }
+    if (r.languages) {
+      for (const [l, b] of Object.entries(r.languages)) {
+        if (b > 2000 && l !== r.language) {
+          langCounts.set(l, (langCounts.get(l) ?? 0) + 0.5);
+        }
+      }
+    }
   }
 
-  // Sort languages strictly by repository count descending
-  // Filter out one-off outlier languages (like a single lab repo) if developer has many repos
-  const sortedLangsWithCount = [...langCounts.entries()].sort((a, b) => b[1] - a[1]);
+  // Sort languages strictly by repository count descending, prioritizing core programming languages over markup
+  const markupLangs = new Set(['HTML', 'CSS', 'SCSS', 'Sass', 'Less']);
+  const sortedLangsWithCount = [...langCounts.entries()].sort((a, b) => {
+    const aIsMarkup = markupLangs.has(a[0]) ? 1 : 0;
+    const bIsMarkup = markupLangs.has(b[0]) ? 1 : 0;
+    if (aIsMarkup !== bIsMarkup) return aIsMarkup - bIsMarkup;
+    return b[1] - a[1];
+  });
   const dominantLanguages = sortedLangsWithCount
-    .filter(([_, count]) => repos.length <= 4 || count >= 2 || (count / repos.length) >= 0.1)
-    .map(([lang]) => lang)
-    .slice(0, 4);
-
-  // If filter was too strict, fallback to top 3 sorted
-  if (dominantLanguages.length === 0) {
-    dominantLanguages.push(...sortedLangsWithCount.slice(0, 3).map(([l]) => l));
-  }
+    .slice(0, 5)
+    .map(([lang]) => lang);
 
   // 2. Collect and analyze text corpus from repo names, descriptions, and topics
   const repoCorpus = repos

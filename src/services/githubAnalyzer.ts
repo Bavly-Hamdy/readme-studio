@@ -656,7 +656,7 @@ export function computeAnalytics(input: {
   const langBytes = new Map<string, number>();
   const langRepos = new Map<string, number>();
   owned.forEach(r => {
-    const bytes = languageBytes.get(r.id);
+    const bytes = languageBytes.get(r.id) ?? r.languages;
     if (bytes && Object.keys(bytes).length > 0) {
       Object.entries(bytes).forEach(([lang, b]) => {
         langBytes.set(lang, (langBytes.get(lang) ?? 0) + b);
