@@ -94,14 +94,10 @@ export const Header: React.FC<HeaderProps> = ({
                 e.stopPropagation();
                 onOpenWhatsNew?.();
               }}
-              title={isAr ? 'ما الجديد في الإصدار 2.0؟' : "What's new in v2.0?"}
-              className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-500/20 via-[var(--accent)]/20 to-purple-500/20 text-[var(--accent)] hover:scale-105 active:scale-95 font-bold border border-[var(--accent)]/40 transition-all cursor-pointer shadow-xs"
+              title={isAr ? 'سجل التحديثات v2.0' : 'Release notes v2.0'}
+              className="text-[11px] font-mono px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-all cursor-pointer font-medium"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping" />
-              <span>v2.0</span>
-              <span className="hidden sm:inline text-[9px] px-1 py-0.2 rounded-xs bg-[var(--accent)] text-white font-semibold uppercase">
-                {isAr ? 'جديد' : 'NEW'}
-              </span>
+              v2.0
             </button>
           </div>
         </button>
@@ -182,20 +178,17 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         )}
 
-        {/* Resume Ingestion AI Action Button */}
+        {/* Resume Ingestion Action Button */}
         {onOpenResumeModal && (
           <button
             type="button"
             onClick={onOpenResumeModal}
             title={t.resumeModal.button}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-[var(--accent)]/30 bg-gradient-to-r from-[var(--accent)]/10 to-purple-500/10 hover:from-[var(--accent)]/20 hover:to-purple-500/20 text-[var(--accent)] font-medium text-xs transition-all min-h-[34px] shadow-2xs"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] font-medium text-xs transition-all min-h-[34px]"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" />
-            <span className="hidden sm:inline font-semibold">{t.resumeModal.button}</span>
+            <FileText className="w-3.5 h-3.5 text-[var(--accent)]" />
+            <span className="hidden sm:inline">{t.resumeModal.button}</span>
             <span className="sm:hidden">{isAr ? 'الـ CV' : 'Resume'}</span>
-            <span className="hidden md:inline text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-[var(--accent)] text-white font-bold">
-              AI
-            </span>
           </button>
         )}
 

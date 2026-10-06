@@ -177,16 +177,16 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
         {/* Modal Header */}
         <div className="px-5 sm:px-7 py-4.5 border-b border-[var(--border)] flex items-center justify-between bg-[var(--surface-2)]/50 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[var(--accent)] to-purple-600 flex items-center justify-center text-white shadow-sm">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl border border-[var(--border)] bg-[var(--surface)] flex items-center justify-center text-[var(--accent)] shadow-2xs">
+              <FileText className="w-4.5 h-4.5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-serif text-base sm:text-lg font-semibold text-[var(--text)]">
                   {rm.title}
                 </h2>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/20">
-                  Gemini 3.8 Flash
+                <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)]">
+                  v2.0 Ingest
                 </span>
               </div>
               <p className="text-xs text-[var(--text-muted)] mt-0.5 line-clamp-1">
