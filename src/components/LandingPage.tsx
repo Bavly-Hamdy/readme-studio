@@ -1006,7 +1006,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="text-center sm:text-start flex flex-col md:flex-row items-center gap-8">
             <div className="relative shrink-0">
               <img
-                src={creatorProfile.avatar_url || 'https://avatars.githubusercontent.com/u/108342478?v=4'}
+                src={creatorProfile.avatar_url || 'https://avatars.githubusercontent.com/u/100946403?v=4'}
                 alt="Bavly Hamdy"
                 className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl object-cover border-2 border-[var(--border)] shadow-xl"
               />

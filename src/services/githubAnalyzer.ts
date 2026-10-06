@@ -113,7 +113,7 @@ export interface AnalysisResult {
 export type ProgressCallback = (stage: AnalysisStage, progress: number) => void;
 
 const API = 'https://api.github.com';
-const CACHE_PREFIX = 'rs_analysis_v2_';
+const CACHE_PREFIX = 'rs_analysis_v4_';
 const CACHE_TTL_MS = 30 * 60 * 1000;
 const DAY_MS = 86_400_000;
 
@@ -847,7 +847,8 @@ function demoResult(login: string): AnalysisResult | null {
     archived: false,
     created_at: r.created_at ?? demo.profile.created_at,
     pushed_at: r.updated_at,
-    size: Math.round(Math.log10(1 + r.stargazers_count) * 4000),
+    size: (r.size && r.size > 0) ? r.size : Math.round(Math.log10(1 + r.stargazers_count) * 4000),
+    languages: r.languages ?? {},
   }));
 
   // Create authentic demo contributions if available
@@ -1051,6 +1052,14 @@ export async function analyzeGitHubProfile(
       orgs,
       contributions,
       dataQuality: partial || !contributions ? 'partial' : 'full',
+    });
+
+    // Attach byte-level language map to owned repositories
+    owned.forEach(r => {
+      const b = languageBytes.get(r.id);
+      if (b) {
+        r.languages = b;
+      }
     });
 
     const repos = rankTopProjects(owned, profile.login);

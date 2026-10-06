@@ -166,8 +166,11 @@ export function inferDeveloperPersona(
     }
   }
 
-  // Flagship project
-  const topProject = repos.find(r => !r.fork && r.name !== profile.login)?.name ||
+  // Flagship project (strictly filter out personal event/invitation repos)
+  const personalEventRegex = /^(engagement|wedding|invitation|birthday|party|guestbook|save[-_]?the[-_]?date|event)/i;
+  const topProject =
+    repos.find(r => !r.fork && r.name !== profile.login && !personalEventRegex.test(r.name))?.name ||
+    repos.find(r => !r.fork && r.name !== profile.login)?.name ||
     repos[0]?.name ||
     (isAr ? 'مشروعات تقنية مبتكرة' : 'open-source software');
 
@@ -318,7 +321,7 @@ export function inferDeveloperPersona(
   let summary = '';
   if (rawBio) {
     // If the bio already has rich info, format it cleanly without adding discordant buzzwords
-    const cleanBio = rawBio.replace(/\|\|/g, ' • ').replace(/\|/g, ' • ').trim();
+    const cleanBio = rawBio.replace(/\|\|/g, ' • ').replace(/\|/g, ' • ').trim().replace(/\.+$/, '');
     if (domain === 'ai_ml') {
       summary = isAr
         ? `${cleanBio}. أركز على تحويل الأفكار إلى حلول ذكاء اصطناعي ونظم برمجية عملية، من نماذج التعلم الآلي إلى وكلاء الذكاء الاصطناعي التوليدي.`

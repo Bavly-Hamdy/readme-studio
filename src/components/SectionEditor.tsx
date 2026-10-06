@@ -39,6 +39,7 @@ import {
   ChevronUp,
   CheckCircle2,
   Loader2,
+  ShieldCheck,
 } from 'lucide-react';
 import { generateDeveloperBioWithGemini, getActiveGeminiKey } from '../services/geminiService';
 import { ProfileAnalytics } from '../types';
@@ -810,6 +811,19 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
               </div>
             </div>
 
+            {/* Rigorous Evidence Banner */}
+            <div className="p-3 rounded-xl border border-emerald-500/25 bg-emerald-500/5 text-xs text-[var(--text-muted)] flex items-start gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
+                <span className="font-semibold text-[var(--text)]">
+                  {isAr ? 'تحليل رقمي دقيق مبني على 100% من مستودعاتك:' : '100% Percentage-Backed Repository Analysis:'}
+                </span>{' '}
+                {isAr
+                  ? `تم تحليل ${repos.length} مستودعاً بالكامل بالبايت. اللغات التي تظهر هي فقط التي تمتلك مشاريع أساسية أو حصة كود مؤثرة. يتم استبعاد ملفات القوالب التلقائية (مثل Swift في مجلدات iOS بنسبة 0.1%) لضمان الدقة وتجنب أي بيانات غير حقيقية.`
+                  : `Analyzed across all ${repos.length} public repositories down to exact byte counts. Auto-enabled technologies are strictly backed by primary code or explicit topic tags. Template scaffolding (e.g. Swift in iOS subfolders < 0.2%) is strictly filtered out.`}
+              </div>
+            </div>
+
             {/* Display Style & Badge Style Controls */}
             <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
@@ -908,6 +922,8 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                 <div className="flex flex-wrap gap-2">
                   {filteredCatalog.map((tech) => {
                     const active = isTechEnabled(tech.id);
+                    const matchingConfigItem = config.techStack.data.items.find(i => i.id === tech.id);
+                    const pct = matchingConfigItem?.percentage;
                     return (
                       <button
                         key={tech.id}
@@ -925,6 +941,11 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                           style={{ backgroundColor: `#${tech.color}` }}
                         />
                         <span>{tech.name}</span>
+                        {pct !== undefined && pct > 0 && (
+                          <span className="text-[10px] font-mono px-1 rounded bg-[var(--surface)] text-[var(--accent)] font-semibold border border-[var(--border)]">
+                            {pct}%
+                          </span>
+                        )}
                         {active ? (
                           <Check className="w-3.5 h-3.5 text-[var(--accent)]" />
                         ) : (

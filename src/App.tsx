@@ -69,24 +69,27 @@ export default function App() {
   });
 
   const [profile, setProfile] = useState<GitHubUserProfile | null>(() => {
-    const active = localStorage.getItem('readme_studio_active_user') || 'torvalds';
+    const active = (localStorage.getItem('readme_studio_active_user') || 'bavly-hamdy').toLowerCase();
     const cached = readCachedAnalysis(active, false);
-    if (cached) return cached.profile;
-    return DEMO_PROFILES[active]?.profile || DEMO_PROFILES['torvalds'].profile;
+    const p = cached?.profile || DEMO_PROFILES[active]?.profile || DEMO_PROFILES['bavly-hamdy'].profile;
+    if (p && p.avatar_url && p.avatar_url.includes('108342478')) {
+      p.avatar_url = 'https://avatars.githubusercontent.com/u/100946403?v=4';
+    }
+    return p;
   });
 
   const [repos, setRepos] = useState<GitHubRepository[]>(() => {
-    const active = localStorage.getItem('readme_studio_active_user') || 'torvalds';
+    const active = (localStorage.getItem('readme_studio_active_user') || 'bavly-hamdy').toLowerCase();
     const cached = readCachedAnalysis(active, false);
     if (cached) return cached.repos;
-    return DEMO_PROFILES[active]?.repos || DEMO_PROFILES['torvalds'].repos;
+    return DEMO_PROFILES[active]?.repos || DEMO_PROFILES['bavly-hamdy'].repos;
   });
 
   const [analytics, setAnalytics] = useState<ProfileAnalytics | null>(() => {
-    const active = localStorage.getItem('readme_studio_active_user') || 'torvalds';
+    const active = (localStorage.getItem('readme_studio_active_user') || 'bavly-hamdy').toLowerCase();
     const cached = readCachedAnalysis(active, false);
     if (cached) return cached.analytics;
-    return getDemoAnalysis(active)?.analytics ?? getDemoAnalysis('torvalds')?.analytics ?? null;
+    return getDemoAnalysis(active)?.analytics ?? getDemoAnalysis('bavly-hamdy')?.analytics ?? null;
   });
 
   const [analysisStage, setAnalysisStage] = useState<AnalysisStage | null>(null);
@@ -152,8 +155,8 @@ export default function App() {
           name: userProfile.name || userProfile.login,
           headline: userProfile.bio || persona.role,
           status: isAr
-            ? `تطوير مشروعات برمجية مبتكرة في ${persona.focus}`
-            : `Building high-impact software in ${persona.focus}`,
+            ? 'تطوير حلول برمجية عالية الأداء ومفتوحة المصدر'
+            : 'Building open-source tools & high-performance software',
           location: userProfile.location || '',
           showAvatar: true,
           avatarShape: 'circle',
@@ -179,7 +182,7 @@ export default function App() {
           currentWork: persona.currentWork,
           currentLearning: persona.learning,
           askMeAbout: persona.askMeAbout,
-          howToReach: userProfile.email || (userProfile.blog ? userProfile.blog : `@${userProfile.login} on GitHub`),
+          howToReach: userProfile.email || (userProfile.blog ? userProfile.blog : `https://github.com/${userProfile.login}`),
           funFact: persona.funFact,
         },
       },
@@ -249,11 +252,20 @@ export default function App() {
     };
   }, [locale]);
 
+  const isStaleDraft = (draftStr: string): boolean => {
+    return (
+      draftStr.includes('108342478') ||
+      draftStr.includes('Engagement') ||
+      draftStr.includes('Building moden') ||
+      draftStr.includes('swift')
+    );
+  };
+
   // Initialize Config from saved draft or freshly generated
   const [config, setConfig] = useState<ProfileSectionsConfig>(() => {
-    const active = localStorage.getItem('readme_studio_active_user') || 'torvalds';
+    const active = (localStorage.getItem('readme_studio_active_user') || 'bavly-hamdy').toLowerCase();
     const savedDraft = localStorage.getItem(`readme_studio_draft_${active}`);
-    if (savedDraft) {
+    if (savedDraft && !isStaleDraft(savedDraft)) {
       try {
         return JSON.parse(savedDraft);
       } catch {
@@ -261,8 +273,8 @@ export default function App() {
       }
     }
 
-    const defaultProfile = DEMO_PROFILES[active]?.profile || DEMO_PROFILES['torvalds'].profile;
-    const defaultRepos = DEMO_PROFILES[active]?.repos || DEMO_PROFILES['torvalds'].repos;
+    const defaultProfile = DEMO_PROFILES[active]?.profile || DEMO_PROFILES['bavly-hamdy'].profile;
+    const defaultRepos = DEMO_PROFILES[active]?.repos || DEMO_PROFILES['bavly-hamdy'].repos;
     return createInitialConfig(defaultProfile, defaultRepos);
   });
 
@@ -312,9 +324,9 @@ export default function App() {
       setAnalytics(result.analytics);
       localStorage.setItem('readme_studio_active_user', cleanLogin);
 
-      // Check if draft exists for this user
+      // Check if draft exists for this user (auto-discard if from older stale schemas)
       const existingDraft = localStorage.getItem(`readme_studio_draft_${cleanLogin}`);
-      if (existingDraft && !forceRefresh) {
+      if (existingDraft && !forceRefresh && !isStaleDraft(existingDraft)) {
         try {
           setConfig(JSON.parse(existingDraft));
           setHasSavedDraft(true);
@@ -323,6 +335,7 @@ export default function App() {
           setHasSavedDraft(false);
         }
       } else {
+        localStorage.removeItem(`readme_studio_draft_${cleanLogin}`);
         setConfig(createInitialConfig(result.profile, result.repos));
         setHasSavedDraft(false);
       }

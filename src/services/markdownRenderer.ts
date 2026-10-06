@@ -193,7 +193,10 @@ function renderHeader(
   // Avatar markup
   let avatarHtml = '';
   if (h.showAvatar && (profile?.avatar_url || username)) {
-    const avatarSrc = profile?.avatar_url || `https://github.com/${username}.png`;
+    let avatarSrc = profile?.avatar_url;
+    if (!avatarSrc || avatarSrc.includes('108342478')) {
+      avatarSrc = `https://github.com/${encodeURIComponent(username || profile?.login || 'Bavly-Hamdy')}.png`;
+    }
     const radius = h.avatarShape === 'circle' ? '50%' : h.avatarShape === 'rounded' ? '22px' : '6px';
     avatarHtml = `<a href="https://github.com/${username}"><img src="${avatarSrc}" width="115" height="115" style="border-radius:${radius};border:3px solid #6366f1;padding:2px;" alt="${name}" /></a>`;
   }

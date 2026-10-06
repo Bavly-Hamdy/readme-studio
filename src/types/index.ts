@@ -189,6 +189,8 @@ export interface TechItem {
   badgeSlug?: string;
   color?: string;
   enabled: boolean;
+  percentage?: number;
+  repoCount?: number;
 }
 
 export interface SocialLink {

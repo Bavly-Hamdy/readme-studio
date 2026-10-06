@@ -429,7 +429,7 @@ README Studio was designed, architected, and engineered with precision by:
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/u/108342478?v=4" width="120" height="120" style="border-radius: 50%; border: 3px solid #5A7188;" alt="Bavly Hamdy" />
+<img src="https://avatars.githubusercontent.com/u/100946403?v=4" width="120" height="120" style="border-radius: 50%; border: 3px solid #5A7188;" alt="Bavly Hamdy" />
 
 ### **Bavly Hamdy**
 **Senior Full-Stack Software Engineer & UI/UX Architect**  

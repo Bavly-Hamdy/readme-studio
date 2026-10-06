@@ -221,71 +221,87 @@ const LANGUAGE_NAME_MAP: Record<string, string> = {
 
 /**
  * Intelligent and deterministic Tech Stack detection:
- * 1. 100% direct verification from GitHub repository primary and secondary languages.
- * 2. High-confidence verification from repository topic tags.
- * 3. Exact tokenized matching on repository names and descriptions.
- * 4. Ranks detected tech by frequency of occurrence across the developer's repositories.
+ * 1. Languages: verified strictly by byte percentage (>= 2.5%) OR primary language status (>= 1 repo),
+ *    preventing auto-activation of scaffold/boilerplate files (e.g., generated Swift/Kotlin in cross-platform projects).
+ * 2. Frameworks & Tools: verified strictly by human-tagged repository topics and explicit repository naming.
+ * 3. Ranks detected tech by frequency of occurrence across the developer's repositories.
  */
 export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
   const detectedWeights = new Map<string, number>();
+  const langPercentageMap = new Map<string, number>();
+  const langRepoCountMap = new Map<string, number>();
+
+  // 1. Calculate total code bytes and primary repository counts per language across all repositories
+  const langBytes = new Map<string, number>();
+  const primaryRepoCount = new Map<string, number>();
+  let totalAllBytes = 0;
 
   for (const repo of repos) {
-    // 1. Direct language check (10 points per repo)
-    if (repo.language) {
-      const normalizedLang = repo.language.toLowerCase().trim();
-      const mappedId = LANGUAGE_NAME_MAP[normalizedLang];
-      if (mappedId) {
-        detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + 10);
-      }
-    }
-
-    // Secondary languages in repository byte breakdown (5 points per significant language >1KB)
-    if (repo.languages) {
+    if (repo.languages && Object.keys(repo.languages).length > 0) {
       for (const [lang, bytes] of Object.entries(repo.languages)) {
-        if (bytes > 1000) {
-          const mappedId = LANGUAGE_NAME_MAP[lang.toLowerCase().trim()];
-          if (mappedId) {
-            detectedWeights.set(mappedId, (detectedWeights.get(mappedId) ?? 0) + 5);
-          }
-        }
+        langBytes.set(lang, (langBytes.get(lang) ?? 0) + bytes);
+        totalAllBytes += bytes;
       }
+    } else if (repo.language) {
+      const est = Math.max(1, repo.size ?? 10) * 1024;
+      langBytes.set(repo.language, (langBytes.get(repo.language) ?? 0) + est);
+      totalAllBytes += est;
     }
 
-    // 2. Direct repository topics check (8 points per repo)
+    if (repo.language) {
+      primaryRepoCount.set(repo.language, (primaryRepoCount.get(repo.language) ?? 0) + 1);
+    }
+  }
+
+  // 2. Identify strictly qualified languages (must be primary in >= 1 repo OR account for >= 5.0% of total code)
+  // Scaffolding boilerplate (e.g. 9KB Swift in an iOS folder = 0.12%, or Shell scripts = 0.01%) is strictly excluded.
+  const qualifiedLangIds = new Set<string>();
+  for (const [lang, bytes] of langBytes.entries()) {
+    const pct = totalAllBytes > 0 ? Number(((bytes / totalAllBytes) * 100).toFixed(1)) : 0;
+    const primaryCount = primaryRepoCount.get(lang) ?? 0;
+    const mappedId = LANGUAGE_NAME_MAP[lang.toLowerCase().trim()];
+
+    if (mappedId) {
+      langPercentageMap.set(mappedId, pct);
+      langRepoCountMap.set(mappedId, primaryCount);
+
+      const isSubstantive = (primaryCount >= 1 && (bytes >= 1000 || pct >= 0.2)) || pct >= 5.0;
+      if (isSubstantive) {
+        qualifiedLangIds.add(mappedId);
+        const repoWeight = primaryCount * 15 + Math.round(pct * 2);
+        detectedWeights.set(mappedId, Math.max(15, repoWeight));
+      }
+    }
+  }
+
+  // 3. Score frameworks, tools, platforms strictly by explicit repository topics and repo names
+  for (const repo of repos) {
+    // A. Explicit repository topics (Developer explicitly tagged this on GitHub)
     if (Array.isArray(repo.topics)) {
       for (const topic of repo.topics) {
         const t = topic.toLowerCase().trim();
         for (const tech of ALL_TECH_CATALOG) {
-          if (
-            tech.id === t ||
-            tech.badgeSlug === t ||
-            tech.keywords.includes(t)
-          ) {
-            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
+          if (tech.category !== 'languages') {
+            if (tech.id === t || tech.badgeSlug === t || tech.keywords.includes(t)) {
+              detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 10);
+            }
           }
         }
       }
     }
 
-    // 3. Name & Description matching with strict tokenization
+    // B. Explicit repository names (e.g. My_REACT, ITI_Angular_Labs, Django_Labs, Laravel_Labs, Streamlit_Task)
     const nameStr = (repo.name || '').toLowerCase();
-    const descStr = (repo.description || '').toLowerCase();
-
     for (const tech of ALL_TECH_CATALOG) {
-      for (const kw of tech.keywords) {
-        // Skip single letter or short keywords unless explicitly recognized
-        if (kw.length <= 2 && !['ts', 'js', 'py', 'sh', 'c++'].includes(kw)) {
-          continue;
-        }
-        const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, 'i');
-
-        if (regex.test(nameStr)) {
-          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
-          break;
-        } else if (regex.test(descStr)) {
-          detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 4);
-          break;
+      if (tech.category !== 'languages') {
+        for (const kw of tech.keywords) {
+          if (kw.length <= 2) continue;
+          const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, 'i');
+          if (regex.test(nameStr)) {
+            detectedWeights.set(tech.id, (detectedWeights.get(tech.id) ?? 0) + 8);
+            break;
+          }
         }
       }
     }
@@ -293,20 +309,59 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
 
   // Always enable Git and GitHub if developer has public repositories
   if (repos.length > 0) {
-    detectedWeights.set('git', (detectedWeights.get('git') ?? 0) + 15);
-    detectedWeights.set('github_tool', (detectedWeights.get('github_tool') ?? 0) + 15);
+    detectedWeights.set('git', Math.max(detectedWeights.get('git') ?? 0, 25));
+    detectedWeights.set('github_tool', Math.max(detectedWeights.get('github_tool') ?? 0, 25));
   }
 
-  // Fallback defaults if very few detected
-  if (detectedWeights.size === 0) {
-    ['git', 'github_tool'].forEach(id => detectedWeights.set(id, 10));
-  }
+  // Category caps to prevent clutter ("مزود بيانات كتير")
+  const categoryLimits: Record<TechCategory, number> = {
+    languages: 6,
+    frontend: 6,
+    backend: 4,
+    mobile: 3,
+    database: 3,
+    devops: 3,
+    ml_ai: 3,
+    testing: 2,
+    design: 2,
+    tools: 4,
+  };
 
-  // Return catalog with high-confidence items enabled (weight >= 5)
-  const items = ALL_TECH_CATALOG.map(tech => {
+  // Group candidate items by category, sorted by confidence weight descending
+  const enabledByCategory: Record<string, number> = {};
+
+  // First pass: identify qualifying candidates sorted by weight
+  const candidateItems = ALL_TECH_CATALOG.map(tech => {
     const weight = detectedWeights.get(tech.id) ?? 0;
-    // An item is auto-enabled if it has solid evidence (weight >= 5)
-    const enabled = weight >= 5;
+    const qualifies = tech.category === 'languages'
+      ? qualifiedLangIds.has(tech.id)
+      : weight >= 8;
+
+    return {
+      id: tech.id,
+      name: tech.name,
+      category: tech.category,
+      badgeSlug: tech.badgeSlug,
+      color: tech.color,
+      weight,
+      qualifies,
+      percentage: langPercentageMap.get(tech.id),
+      repoCount: langRepoCountMap.get(tech.id),
+    };
+  }).sort((a, b) => b.weight - a.weight);
+
+  // Second pass: apply category caps so only the highest confidence items are enabled
+  const items = candidateItems.map(tech => {
+    let enabled = false;
+    if (tech.qualifies) {
+      const currentCount = enabledByCategory[tech.category] || 0;
+      const limit = categoryLimits[tech.category] || 4;
+      if (currentCount < limit) {
+        enabled = true;
+        enabledByCategory[tech.category] = currentCount + 1;
+      }
+    }
+
     return {
       id: tech.id,
       name: tech.name,
@@ -314,7 +369,9 @@ export function detectTechStack(repos: GitHubRepository[]): TechItem[] {
       badgeSlug: tech.badgeSlug,
       color: tech.color,
       enabled,
-      weight,
+      percentage: tech.percentage,
+      repoCount: tech.repoCount,
+      weight: tech.weight,
     };
   });
 
