@@ -10,6 +10,7 @@
 
 <br /><br />
 
+[![Release: v2.0.0](https://img.shields.io/badge/Release-v2.0.0--Multimodal-8B5CF6?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/Bavly-Hamdy/readme-studio/releases)
 [![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Frontend: React 19](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Build: Vite 6.2](https://img.shields.io/badge/Build-Vite_6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -19,6 +20,7 @@
 
 <br />
 
+[What's New in v2.0](#-whats-new-in-version-20) •
 [Overview](#-overview--architectural-intent) •
 [Architecture & Workflow](#-architecture--workflow) •
 [Interface Gallery](#-interface-gallery) •
@@ -36,23 +38,71 @@
 
 <br />
 
+> [!IMPORTANT]
+> ### 🚀 Version 2.0 Major Release: Multimodal Resume Synergy + Gemini 3.8 Flash
+> **README Studio v2.0** bridges the gap between active codebases and real-world career trajectory. Ingest your CV/Resume (PDF or plain text) via Gemini 3.8 Flash, eliminate secondary framework boilerplate across 100% of your repositories, and render production-ready career timelines (Experience, Education, GPA, Certifications) across 4 handcrafted theme designs.
+
+<br />
+
 ## 📋 Table of Contents
-1. [Overview & Architectural Intent](#-overview--architectural-intent)
-2. [Architecture & Workflow](#-architecture--workflow)
+1. [What's New in Version 2.0](#-whats-new-in-version-20)
+2. [Overview & Architectural Intent](#-overview--architectural-intent)
+3. [Architecture & Workflow](#-architecture--workflow)
    - [System Topology](#system-topology)
    - [Live Execution Sequence](#live-execution-sequence)
    - [Engineering Trade-offs & Strategic Decisions](#engineering-trade-offs--strategic-decisions)
-3. [Interface Gallery & Visual Telemetry](#-interface-gallery)
-4. [Core Features & Capabilities](#-core-features--capabilities)
-5. [Technologies & Ecosystem Matrix](#-technologies--ecosystem-matrix)
-6. [Requirements & Installation Guide](#-requirements--installation-guide)
-7. [Project Structure](#-project-structure)
-8. [Main Modules & Technical Breakdown](#-main-modules--technical-breakdown)
-9. [CLI & Script Execution Matrix](#-cli--script-execution-matrix)
-10. [Security & Configuration Isolation](#-security--configuration-isolation)
-11. [Deployment & Environment Matrix](#-deployment--environment-matrix)
-12. [Authors & Contributors](#-authors--contributors)
-13. [License](#-license)
+4. [Interface Gallery & Visual Telemetry](#-interface-gallery)
+5. [Core Features & Capabilities](#-core-features--capabilities)
+6. [Technologies & Ecosystem Matrix](#-technologies--ecosystem-matrix)
+7. [Requirements & Installation Guide](#-requirements--installation-guide)
+8. [Project Structure](#-project-structure)
+9. [Main Modules & Technical Breakdown](#-main-modules--technical-breakdown)
+10. [CLI & Script Execution Matrix](#-cli--script-execution-matrix)
+11. [Security & Configuration Isolation](#-security--configuration-isolation)
+12. [Deployment & Environment Matrix](#-deployment--environment-matrix)
+13. [Authors & Contributors](#-authors--contributors)
+14. [License](#-license)
+
+---
+
+## 🚀 What's New in Version 2.0
+
+Version 2.0 is a milestone architectural release introducing **Multimodal Resume Synergy**, **Anti-Boilerplate Tech Qualification**, and **Native Career Timelines**.
+
+```mermaid
+flowchart LR
+    subgraph Ingestion [" 1. Multimodal Ingestion "]
+        CV["PDF / Text Resume<br/>(Experience • Education • Certs)"]
+        GH["GitHub Metadata REST v3<br/>(100% Repos • Non-Sampled)"]
+    end
+
+    subgraph Intelligence [" 2. Gemini 3.8 Flash Engine "]
+        Parser["Multimodal Document Parser<br/>(gemini-3.8-flash)"]
+        CrossCheck["Cross-Examination Heuristic<br/>(Byte Weights vs Claimed Skills)"]
+    end
+
+    subgraph Compiler [" 3. Dual-AST Compiler "]
+        ThemeEngine["Theme Renderer<br/>(Showcase • Minimal • Mono • Paper)"]
+        LiveMD["Bilingual Markdown Output<br/>(English LTR • Arabic RTL)"]
+    end
+
+    CV --> Parser
+    GH --> CrossCheck
+    Parser --> CrossCheck
+    CrossCheck --> ThemeEngine
+    ThemeEngine --> LiveMD
+```
+
+### 🌟 Key Version 2.0 Capabilities
+
+| Pillar | Architectural Implementation | Developer Impact |
+| :--- | :--- | :--- |
+| **📄 Multimodal CV Synergy** | `src/services/resumeParser.ts` | Upload PDF or plain text CV. Gemini 3.8 Flash extracts work chronologies, degrees, GPA, and certifications with zero hallucination. |
+| **🛡️ Anti-Boilerplate Qualification** | `src/services/techDetection.ts` | Eliminates secondary framework noise (e.g. 0.1% Xcode Swift boilerplate) by weighting verified repository byte totals across 100% of repos. |
+| **💼 Dynamic Career Timelines** | `src/services/markdownRenderer.ts` | Native, clean markdown timeline renderers for Work Experience, Higher Education, and Certifications across 4 handcrafted themes. |
+| **⚡ Multi-Tier Gemini Chain** | `src/services/geminiService.ts` | Resilient model fallback ladder: `gemini-3.8-flash` → `gemini-2.5-flash` → `gemini-1.5-flash` for high availability. |
+| **📊 Interactive What's New Hub** | `src/components/WhatsNewModal.tsx` | Visual changelog dialog accessible via header pill and hero banner with direct 1-click CV ingestion trigger. |
+| **🌐 Full RTL / LTR Bilingualism** | `src/i18n/translations.ts` | Native Arabic and English support across all new career sections, modals, and markdown output formats. |
 
 ---
 
@@ -333,6 +383,15 @@ Constructs a structured prompt containing the developer's top repositories, dete
 
 ### 5. `src/components/PublishModal.tsx` (Atomic GitHub Commits)
 Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit.
+
+### 6. `src/services/resumeParser.ts` (Multimodal Resume Ingestion & Fusion Engine)
+Ingests PDF binary documents or raw text through Gemini 3.8 Flash (`gemini-3.8-flash`). Extracts structured work chronologies, educational degrees, GPA, and verified certifications. Employs `fuseResumeWithProfile` to cross-examine detected items against authentic repository byte weights, eliminating boilerplate or hallucinated skills.
+
+### 7. `src/components/ResumeModal.tsx` (Interactive CV Importer & Merger)
+Provides a tactile drag-and-drop file upload zone with live OCR progress simulation, Bento Grid preview of detected milestones, and granular fusion controls to selectively merge parsed records into the active README configuration.
+
+### 8. `src/components/WhatsNewModal.tsx` (Version 2.0 Architectural Hub)
+An interactive release modal spotlighting the 6 pillars of README Studio v2.0 with direct triggers for resume ingestion, bilingual copy, and technical release notes.
 
 ---
 

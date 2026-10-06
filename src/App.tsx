@@ -25,6 +25,7 @@ import { PublishModal } from './components/PublishModal';
 import { TokenGuideModal } from './components/TokenGuideModal';
 import { SettingsModal } from './components/SettingsModal';
 import { ResumeModal } from './components/ResumeModal';
+import { WhatsNewModal } from './components/WhatsNewModal';
 import { LandingPage } from './components/LandingPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { DEMO_PROFILES, rankTopProjects } from './services/github';
@@ -115,6 +116,7 @@ export default function App() {
   const [isTokenGuideOpen, setIsTokenGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [isWhatsNewOpen, setIsWhatsNewOpen] = useState(false);
 
   // Synchronize document dir and class on theme/locale change
   useEffect(() => {
@@ -453,6 +455,30 @@ export default function App() {
           setAppTheme={setAppTheme}
           onLaunchStudio={handleLaunchStudio}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenWhatsNew={() => setIsWhatsNewOpen(true)}
+          onOpenResume={() => setIsResumeOpen(true)}
+        />
+        {/* What's New v2.0 Modal */}
+        <WhatsNewModal
+          isOpen={isWhatsNewOpen}
+          onClose={() => setIsWhatsNewOpen(false)}
+          locale={locale}
+          onOpenResume={() => setIsResumeOpen(true)}
+        />
+        {/* Resume Modal from Landing */}
+        <ResumeModal
+          isOpen={isResumeOpen}
+          onClose={() => setIsResumeOpen(false)}
+          locale={locale}
+          profile={profile}
+          repos={repos}
+          analytics={analytics}
+          currentConfig={config}
+          onApplyConfig={(updatedConfig) => {
+            setConfig(updatedConfig);
+            setActiveView('builder');
+            setActiveSection('experience');
+          }}
         />
         {/* Settings Modal */}
         <SettingsModal
@@ -488,6 +514,7 @@ export default function App() {
           grade={analytics?.scores.grade}
           onDownloadReadme={handleDownloadReadme}
           onOpenResumeModal={() => setIsResumeOpen(true)}
+          onOpenWhatsNew={() => setIsWhatsNewOpen(true)}
         />
 
         {/* Username Ingestion & Progress Bar */}
@@ -653,6 +680,14 @@ export default function App() {
             setActiveView('builder');
             setActiveSection('experience');
           }}
+        />
+
+        {/* What's New v2.0 Modal */}
+        <WhatsNewModal
+          isOpen={isWhatsNewOpen}
+          onClose={() => setIsWhatsNewOpen(false)}
+          locale={locale}
+          onOpenResume={() => setIsResumeOpen(true)}
         />
 
         {/* Publish Modal (Atomic GitHub Commits + Backups) */}

@@ -52,6 +52,10 @@ import {
   HelpCircle,
   Wand2,
   Info,
+  Briefcase,
+  FileText,
+  GraduationCap,
+  Award,
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -61,6 +65,8 @@ interface LandingPageProps {
   setAppTheme: (t: AppTheme) => void;
   onLaunchStudio: (initialUser?: string) => void;
   onOpenSettings: () => void;
+  onOpenWhatsNew?: () => void;
+  onOpenResume?: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
@@ -70,6 +76,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   setAppTheme,
   onLaunchStudio,
   onOpenSettings,
+  onOpenWhatsNew,
+  onOpenResume,
 }) => {
   const isAr = locale === 'ar';
   const ArrowIcon = isAr ? ArrowLeft : ArrowRight;
@@ -400,14 +408,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <span className="font-serif text-xl tracking-tight text-[var(--text)]">
               <span className="italic font-medium text-[var(--accent)]">README</span> Studio
             </span>
-            <span className="hidden sm:inline text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">
-              Open Source MIT
-            </span>
+            <button
+              type="button"
+              onClick={() => onOpenWhatsNew?.()}
+              title={isAr ? 'ما الجديد في الإصدار 2.0؟' : "What's new in v2.0?"}
+              className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[var(--accent)]/15 via-purple-500/15 to-[var(--accent)]/15 text-[var(--accent)] font-bold border border-[var(--accent)]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-2xs"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-ping" />
+              <span>v2.0 · Multimodal AI</span>
+            </button>
           </div>
         </div>
 
         {/* Quick Nav Anchor Links (Desktop) */}
         <div className="hidden xl:flex items-center gap-6 text-xs font-medium text-[var(--text-muted)]">
+          <a href="#v2-features" className="text-[var(--accent)] font-semibold flex items-center gap-1.5 hover:opacity-85 transition-opacity">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+            <span>{isAr ? 'جديد الإصدار v2.0' : "What's New in v2"}</span>
+          </a>
           <a href="#sandbox" className="hover:text-[var(--text)] transition-colors">
             {isAr ? 'المعاينة الحية' : 'Live Sandbox'}
           </a>
@@ -427,6 +445,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* Center / Right Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Resume Ingestion Quick Pill */}
+          {onOpenResume && (
+            <button
+              type="button"
+              onClick={onOpenResume}
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-500/20 active:scale-95 transition-all shadow-2xs"
+              title={isAr ? 'استيراد وتحليل السيرة الذاتية بالذكاء الاصطناعي (v2.0)' : 'AI Resume / CV Synergy (v2.0)'}
+            >
+              <FileText className="w-3.5 h-3.5 text-purple-500" />
+              <span>{isAr ? 'تحليل السيرة الذاتية' : 'Resume / CV'}</span>
+              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-purple-500 text-white font-bold">
+                v2.0
+              </span>
+            </button>
+          )}
+
           {/* Real API Status */}
           {rateLimit && (
             <div
@@ -497,6 +531,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 2. Hero Section */}
       <section className="pt-14 pb-8 sm:pt-20 sm:pb-12 px-4 sm:px-8 max-w-6xl mx-auto w-full text-center space-y-5">
+        {/* Release v2.0 Major Update Ribbon */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => onOpenWhatsNew?.()}
+            className="group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--accent)]/30 bg-gradient-to-r from-[var(--accent)]/10 via-purple-500/10 to-[var(--accent)]/10 hover:border-[var(--accent)] hover:from-[var(--accent)]/20 hover:to-purple-500/20 text-xs text-[var(--text)] shadow-xs transition-all cursor-pointer"
+          >
+            <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-[var(--accent)] to-purple-600 text-white text-[10px] font-mono font-bold tracking-wider shadow-2xs">
+              RELEASE v2.0
+            </span>
+            <span className="font-semibold text-xs text-[var(--text)]">
+              {isAr ? 'تكامل السيرة الذاتية (CV) + محرك Gemini 3.8 Flash' : 'Multimodal Resume Synergy + Gemini 3.8 Flash'}
+            </span>
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent)] group-hover:rotate-12 transition-transform" />
+          </button>
+        </div>
+
         {/* Creator Attribution Ribbon */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)] shadow-2xs hover:border-[var(--accent)]/40 transition-colors">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -596,6 +647,139 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <span>{fetchNotice}</span>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* 2.5 What's New in V2.0 Showcase Section (Anchor: #v2-features) */}
+      <section id="v2-features" className="py-6 px-4 sm:px-8 max-w-5xl mx-auto w-full scroll-mt-20">
+        <div className="p-6 sm:p-8 rounded-3xl border-2 border-[var(--accent)]/30 bg-gradient-to-br from-[var(--surface)] via-[var(--surface)] to-[var(--accent-soft)] shadow-xl space-y-6 relative overflow-hidden">
+          {/* Ambient Glow */}
+          <div className="absolute top-0 end-0 w-80 h-80 bg-gradient-to-br from-[var(--accent)]/15 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border)] pb-5 relative z-10">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-gradient-to-r from-[var(--accent)] to-purple-600 text-white shadow-xs">
+                  RELEASE v2.0
+                </span>
+                <span className="text-xs font-mono font-semibold text-[var(--accent)]">
+                  {isAr ? 'نقلة معمارية كبرى' : 'Major Architectural Release'}
+                </span>
+              </div>
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-[var(--text)]">
+                {isAr ? 'ما الجديد في الإصدار 2.0 من README Studio؟' : "What's New in README Studio v2.0?"}
+              </h3>
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl leading-relaxed">
+                {isAr
+                  ? 'ترقية هندسية تجمع بين كود مستودعاتك الحقيقية وسيرتك الذاتية (CV)، مع التخلص التام من التقنيات الوهمية، وإضافة مسارات الخبرة والتعليم المعتمدة.'
+                  : 'Fusing authentic GitHub repositories with multimodal CV intelligence. Zero hallucinated skills, verified career timelines, and byte-weighted accuracy.'}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {onOpenResume && (
+                <button
+                  type="button"
+                  onClick={onOpenResume}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--accent)] text-white text-xs sm:text-sm font-semibold hover:bg-[var(--accent-hover)] active:scale-95 transition-all shadow-md"
+                >
+                  <FileText className="w-4 h-4" />
+                  <span>{isAr ? 'جرب رفع الـ CV' : 'Try Resume Parser'}</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => onOpenWhatsNew?.()}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text)] hover:border-[var(--accent)] text-xs font-semibold transition-all"
+              >
+                <span>{isAr ? 'كل التحديثات' : 'View Changelog'}</span>
+                <ArrowIcon className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* 4 Feature Pillars Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+            {/* Pillar 1 */}
+            <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xs space-y-2 hover:border-[var(--accent)]/50 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <FileText className="w-4.5 h-4.5" />
+                </div>
+                <h4 className="font-serif font-bold text-sm text-[var(--text)]">
+                  {isAr ? 'تكامل السيرة الذاتية (CV)' : 'Multimodal CV Synergy'}
+                </h4>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  {isAr
+                    ? 'استيراد فوري لملفات PDF والنصوص عبر Gemini 3.8 Flash لاستخراج المسمى الوظيفي والشركات والمؤهلات بدقة.'
+                    : 'Ingest PDF/Text resumes. Gemini 3.8 Flash extracts exact job titles, companies, and academic credentials.'}
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[var(--border)] text-[10px] font-mono text-purple-600 dark:text-purple-400 font-semibold">
+                PDF · Word · Plain Text
+              </div>
+            </div>
+
+            {/* Pillar 2 */}
+            <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xs space-y-2 hover:border-[var(--accent)]/50 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+                  <Briefcase className="w-4.5 h-4.5" />
+                </div>
+                <h4 className="font-serif font-bold text-sm text-[var(--text)]">
+                  {isAr ? 'أقسام الخبرات والتعليم' : 'Career & Education Timelines'}
+                </h4>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  {isAr
+                    ? 'سجلات زمنية تفاعلية للخبرات العملية والمؤهلات الأكاديمية والشهادات بتنسيقات Markdown مخصصة.'
+                    : 'Native timeline rendering for employment history, degrees, and verified certifications across 4 themes.'}
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[var(--border)] text-[10px] font-mono text-sky-600 dark:text-sky-400 font-semibold">
+                4 Themes · Bi-directional
+              </div>
+            </div>
+
+            {/* Pillar 3 */}
+            <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xs space-y-2 hover:border-[var(--accent)]/50 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <ShieldCheck className="w-4.5 h-4.5" />
+                </div>
+                <h4 className="font-serif font-bold text-sm text-[var(--text)]">
+                  {isAr ? 'تصفية التقنيات بدقة 100%' : 'Anti-Boilerplate Tech Stack'}
+                </h4>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  {isAr
+                    ? 'فحص شامل لكافة المستودعات واستبعاد الأكواد الجانبية الافتراضية لعرض المهارات الحقيقية فقط.'
+                    : 'Multi-repo scanning across 100% of repos. Eliminates framework noise (e.g. Swift Xcode boilerplate for web devs).'}
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[var(--border)] text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+                Non-Sampled · Byte-Weighted
+              </div>
+            </div>
+
+            {/* Pillar 4 */}
+            <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xs space-y-2 hover:border-[var(--accent)]/50 transition-all flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                  <Zap className="w-4.5 h-4.5" />
+                </div>
+                <h4 className="font-serif font-bold text-sm text-[var(--text)]">
+                  {isAr ? 'محرك Gemini 3.8 Flash' : 'Gemini 3.8 Flash Chain'}
+                </h4>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  {isAr
+                    ? 'سلسلة ذكاء اصطناعي مرنة مع صياغة 3 نبرات مهنية مستندة حصرياً لبياناتك البرمجية الفعلية.'
+                    : 'Ultra-fast inference chain (3.8-flash -> 2.5-flash -> 1.5-flash) grounded directly in your source code.'}
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[var(--border)] text-[10px] font-mono text-amber-600 dark:text-amber-400 font-semibold">
+                3 Voices · Zero Hallucination
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

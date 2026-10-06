@@ -33,6 +33,7 @@ interface HeaderProps {
   grade?: string;
   onDownloadReadme?: () => void;
   onOpenResumeModal?: () => void;
+  onOpenWhatsNew?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -49,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
   grade,
   onDownloadReadme,
   onOpenResumeModal,
+  onOpenWhatsNew,
 }) => {
   const t = translations[locale];
   const isAr = locale === 'ar';
@@ -86,9 +88,21 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="font-serif text-lg sm:text-xl font-normal tracking-tight text-[var(--text)]">
               <span className="italic font-medium text-[var(--accent)]">README</span> Studio
             </span>
-            <span className="hidden xl:inline text-[10px] font-mono px-2 py-0.5 rounded-full bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border border-[var(--accent)]/20">
-              atelier
-            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenWhatsNew?.();
+              }}
+              title={isAr ? 'ما الجديد في الإصدار 2.0؟' : "What's new in v2.0?"}
+              className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-500/20 via-[var(--accent)]/20 to-purple-500/20 text-[var(--accent)] hover:scale-105 active:scale-95 font-bold border border-[var(--accent)]/40 transition-all cursor-pointer shadow-xs"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping" />
+              <span>v2.0</span>
+              <span className="hidden sm:inline text-[9px] px-1 py-0.2 rounded-xs bg-[var(--accent)] text-white font-semibold uppercase">
+                {isAr ? 'جديد' : 'NEW'}
+              </span>
+            </button>
           </div>
         </button>
 
