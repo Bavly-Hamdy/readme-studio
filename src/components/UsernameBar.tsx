@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Locale, AnalysisStage } from '../types';
 import { translations } from '../i18n/translations';
 import { Search, Loader2, AlertCircle, Sparkles } from 'lucide-react';
+import { sanitizeGitHubUsername, isValidGitHubUsername } from '../services/sanitize';
 
 interface UsernameBarProps {
   locale: Locale;
@@ -35,12 +36,24 @@ export const UsernameBar: React.FC<UsernameBarProps> = ({
   const t = translations[locale];
   const isAr = locale === 'ar';
   const [inputValue, setInputValue] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputValue.trim()) {
-      onFetchUser(inputValue.trim());
+    setValidationError(null);
+    const clean = sanitizeGitHubUsername(inputValue);
+    if (!clean) return;
+
+    if (!isValidGitHubUsername(clean)) {
+      setValidationError(
+        isAr
+          ? 'اسم مستخدم GitHub غير صالح. يجب أن يحتوي على أحرف وأرقام وشرطات فقط بدون مسافات أو رموز خاصة.'
+          : 'Invalid GitHub username. Must contain only alphanumeric characters or single hyphens.'
+      );
+      return;
     }
+
+    onFetchUser(clean);
   };
 
   const handleDemoClick = (demoUser: string) => {
@@ -130,10 +143,10 @@ export const UsernameBar: React.FC<UsernameBarProps> = ({
       )}
 
       {/* Error state */}
-      {errorMessage && (
+      {(validationError || errorMessage) && (
         <div className="max-w-6xl mx-auto mt-2 p-2 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2 text-xs text-red-500">
           <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{errorMessage}</span>
+          <span>{validationError || errorMessage}</span>
         </div>
       )}
     </div>

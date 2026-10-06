@@ -81,8 +81,37 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
 
   if (!isOpen) return null;
 
+  const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB OWASP DoS limit
+  const ALLOWED_MIME_TYPES = ['application/pdf', 'text/plain', 'text/markdown'];
+  const ALLOWED_EXTENSIONS = ['.pdf', '.txt', '.md'];
+
   const handleFileSelect = (file: File) => {
     if (!file) return;
+
+    // 1. Enforce size limit
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      setError(
+        isAr
+          ? 'حجم الملف يتجاوز الحد الأقصى المسموح به (10 ميجابايت). يرجى اختيار ملف أصغر.'
+          : 'File size exceeds the 10MB limit. Please upload a smaller document.'
+      );
+      return;
+    }
+
+    // 2. Enforce MIME / extension check
+    const extension = '.' + file.name.split('.').pop()?.toLowerCase();
+    const isMimeValid = ALLOWED_MIME_TYPES.includes(file.type);
+    const isExtValid = ALLOWED_EXTENSIONS.includes(extension);
+
+    if (!isMimeValid && !isExtValid) {
+      setError(
+        isAr
+          ? 'نوع الملف غير مدعوم. يرجى رفع ملف بصيغة PDF أو TXT أو MD.'
+          : 'Unsupported file type. Please upload a valid PDF, TXT, or Markdown document.'
+      );
+      return;
+    }
+
     setError(null);
     setSelectedFile(file);
   };

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Locale, AppTheme } from '../types';
 import { translations } from '../i18n/translations';
 import { marked } from 'marked';
+import { sanitizeMarkdownHtml } from '../services/sanitize';
 import {
   Copy,
   Download,
@@ -34,15 +35,16 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ locale, markdown, appT
     }
   }, [appTheme]);
 
-  // Configure marked for GitHub flavored markdown
+  // Configure marked for GitHub flavored markdown with strict DOMPurify sanitization
   const htmlContent = useMemo(() => {
     try {
-      return marked.parse(markdown, {
+      const rawHtml = marked.parse(markdown, {
         gfm: true,
         breaks: true,
       });
+      return sanitizeMarkdownHtml(typeof rawHtml === 'string' ? rawHtml : '');
     } catch {
-      return markdown;
+      return sanitizeMarkdownHtml(markdown);
     }
   }, [markdown]);
 

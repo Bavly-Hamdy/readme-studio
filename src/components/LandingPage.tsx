@@ -13,6 +13,7 @@ import { detectTechStack } from '../services/techDetection';
 import { generateBioVariations, BioVariation } from '../services/aiBio';
 import { getRateLimitInfo, subscribeRateLimit, RateLimitInfo } from '../services/githubAnalyzer';
 import { marked } from 'marked';
+import { sanitizeMarkdownHtml, sanitizeGitHubUsername, isValidGitHubUsername } from '../services/sanitize';
 import { LogoIcon } from './LogoIcon';
 import {
   Sparkles,
@@ -184,9 +185,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   const handleCustomSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (customInput.trim()) {
-      handleSelectDemoProfile(customInput.trim());
+    const clean = sanitizeGitHubUsername(customInput);
+    if (!clean) return;
+    if (!isValidGitHubUsername(clean)) {
+      setFetchNotice(
+        isAr
+          ? 'اسم مستخدم GitHub غير صالح. يجب أن يحتوي على أحرف وأرقام وشرطات فقط بدون مسافات أو رموز خاصة.'
+          : 'Invalid GitHub username. Must contain only alphanumeric characters or single hyphens.'
+      );
+      return;
     }
+    handleSelectDemoProfile(clean);
   };
 
   // Detected Tech Stack from current demo repos
@@ -335,12 +344,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     return generateReadmeMarkdown(config, demoTheme, prof.login, null, prof, locale);
   }, [demoProfile, demoRepos, detectedTech, activeBio, sandboxSections, demoTheme, locale, isAr]);
 
-  // Parse HTML for real preview
+  // Parse HTML for real preview with DOMPurify sanitization
   const demoHtml = useMemo(() => {
     try {
-      return marked.parse(demoMarkdown, { gfm: true, breaks: true });
+      const raw = marked.parse(demoMarkdown, { gfm: true, breaks: true });
+      return sanitizeMarkdownHtml(typeof raw === 'string' ? raw : '');
     } catch {
-      return demoMarkdown;
+      return sanitizeMarkdownHtml(demoMarkdown);
     }
   }, [demoMarkdown]);
 

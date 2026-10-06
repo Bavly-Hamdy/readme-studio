@@ -1978,8 +1978,13 @@ export async function publishReadmeToGitHub(params: {
     };
   }
 
-  // Encode UTF-8 content to base64 properly
-  const base64Content = btoa(unescape(encodeURIComponent(markdownContent)));
+  // Safe modern UTF-8 to Base64 encoding without deprecated unescape
+  const utf8Bytes = new TextEncoder().encode(markdownContent);
+  let binaryString = '';
+  for (let i = 0; i < utf8Bytes.length; i++) {
+    binaryString += String.fromCharCode(utf8Bytes[i]);
+  }
+  const base64Content = btoa(binaryString);
 
   const putBody: Record<string, string> = {
     message: commitMessage || 'docs: update profile README.md via README Studio',
@@ -2025,7 +2030,12 @@ export async function restoreReadmeBackup(params: {
   const { username, token, backupContent } = params;
   const existing = await getExistingProfileReadme(username, token);
 
-  const base64Content = btoa(unescape(encodeURIComponent(backupContent)));
+  const restoreBytes = new TextEncoder().encode(backupContent);
+  let restoreBinary = '';
+  for (let i = 0; i < restoreBytes.length; i++) {
+    restoreBinary += String.fromCharCode(restoreBytes[i]);
+  }
+  const base64Content = btoa(restoreBinary);
   const putBody: Record<string, string> = {
     message: 'revert: restore previous profile README.md via README Studio',
     content: base64Content,
