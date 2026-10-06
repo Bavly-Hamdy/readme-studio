@@ -13,10 +13,12 @@
 [![Release: v2.0.0](https://img.shields.io/badge/Release-v2.0.0--Multimodal-8B5CF6?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/Bavly-Hamdy/readme-studio/releases)
 [![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Frontend: React 19](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Build: Vite 6.2](https://img.shields.io/badge/Build-Vite_6.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Build: Vite 8.3](https://img.shields.io/badge/Build-Vite_8.3_(Rolldown)-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![AI: Google Gemini](https://img.shields.io/badge/AI-Google_Gemini_3.8_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![Styling: Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Zero-Trust: Client-Side](https://img.shields.io/badge/Privacy-100%25_Client--Side-10B981?style=for-the-badge&logo=shield&logoColor=white)](#-security--configuration-isolation)
+[![Security: OWASP Top 10](https://img.shields.io/badge/Security-OWASP_Top_10_Hardened-0ea5e9?style=for-the-badge&logo=owasp&logoColor=white)](#-security--owasp-top-10-hardening)
+[![Sanitization: DOMPurify](https://img.shields.io/badge/Sanitizer-DOMPurify_Protected-critical?style=for-the-badge&logo=shield&logoColor=white)](#-security--owasp-top-10-hardening)
+[![Zero-Trust: Client-Side](https://img.shields.io/badge/Privacy-100%25_Client--Side-10B981?style=for-the-badge&logo=shield&logoColor=white)](#-security--owasp-top-10-hardening)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <br />
@@ -35,7 +37,7 @@
 [Project Structure](#-project-structure) •
 [Main Modules](#-main-modules--technical-breakdown) •
 [Installation & CLI](#-requirements--installation-guide) •
-[Security & Privacy](#-security--configuration-isolation) •
+[Security & OWASP Hardening](#-security--owasp-top-10-hardening) •
 [Troubleshooting & FAQ](#-troubleshooting--frequently-asked-questions) •
 [Future Roadmap](#-future-roadmap) •
 [Author & License](#-authors--contributors)
@@ -47,8 +49,8 @@
 <br />
 
 > [!IMPORTANT]
-> ### 🚀 Version 2.0 Milestone Release: Multimodal Resume Synergy + Zero-Hallucination Qualification
-> **README Studio v2.0** bridges active codebases and real-world career trajectory. Ingest your CV/Resume (PDF or plain text) via Gemini 3.8 Flash, eliminate secondary framework boilerplate across 100% of your repositories, and render production-ready career timelines (Work Experience, University Degrees, GPA, Certifications) across 4 handcrafted theme designs with 100% client-side privacy.
+> ### 🚀 Version 2.0 Milestone Release: Multimodal Resume Synergy + OWASP Top 10 Enterprise Hardening
+> **README Studio v2.0** bridges active codebases and real-world career trajectory with enterprise-grade security. Ingest your CV/Resume (PDF or plain text) via Gemini 3.8 Flash, eliminate secondary framework boilerplate across 100% of your repositories, render production-ready career timelines across 4 handcrafted theme designs, and publish with complete confidence backed by **DOMPurify XSS defenses, OWASP Top 10 hardening, and Rolldown modular production chunking**.
 
 <br />
 
@@ -83,7 +85,13 @@
 13. [Project Structure](#-project-structure)
 14. [Main Modules & Technical Breakdown](#-main-modules--technical-breakdown)
 15. [CLI & Script Execution Matrix](#-cli--script-execution-matrix)
-16. [Security & Configuration Isolation](#-security--configuration-isolation)
+16. [Security, OWASP Top 10 Hardening & Privacy](#-security--owasp-top-10-hardening)
+    - [OWASP A03: Injection & XSS Defense (DOMPurify)](#owasp-a03-injection--xss-defense-dompurify)
+    - [OWASP A04: Insecure Design & Client DoS Prevention](#owasp-a04-insecure-design--client-dos-prevention)
+    - [Strict Input Sanitization & GitHub Handle Spec](#strict-input-sanitization--github-handle-spec)
+    - [Modern UTF-8 Standards-Compliant Base64 Serialization](#modern-utf-8-standards-compliant-base64-serialization)
+    - [HTTP Security Headers & Clickjacking Mitigation](#http-security-headers--clickjacking-mitigation)
+    - [Rolldown Modular Production Chunking](#rolldown-modular-production-chunking)
 17. [Deployment & Environment Matrix](#-deployment--environment-matrix)
 18. [Troubleshooting & Frequently Asked Questions](#-troubleshooting--frequently-asked-questions)
 19. [Future Roadmap](#-future-roadmap)
@@ -128,6 +136,10 @@ flowchart LR
 | **🛡️ Anti-Boilerplate Qualification** | [`src/services/techDetection.ts`](file:///e:/README%20Studio/src/services/techDetection.ts) | Filters out framework noise (e.g., Xcode Swift or Android Kotlin template files for web developers) by weighting authentic code bytes across 100% of repositories. |
 | **💼 Dynamic Career Timelines** | [`src/services/markdownRenderer.ts`](file:///e:/README%20Studio/src/services/markdownRenderer.ts) | Handcrafted markdown timeline generators for Work Experience, Higher Education, and Certifications across all 4 theme styles. |
 | **⚡ Multi-Tier Gemini Chain** | [`src/services/geminiService.ts`](file:///e:/README%20Studio/src/services/geminiService.ts) | Resilient model fallback ladder: `gemini-3.8-flash` → `gemini-2.5-flash` → `gemini-1.5-flash` ensuring zero service interruption. |
+| **🛡️ OWASP Top 10 Hardening & XSS Defense** | [`src/services/sanitize.ts`](file:///e:/README%20Studio/src/services/sanitize.ts) | Enterprise DOMPurify sanitizer with GFM tag/attribute whitelist, executable script blocking, inline event stripping, and automatic reverse tabnabbing defense (`rel="noopener noreferrer nofollow"`). |
+| **🔒 Client DoS & Memory Protection** | [`src/components/ResumeModal.tsx`](file:///e:/README%20Studio/src/components/ResumeModal.tsx) | Enforces hard 10MB payload boundaries and strict MIME/extension whitelist (`.pdf`, `.txt`, `.md`) to prevent client memory exhaustion. |
+| **⚡ Rolldown Modular Code-Splitting** | [`vite.config.ts`](file:///e:/README%20Studio/vite.config.ts) | High-concurrency function-based bundle splitting (`vendor-react`, `vendor-ai`, `vendor-markdown`, `vendor-icons`), compiling under 500ms with a ~145 kB gzipped entry payload. |
+| **🔤 Standards-Compliant UTF-8 Base64** | [`src/services/github.ts`](file:///e:/README%20Studio/src/services/github.ts) | Replaced deprecated `unescape` with modern `TextEncoder` byte chunks to guarantee safe Unicode/Arabic serialization during atomic GitHub commits. |
 | **📊 Professional Developer Telemetry** | [`src/components/AnalyticsDashboard.tsx`](file:///e:/README%20Studio/src/components/AnalyticsDashboard.tsx) | Clean Developer Dossier, unified Codebase Quality Index, filtered Language DNA, circadian commit distribution, and repository spotlights. |
 | **🌐 Native Bilingual RTL/LTR** | [`src/i18n/translations.ts`](file:///e:/README%20Studio/src/i18n/translations.ts) | Complete bilingual support across all editor controls, career timelines, modals, and compiled markdown outputs. |
 
@@ -750,9 +762,10 @@ The Studio Builder (`src/components/SectionEditor.tsx`) provides granular contro
 | Layer | Dependency | Version | Strategic Role |
 | :--- | :--- | :--- | :--- |
 | **Core Framework** | `react` / `react-dom` | `^19.0.1` | Concurrent rendering, declarative component tree |
-| **Build Engine** | `vite` | `^8.3.0` | Sub-second HMR, optimized ES modules compilation |
+| **Build Engine** | `vite` (Rolldown) | `^8.3.0` | Sub-500ms production builds, function-based modular chunking & security headers |
 | **Language Runtime**| `typescript` | `^7.0.2` | Strict type safety, zero `any` short-circuits |
 | **Styling & Theme** | `tailwindcss` | `^4.3.3` | Modern CSS tokens, Combination 8 Ink Wash palette |
+| **Security & XSS** | `dompurify` | `^3.4.16` | OWASP A03 GFM HTML sanitization, attribute hook & reverse tabnabbing defense |
 | **Motion Physics** | `motion` | `^12.23.24` | Micro-interactions and fluid layout transitions |
 | **AI Integration** | `@google/genai` | `^2.4.0` | Client-side Google Gemini 3.8 Flash inference |
 | **Markdown Parser** | `marked` | `^18.0.14` | GFM AST compilation and sanitization |
@@ -786,7 +799,7 @@ README-Studio/
 │   │   ├── LivePreview.tsx       # Dual-pane real-time GFM & code renderer
 │   │   ├── LogoIcon.tsx          # Bespoke SVG brand identity
 │   │   ├── PublishModal.tsx      # Atomic GitHub commit modal with rollback
-│   │   ├── ResumeModal.tsx       # Multimodal drag-and-drop CV ingestion modal
+│   │   ├── ResumeModal.tsx       # Multimodal drag-and-drop CV ingestion modal (10MB capped)
 │   │   ├── SectionEditor.tsx     # Granular section data, career & badge editor
 │   │   ├── SettingsModal.tsx     # Client-side PAT & Gemini key config
 │   │   ├── SidebarSections.tsx   # Tactile drag/toggle section navigation
@@ -797,11 +810,12 @@ README-Studio/
 │   │   ├── aiBio.ts              # Deterministic rule-based 3-tone bio engine
 │   │   ├── archetypes.ts         # Developer taxonomy & rhythm definitions
 │   │   ├── geminiService.ts      # Google Gemini 3.8 Flash inference client
-│   │   ├── github.ts             # GitHub REST v3 client, auth & fallback data
+│   │   ├── github.ts             # GitHub REST v3 client, auth & fallback data (TextEncoder Base64)
 │   │   ├── githubAnalyzer.ts     # Non-sampled repo pagination & byte analyzer
 │   │   ├── languageColors.ts     # Authentic GitHub language hex map
 │   │   ├── markdownRenderer.ts   # Multi-theme GFM string compiler (with career timelines)
 │   │   ├── resumeParser.ts       # Multimodal CV ingestion & profile fusion engine
+│   │   ├── sanitize.ts           # Enterprise DOMPurify sanitizer & GitHub input validator
 │   │   └── techDetection.ts      # Heuristic tech classifier & anti-boilerplate filter
 │   ├── i18n/
 │   │   └── translations.ts       # English & Arabic bilingual dictionary
@@ -813,7 +827,7 @@ README-Studio/
 ├── capture_screenshots.py        # Automated Playwright screenshot pipeline
 ├── package.json                  # Dependencies & script declarations
 ├── tsconfig.json                 # TypeScript compiler options
-└── vite.config.ts                # Vite bundler configuration
+└── vite.config.ts                # Vite bundler configuration (Rolldown chunks & security headers)
 ```
 
 ---
@@ -824,7 +838,7 @@ README-Studio/
 Acts as the central finite state machine. Manages routing between `'landing'`, `'builder'`, and `'analytics'`, orchestrates the fetching lifecycle of GitHub profile graphs, coordinates auto-draft saving, and applies synchronized RTL/LTR and dark/light mode classes to the document root.
 
 ### 2. `src/components/LandingPage.tsx` (Interactive Showcase)
-Houses the live interactive sandbox where developers can input any live GitHub username, test theme changes (`minimal`, `showcase`, `paper`, `mono`), inspect their byte-accurate language DNA, preview Gemini 3.8 Flash synthesized bios, and view the creator spotlight.
+Houses the live interactive sandbox where developers can input any live GitHub username, test theme changes (`minimal`, `showcase`, `paper`, `mono`), inspect their byte-accurate language DNA, preview Gemini 3.8 Flash synthesized bios, and view the creator spotlight. Rendered outputs are strictly sanitized against XSS via `sanitizeMarkdownHtml`.
 
 ### 3. `src/services/githubAnalyzer.ts` (Non-Sampled Telemetry)
 Paginates through `/users/:login/repos` across all pages. Aggregates byte-accurate language distributions, calculates circadian commit rhythms (peak hours, peak days), evaluates repository stargazers/forks, and manages real-time rate limit subscription callbacks.
@@ -833,19 +847,22 @@ Paginates through `/users/:login/repos` across all pages. Aggregates byte-accura
 Ingests binary PDF documents or raw text through Gemini 3.8 Flash (`gemini-3.8-flash`). Extracts structured work chronologies, educational degrees, GPA, and verified certifications. Employs `fuseResumeWithProfile` to cross-examine detected items against authentic repository byte weights, eliminating boilerplate or hallucinated skills.
 
 ### 5. `src/components/ResumeModal.tsx` (Interactive CV Importer & Merger)
-Provides a tactile drag-and-drop file upload zone with live OCR progress simulation, Bento Grid preview of detected milestones, and granular fusion controls to selectively merge parsed records into the active README configuration.
+Provides a tactile drag-and-drop file upload zone with live OCR progress simulation, Bento Grid preview of detected milestones, and granular fusion controls to selectively merge parsed records into the active README configuration. Enforces a strict 10MB file buffer cap and MIME validation to eliminate client-side DoS risks.
 
 ### 6. `src/services/geminiService.ts` (LLM Persona Synthesis)
 Constructs a structured prompt containing the developer's top repositories, detected tech stack, and primary language weights. Dispatches the payload directly to `gemini-3.8-flash` via `@google/genai` to generate 3 tailored voices with bilingual Arabic/English support.
 
 ### 7. `src/components/PublishModal.tsx` (Atomic GitHub Commits)
-Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit.
+Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit using standards-compliant `TextEncoder` Base64 encoding.
 
 ### 8. `src/components/AnalyticsDashboard.tsx` (Professional Developer Telemetry)
 Presents a comprehensive developer audit: Real GitHub avatar dossier, unified Codebase Quality Index, filtered Language DNA, circadian commit distribution, and repository spotlights with zero AI tropes.
 
 ### 9. `src/components/WhatsNewModal.tsx` (Version 2.0 Architectural Hub)
 An interactive release modal spotlighting the architectural pillars of README Studio v2.0 with direct triggers for resume ingestion, bilingual copy, and technical release notes.
+
+### 10. `src/services/sanitize.ts` (Enterprise Sanitizer & Input Hardener)
+Provides enterprise-grade HTML sanitization for dynamic Markdown using `DOMPurify`. Enforces strict tag and attribute whitelisting tailored for GitHub Flavored Markdown (GFM), strips dangerous inline executable scripts and event handlers (`onclick`, `onerror`, `onload`), and attaches an attribute hook enforcing `rel="noopener noreferrer nofollow"` and `target="_blank"` on external anchors to eliminate reverse tabnabbing vectors. Also houses `sanitizeGitHubUsername` and `isValidGitHubUsername`, which normalize and validate usernames against official GitHub regular expression constraints.
 
 ---
 
@@ -862,28 +879,129 @@ An interactive release modal spotlighting the architectural pillars of README St
 
 ---
 
-## 🛡️ Security & Configuration Isolation
+## 🛡️ Security, OWASP Top 10 Hardening & Privacy
 
-README Studio enforces a strict **Zero-Exposure Policy**:
+README Studio is engineered with an uncompromising **Enterprise Zero-Trust & Defense-in-Depth Architecture**. Every data pipeline, Markdown rendering zone, and file buffer upload strictly adheres to the international **OWASP Top 10 Application Security Standards**:
 
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                    ENTERPRISE ZERO-TRUST ARCHITECTURE                  │
+├──────────────────────────┬─────────────────────────────────────────────┤
+│ Remote Database Storage  │ ZERO bytes (No central DB or cloud logging) │
+│ Telemetry / Ad Trackers  │ ZERO scripts, pixels, or profiling          │
+│ GitHub PAT Storage       │ Client-side browser localStorage (isolated) │
+│ Gemini API Key Storage   │ Client-side browser localStorage (isolated) │
+│ Resume / CV Uploads      │ Transient in-memory parsing (ephemeral)     │
+│ Network Transmission     │ Direct Client -> GitHub / Google (TLS 1.3)  │
+│ HTML Sanitization        │ DOMPurify with strict GFM whitelist         │
+│ Bundle Security Headers  │ X-Content-Type-Options, DENY, Strict-Origin │
+└──────────────────────────┴─────────────────────────────────────────────┘
 ```
-┌───────────────────────────────────────────────────────────────┐
-│               ENTERPRISE PRIVACY GUARANTEE                    │
-├──────────────────────────┬────────────────────────────────────┤
-│ Remote Database Storage  │ ZERO bytes (No central DB)         │
-│ Telemetry / Ad Trackers  │ ZERO scripts or tracking pixels    │
-│ GitHub PAT Storage       │ Client-side browser localStorage   │
-│ Gemini API Key Storage   │ Client-side browser localStorage   │
-│ Resume / CV Uploads      │ Transient in-memory parsing only   │
-│ Network Transmission     │ Direct Client -> GitHub / Google   │
-│ Encryption Protocol      │ TLS 1.3 End-to-End                 │
-└──────────────────────────┴────────────────────────────────────┘
+
+---
+
+### OWASP A03: Injection & XSS Defense (DOMPurify)
+
+Dynamic Markdown rendering is a critical vector for Cross-Site Scripting (XSS). To eliminate all execution vectors, README Studio deploys an enterprise-grade sanitization service in [`src/services/sanitize.ts`](file:///e:/README%20Studio/src/services/sanitize.ts):
+
+* **Strict GFM Tag Whitelist:** Restricts allowable tags strictly to safe Markdown and GitHub presentation elements (`h1-h6`, `p`, `a`, `img`, `table`, `code`, `pre`, `blockquote`, `details`, `summary`, `svg`).
+* **Complete Blacklisting of Executable Elements:** Instantly strips `<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`, `<input>`, `<textarea>`, `<button>`, and `<style>` blocks.
+* **Inline Event Handler Elimination:** Prohibits and removes all inline JavaScript listeners (`onerror`, `onload`, `onclick`, `onmouseover`, `onfocus`, `onblur`).
+* **Reverse Tabnabbing Mitigation:** Implements an automated `afterSanitizeAttributes` DOMPurify lifecycle hook that detects external `<a>` tags and automatically injects:
+  ```html
+  target="_blank" rel="noopener noreferrer nofollow"
+  ```
+  neutralizing window-opener hijacking vulnerabilities.
+* **Pre-Render Enforcement:** Every output of `marked.parse()` passes through `sanitizeMarkdownHtml()` before reaching `dangerouslySetInnerHTML` across both [`LivePreview.tsx`](file:///e:/README%20Studio/src/components/LivePreview.tsx) and [`LandingPage.tsx`](file:///e:/README%20Studio/src/components/LandingPage.tsx).
+
+---
+
+### OWASP A04: Insecure Design & Client DoS Prevention
+
+Client-side document parsing can expose the browser to heap exhaustion and tab crashes (Denial of Service) if large binary payloads are uploaded:
+
+* **Strict File Buffer Ceilings:** [`src/components/ResumeModal.tsx`](file:///e:/README%20Studio/src/components/ResumeModal.tsx) enforces a hard **10MB file size limit** (`MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024`). Uploads exceeding this threshold are immediately rejected with clear localized feedback before memory allocation.
+* **MIME & Extension Whitelist:** Strict dual-layer format validation accepts only `.pdf`, `.txt`, and `.md` with matching MIME types (`application/pdf`, `text/plain`, `text/markdown`), rejecting dangerous binary executables.
+* **Transient Memory Garbage Collection:** File buffers are converted into transient `ArrayBuffer` instances, passed directly to the model stream, and dereferenced immediately to allow immediate JavaScript V8 engine garbage collection.
+
+---
+
+### Strict Input Sanitization & GitHub Handle Spec
+
+User inputs for GitHub profiles are sanitized and strictly validated against GitHub's official specifications before making any network requests:
+
+```typescript
+// Excerpt from src/services/sanitize.ts
+export function sanitizeGitHubUsername(input: string): string {
+  if (!input) return '';
+  let clean = input.trim();
+  clean = clean.replace(/^(?:https?:\/\/)?(?:www\.)?github\.com\//i, ''); // Strip URLs
+  clean = clean.replace(/^@+/, '');                                      // Strip leading @
+  return clean.split(/[/?#]/)[0].trim();                                 // Strip paths & queries
+}
+
+export function isValidGitHubUsername(username: string): boolean {
+  if (!username || username.length > 39) return false;
+  return /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(username);
+}
 ```
 
-1. **Client-Side Credential Isolation:** Personal Access Tokens and Gemini API keys entered via the Settings Modal are stored exclusively in the browser's `localStorage`. They are never passed to an intermediary backend.
-2. **Document Ephemerality:** Uploaded PDF and text resumes are parsed transiently in browser memory. No resume text, document buffer, or extracted milestone is ever stored on an external server.
-3. **Deterministic Fallbacks:** If no Gemini API key is configured, the application falls back cleanly to deterministic, rule-based bio generation (`src/services/aiBio.ts`) with zero service disruption.
-4. **Atomic Safe Rollbacks:** Before any write commit is dispatched to GitHub, the existing profile README is backed up in browser storage, enabling 1-click restoration at any point.
+---
+
+### Modern UTF-8 Standards-Compliant Base64 Serialization
+
+Publishing Markdown to GitHub's REST v3 Contents API requires Base64-encoded strings. Legacy implementations rely on `unescape(encodeURIComponent(...))`, which is officially deprecated by WHATWG and subject to runtime warnings.
+
+README Studio utilizes native `TextEncoder` byte streaming in [`src/services/github.ts`](file:///e:/README%20Studio/src/services/github.ts):
+
+```typescript
+// Modern Unicode & Arabic Safe UTF-8 Base64 Serialization
+const bytes = new TextEncoder().encode(content);
+let binary = '';
+const chunkSize = 8192;
+for (let i = 0; i < bytes.length; i += chunkSize) {
+  binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+}
+const base64Content = btoa(binary);
+```
+This guarantees 100% mathematical fidelity for multilingual developer bios (Arabic RTL, Asian scripts, emojis, and mathematical symbols) during atomic publishing and rollbacks.
+
+---
+
+### HTTP Security Headers & Clickjacking Mitigation
+
+The development and production deployment configurations enforce multi-layered HTTP security headers:
+
+* **Clickjacking Defense:** `X-Frame-Options: DENY` blocks embedding inside unauthorized malicious iframes.
+* **MIME-Type Sniffing Defense:** `X-Content-Type-Options: nosniff` forces browsers to adhere strictly to declared MIME types.
+* **Referrer Protection:** `referrer: strict-origin-when-cross-origin` shields private URL paths from leaking to third-party assets.
+* **Permissions Hardening:** `Permissions-Policy: camera=(), microphone=(), geolocation=()` revokes unnecessary hardware APIs.
+
+---
+
+### Rolldown Modular Production Chunking
+
+To ensure lightning-fast cold loads without monolithic bundle bloat, `vite.config.ts` incorporates function-based Rolldown chunking:
+
+```typescript
+manualChunks(id: string) {
+  if (id.includes('node_modules')) {
+    if (id.includes('react') || id.includes('lucide-react')) return 'vendor-react';
+    if (id.includes('@google/genai') || id.includes('pdfjs-dist')) return 'vendor-ai';
+    if (id.includes('marked') || id.includes('dompurify')) return 'vendor-markdown';
+    if (id.includes('simple-icons')) return 'vendor-icons';
+  }
+}
+```
+* **Build Time:** Compiles in **~499ms**.
+* **Payload Footprint:** Core entry bundle is compressed to **~145 kB (gzipped)**.
+
+---
+
+### Atomic Rollback Snapshots & Client-Side Isolation
+
+1. **Zero Database Exposure:** All Personal Access Tokens (PATs) and Gemini API keys reside exclusively in the developer's sandboxed browser `localStorage`.
+2. **Pre-Commit Snapshot:** Before any write commit is dispatched to GitHub, the existing profile README is backed up in browser storage, enabling 1-click restoration at any point.
 
 ---
 
@@ -961,6 +1079,7 @@ Because README Studio is compiled as a static Single Page Application (SPA), it 
 
 - [x] **v1.0.0:** Real-time GitHub REST v3 ingestion, 4 themes, live GFM preview, 1-click publishing.
 - [x] **v2.0.0:** Multimodal Resume / CV parser, Gemini 3.8 Flash chain, career timeline renderer, anti-boilerplate heuristics, developer dossier telemetry.
+- [x] **v2.0.1 (Current):** Enterprise OWASP Top 10 hardening, DOMPurify XSS defenses, 10MB DoS mitigation, and Rolldown modular production chunking.
 - [ ] **v2.1.0:** GitHub Action integration (`actions/readme-studio-sync`) for automated weekly profile updates.
 - [ ] **v2.2.0:** Headless CLI utility (`npx readme-studio generate --user <handle>`).
 - [ ] **v2.3.0:** PDF and High-Resolution PNG export for offline CV / Portfolio distribution.
