@@ -42,6 +42,53 @@ export function fileToText(file: File): Promise<string> {
   });
 }
 
+/**
+ * Browser-safe client-side fallback text extractor for PDF files.
+ * Extracts printable text strings and streams from PDF array buffers without external Node libraries.
+ */
+export async function extractTextFromPdfFallback(file: File): Promise<string> {
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    const decoder = new TextDecoder('utf-8', { fatal: false });
+    const raw = decoder.decode(bytes);
+
+    const chunks: string[] = [];
+    // 1. Match Tj strings: (text) Tj
+    const tjRegex = /\(([^()]{2,})\)\s*Tj/g;
+    let match: RegExpExecArray | null;
+    while ((match = tjRegex.exec(raw)) !== null) {
+      const cleaned = match[1].replace(/\\([()\\])/g, '$1').trim();
+      if (cleaned.length > 1) chunks.push(cleaned);
+    }
+
+    // 2. Match TJ array strings: [(t1) 20 (t2)] TJ
+    const tjArrayRegex = /\[(.*?)\]\s*TJ/g;
+    while ((match = tjArrayRegex.exec(raw)) !== null) {
+      const subRegex = /\(([^()]+)\)/g;
+      let sub: RegExpExecArray | null;
+      while ((sub = subRegex.exec(match[1])) !== null) {
+        const cleaned = sub[1].replace(/\\([()\\])/g, '$1').trim();
+        if (cleaned.length > 1) chunks.push(cleaned);
+      }
+    }
+
+    // 3. Fallback: scan printable ASCII words
+    if (chunks.length < 5) {
+      const textOnly = raw.replace(/[^\x20-\x7E\r\n\t]/g, ' ');
+      const words = textOnly.split(/\s+/).filter(w => w.length > 2 && /^[a-zA-Z0-9@.+/:#_\u0600-\u06FF-]+$/.test(w));
+      if (words.length > 15) {
+        return words.join(' ');
+      }
+    }
+
+    return chunks.join(' ');
+  } catch (e) {
+    console.warn('PDF fallback text extraction failed:', e);
+    return '';
+  }
+}
+
 export interface ParseResumeOptions {
   file?: File | null;
   textInput?: string;
@@ -202,38 +249,72 @@ ${topRepos.map(r => `  * ${r.name} (${r.language}, ${r.stars}★): ${r.descripti
     });
   }
 
-  const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+  // Active production models in Google Generative AI API (with resilient failover ladder)
+  const candidateModels = [
+    'gemini-3.8-flash',
+    'gemini-3.7-flash',
+    'gemini-3.5-flash',
+    'gemini-3.1-flash-lite',
+    'gemini-flash-latest',
+  ];
   let rawResponseText = '';
   let lastError: unknown;
 
   for (const modelName of candidateModels) {
-    try {
-      const response = await ai.models.generateContent({
-        model: modelName,
-        contents: [{ role: 'user', parts }],
-        config: {
-          responseMimeType: 'application/json',
-        },
-      });
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: [{ role: 'user', parts }],
+          config: {
+            responseMimeType: 'application/json',
+          },
+        });
 
-      if (response && response.text) {
-        rawResponseText = response.text;
+        if (response && response.text) {
+          rawResponseText = response.text;
+          break;
+        }
+      } catch (err: unknown) {
+        lastError = err;
+        console.warn(`Gemini resume analysis attempt with ${modelName} (attempt ${attempt + 1}) failed:`, err);
+        const errStr = String(err);
+        const isTransient = errStr.includes('503') || errStr.includes('UNAVAILABLE') || errStr.includes('high demand') || errStr.includes('429');
+        if (isTransient && attempt === 0) {
+          // Pause 600ms before retrying transient demand spike
+          await new Promise(r => setTimeout(r, 600));
+          continue;
+        }
+        // If not a transient error, immediately fall over to next candidate model
         break;
       }
-    } catch (err) {
-      lastError = err;
-      console.warn(`Gemini resume analysis attempt with ${modelName} failed:`, err);
     }
+    if (rawResponseText) break;
   }
 
   if (!rawResponseText) {
-    if (options.textInput) {
+    // Attempt local deterministic extraction fallback before giving up
+    let fallbackText = options.textInput || '';
+    if (!fallbackText && options.file) {
+      if (options.file.type === 'application/pdf' || options.file.name.endsWith('.pdf')) {
+        fallbackText = await extractTextFromPdfFallback(options.file);
+      } else {
+        fallbackText = await fileToText(options.file);
+      }
+    }
+
+    if (fallbackText && fallbackText.trim().length > 30) {
       return {
-        resume: parseResumeDeterministic(options.textInput, options.locale),
+        resume: parseResumeDeterministic(fallbackText, options.locale),
         source: 'deterministic',
       };
     }
-    throw new Error(`Failed to parse resume with Gemini models: ${String(lastError || 'Unknown error')}`);
+
+    const friendlyError = isAr
+      ? 'خوادم تحليل الذكاء الاصطناعي تشهد ضغطاً مؤقتاً حالياً (503 High Demand). يرجى المحاولة مرة أخرى بعد لحظات، أو تجربة لصق نص الـ CV في خانة "لصق النص".'
+      : 'AI analysis servers are currently experiencing high demand (503). Please retry in a few moments, or paste your resume text into the "Paste Text" tab.';
+
+    throw new Error(friendlyError);
   }
 
   try {

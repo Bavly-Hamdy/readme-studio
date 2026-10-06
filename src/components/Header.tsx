@@ -77,29 +77,24 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="h-14 sm:h-15 border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between gap-3 transition-colors sticky top-0 z-30">
       {/* Zone 1: Wordmark & Active Profile Badge */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2.5 shrink-0">
         <button
           type="button"
           onClick={() => setActiveView('landing')}
-          className="flex items-center gap-2.5 text-start hover:opacity-85 transition-opacity"
+          className="flex items-center gap-2.5 text-start hover:opacity-85 transition-opacity cursor-pointer"
         >
           <LogoIcon size={32} className="shadow-xs" />
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-serif text-lg sm:text-xl font-normal tracking-tight text-[var(--text)]">
-              <span className="italic font-medium text-[var(--accent)]">README</span> Studio
-            </span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenWhatsNew?.();
-              }}
-              title={isAr ? 'سجل التحديثات v2.0' : 'Release notes v2.0'}
-              className="text-[11px] font-mono px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-all cursor-pointer font-medium"
-            >
-              v2.0
-            </button>
-          </div>
+          <span className="font-serif text-lg sm:text-xl font-normal tracking-tight text-[var(--text)]">
+            <span className="italic font-medium text-[var(--accent)]">README</span> Studio
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={() => onOpenWhatsNew?.()}
+          title={isAr ? 'سجل التحديثات v2.0' : 'Release notes v2.0'}
+          className="text-[11px] font-mono px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-all cursor-pointer font-medium"
+        >
+          v2.0
         </button>
 
         {activeUsername && activeView !== 'landing' && (

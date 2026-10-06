@@ -130,31 +130,47 @@ ${topRepos.map(r => `  * ${r.name} (${r.language}, ${r.stars} stars): ${r.descri
 
 Generate the 3 variations now.`;
 
-    const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+    const candidateModels = [
+      'gemini-3.8-flash',
+      'gemini-3.7-flash',
+      'gemini-3.5-flash',
+      'gemini-3.1-flash-lite',
+      'gemini-flash-latest',
+    ];
     let rawText = '';
     let lastError: unknown;
 
     for (const candidateModel of candidateModels) {
-      try {
-        const response = await ai.models.generateContent({
-          model: candidateModel,
-          contents: [
-            { role: 'user', parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }
-          ],
-          config: {
-            responseMimeType: 'application/json',
-          },
-        });
-        if (response && response.text) {
-          rawText = response.text;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const response = await ai.models.generateContent({
+            model: candidateModel,
+            contents: [
+              { role: 'user', parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }
+            ],
+            config: {
+              responseMimeType: 'application/json',
+            },
+          });
+          if (response && response.text) {
+            rawText = response.text;
+            break;
+          }
+        } catch (err: unknown) {
+          lastError = err;
+          const errStr = String(err);
+          const isTransient = errStr.includes('503') || errStr.includes('UNAVAILABLE') || errStr.includes('high demand') || errStr.includes('429');
+          if (isTransient && attempt === 0) {
+            await new Promise(r => setTimeout(r, 600));
+            continue;
+          }
           break;
         }
-      } catch (err) {
-        lastError = err;
       }
+      if (rawText) break;
     }
     if (!rawText.trim()) {
-      throw new Error('Empty response from Gemini');
+      throw new Error(`Empty response from Gemini models: ${String(lastError || 'Unknown error')}`);
     }
 
     const parsed = JSON.parse(rawText) as BioVariation[];
