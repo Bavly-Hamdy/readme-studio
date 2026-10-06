@@ -58,8 +58,16 @@ export function inferDeveloperPersona(
     if (aIsMarkup !== bIsMarkup) return aIsMarkup - bIsMarkup;
     return b[1] - a[1];
   });
-  const dominantLanguages = sortedLangsWithCount
-    .slice(0, 5)
+
+  // Filter out one-off incidental template languages (e.g. 1 incidental Swift or Kotlin file in mobile wrapper)
+  const substantiveLangs = sortedLangsWithCount.filter(([lang, count]) => {
+    if (markupLangs.has(lang)) return false;
+    if (repos.length >= 6 && count < 2) return false;
+    return true;
+  });
+
+  const dominantLanguages = (substantiveLangs.length >= 2 ? substantiveLangs : sortedLangsWithCount)
+    .slice(0, 4)
     .map(([lang]) => lang);
 
   // 2. Collect and analyze text corpus from repo names, descriptions, and topics
