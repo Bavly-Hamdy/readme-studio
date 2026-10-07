@@ -318,7 +318,7 @@ flowchart TD
 
 ## 🖼️ Interface Gallery
 
-All screenshots are captured at **2x Retina resolution** from the live production build via the automated Playwright pipeline (`capture_screenshots.py`):
+All screenshots are captured at **2x Retina resolution** from the live production build:
 
 ### 1. Landing Page Hero & Real-Time Ingestion
 *Live rate limit quota monitor (`API: 58/60`), verified creator ribbon, and direct profile ingestion.*
@@ -843,7 +843,6 @@ README-Studio/
 │   ├── App.tsx                   # Master root state machine & router
 │   ├── index.css                 # Ink Wash design tokens (Light/Dark mode)
 │   └── main.tsx                  # React 19 application entry point
-├── capture_screenshots.py        # Automated Playwright screenshot pipeline
 ├── package.json                  # Dependencies & script declarations
 ├── tsconfig.json                 # TypeScript compiler options
 └── vite.config.ts                # Vite bundler configuration (Rolldown chunks & security headers)
@@ -894,7 +893,6 @@ Provides enterprise-grade HTML sanitization for dynamic Markdown using `DOMPurif
 | `npm run preview` | Locally serves the compiled production build | Pre-flight Validation |
 | `npm run lint` | Runs strict TypeScript compiler check (`tsc --noEmit`) | Continuous Integration |
 | `npm run clean` | Deletes build output and temporary server files | Workspace Hygiene |
-| `python capture_screenshots.py` | Headless Playwright script capturing 8 2x Retina screenshots | Documentation / Release |
 
 ---
 
