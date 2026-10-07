@@ -1759,7 +1759,6 @@ export async function fetchGitHubData(
   // If matches a demo profile and no token provided, try fetching or fallback seamlessly
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github.v3+json',
-    'Cache-Control': 'no-cache',
   };
   if (token) {
     headers.Authorization = `Bearer ${token.trim()}`;

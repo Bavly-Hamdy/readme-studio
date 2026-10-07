@@ -148,7 +148,6 @@ class GitHubClient {
     this.headers = {
       Accept: 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',
-      'Cache-Control': 'no-cache',
     };
     if (token?.trim()) this.headers.Authorization = `Bearer ${token.trim()}`;
   }
