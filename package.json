@@ -1,8 +1,37 @@
 {
   "name": "readme-studio",
-  "private": true,
   "version": "2.1.0",
+  "private": true,
+  "description": "Enterprise GitHub Profile README Orchestrator with Multimodal Resume Ingestion (Gemini 3.8 Flash), Non-Sampled Telemetry, Anti-Boilerplate Heuristics, and 1-Click Atomic Publishing",
   "type": "module",
+  "author": {
+    "name": "Bavly Hamdy",
+    "url": "https://github.com/Bavly-Hamdy"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Bavly-Hamdy/readme-studio#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bavly-Hamdy/readme-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bavly-Hamdy/readme-studio/issues"
+  },
+  "keywords": [
+    "github",
+    "readme",
+    "readme-generator",
+    "developer-portfolio",
+    "github-profile",
+    "gemini-flash",
+    "multimodal-ai",
+    "resume-parser",
+    "developer-telemetry",
+    "anti-boilerplate",
+    "owasp",
+    "github-actions",
+    "bilingual-arabic"
+  ],
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",

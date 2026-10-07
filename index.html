@@ -2,44 +2,115 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#5A7188" />
-    <title>README Studio — GitHub Profile README Builder</title>
-    <meta name="description" content="Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing." />
-    <meta property="og:title" content="README Studio — GitHub Profile README Builder" />
-    <meta property="og:description" content="Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing." />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="README Studio" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="README Studio — GitHub Profile README Builder" />
-    <meta name="twitter:description" content="Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     
+    <!-- Primary SEO Meta Tags -->
+    <title>README Studio — Enterprise GitHub Profile README Orchestrator & Developer Telemetry</title>
+    <meta name="title" content="README Studio — Enterprise GitHub Profile README Orchestrator & Developer Telemetry" />
+    <meta name="description" content="Orchestrate, preview, and publish GitHub profile READMEs with Gemini 3.8 Flash multimodal CV synergy, non-sampled codebase telemetry, anti-boilerplate language DNA, 4 editorial theme engines, and 1-click atomic safe publishing." />
+    <meta name="keywords" content="github profile readme, readme generator, github portfolio, developer telemetry, gemini flash, gemini 3.8 flash, multimodal resume parser, cv to readme, anti boilerplate, developer portfolio builder, bavly hamdy, github actions ci cd, owasp top 10, markdown editor, arabic readme" />
+    <meta name="author" content="Bavly Hamdy" />
+    <meta name="creator" content="Bavly Hamdy" />
+    <meta name="publisher" content="Bavly Hamdy" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://readme-studio.dev/" />
+    
+    <!-- Color Scheme & Responsive Theme Colors -->
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAFA" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1B1C1E" />
+    <meta name="theme-color" content="#5A7188" />
+
+    <!-- Open Graph / Facebook / LinkedIn / Discord / Slack -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://readme-studio.dev/" />
+    <meta property="og:site_name" content="README Studio" />
+    <meta property="og:title" content="README Studio — Enterprise GitHub Profile README Orchestrator" />
+    <meta property="og:description" content="Supercharge your GitHub profile. Multimodal CV ingestion via Gemini 3.8 Flash, byte-accurate repository telemetry, anti-boilerplate filtering, 4 handcrafted themes, and 1-click atomic safe publishing." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Bavly-Hamdy/readme-studio/main/public/screenshots/01_landing_hero.png" />
+    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/Bavly-Hamdy/readme-studio/main/public/screenshots/01_landing_hero.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:image:alt" content="README Studio — Live Editorial Workspace & Profile README Orchestrator" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_EG" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://readme-studio.dev/" />
+    <meta name="twitter:site" content="@BavlyHamdy" />
+    <meta name="twitter:creator" content="@BavlyHamdy" />
+    <meta name="twitter:title" content="README Studio — Enterprise GitHub Profile README Orchestrator" />
+    <meta name="twitter:description" content="Supercharge your GitHub profile. Multimodal CV ingestion via Gemini 3.8 Flash, byte-accurate repository telemetry, anti-boilerplate filtering, and 1-click atomic safe publishing." />
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/Bavly-Hamdy/readme-studio/main/public/screenshots/01_landing_hero.png" />
+    <meta name="twitter:image:alt" content="README Studio — Live Editorial Workspace & Profile README Orchestrator" />
+
+    <!-- PWA & Mobile Web App Capabilities -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="application-name" content="README Studio" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="README Studio" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
     <!-- OWASP Security Headers & Directives -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
-    
+
     <!-- Editorial & Arabic Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Schema.org WebApplication -->
+    <!-- Schema.org WebApplication / SoftwareApplication Rich Snippet -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "README Studio",
+      "alternateName": ["README Studio v2.1", "GitHub Profile README Orchestrator"],
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "All",
-      "description": "Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing.",
+      "description": "Enterprise developer platform that parses GitHub codebases, ingests multimodal resumes via Gemini 3.8 Flash, and compiles production-ready profile documentation with OWASP Top 10 security.",
+      "url": "https://readme-studio.dev/",
+      "image": "https://raw.githubusercontent.com/Bavly-Hamdy/readme-studio/main/public/screenshots/01_landing_hero.png",
+      "softwareVersion": "2.1.0",
+      "datePublished": "2026-10-08",
+      "inLanguage": ["en", "ar"],
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
-      }
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Bavly Hamdy",
+        "jobTitle": "Senior Full-Stack Software Engineer & UI/UX Architect",
+        "url": "https://github.com/Bavly-Hamdy",
+        "sameAs": [
+          "https://github.com/Bavly-Hamdy",
+          "https://www.linkedin.com/in/bavly-hamdy"
+        ]
+      },
+      "featureList": [
+        "Multimodal Resume & CV PDF/Text Ingestion via Gemini 3.8 Flash",
+        "100% Non-Sampled GitHub Repository Telemetry",
+        "Byte-Accurate Language DNA Matrix with Anti-Boilerplate Filtering",
+        "Circadian Rhythm and Developer Archetype Classification",
+        "4 Handcrafted Editorial Markdown Design Systems",
+        "1-Click Atomic Safe GitHub Publishing with Instant Rollback",
+        "Turnkey GitHub Actions CI/CD Profile Synchronization Generator",
+        "OWASP Top 10 Hardening & DOMPurify XSS Defense",
+        "Full English (LTR) and Arabic (RTL) Bilingual Architecture"
+      ],
+      "screenshot": "https://raw.githubusercontent.com/Bavly-Hamdy/readme-studio/main/public/screenshots/01_landing_hero.png"
     }
     </script>
   </head>
@@ -48,4 +119,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

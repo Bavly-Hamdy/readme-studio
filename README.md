@@ -19,13 +19,14 @@
 [![Security: OWASP Top 10](https://img.shields.io/badge/Security-OWASP_Top_10_Hardened-0ea5e9?style=for-the-badge&logo=owasp&logoColor=white)](#-security--owasp-top-10-hardening)
 [![Sanitization: DOMPurify](https://img.shields.io/badge/Sanitizer-DOMPurify_Protected-critical?style=for-the-badge&logo=shield&logoColor=white)](#-security--owasp-top-10-hardening)
 [![Zero-Trust: Client-Side](https://img.shields.io/badge/Privacy-100%25_Client--Side-10B981?style=for-the-badge&logo=shield&logoColor=white)](#-security--owasp-top-10-hardening)
+[![CI: Passing](https://img.shields.io/github/actions/workflow/status/Bavly-Hamdy/readme-studio/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI%20Gate)](https://github.com/Bavly-Hamdy/readme-studio/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <br />
 
 [What's New in v2.1](#-whats-new-in-version-21-current) •
 [Overview](#-overview--architectural-intent) •
-[Why README Studio](#-why-readme-studio-v20-vs-alternatives) •
+[Why README Studio](#-why-readme-studio-v21-vs-alternatives) •
 [Architecture & Workflow](#-architecture--workflow) •
 [Interface Gallery](#-interface-gallery) •
 [Core Features](#-core-features--capabilities) •

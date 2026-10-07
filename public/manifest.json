@@ -1,17 +1,36 @@
 {
-  "name": "README Studio",
+  "name": "README Studio — Enterprise Profile Orchestrator",
   "short_name": "README Studio",
-  "description": "Enterprise GitHub Profile README Orchestration with Multimodal CV Synergy and Real-Time Telemetry",
+  "description": "Enterprise GitHub Profile README Orchestration with Multimodal CV Synergy, Real-Time Telemetry, and OWASP Top 10 Hardening",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#1B1C1E",
   "theme_color": "#5A7188",
+  "categories": ["developer", "productivity", "utilities"],
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/01_landing_hero.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "README Studio Hero & Workspace"
+    },
+    {
+      "src": "/screenshots/06_studio_builder.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Live Interactive Profile Builder & Dual Preview"
     }
   ]
 }

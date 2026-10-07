@@ -1,6 +1,7 @@
 {
   "name": "README Studio",
-  "description": "Craft, preview, and publish thoughtful GitHub profile READMEs with humanized editorial design, automated repo analysis, and atomic one-click publishing.",
+  "version": "2.1.0",
+  "description": "Enterprise GitHub Profile README Orchestrator with Multimodal Resume Ingestion (Gemini 3.8 Flash), Non-Sampled Telemetry, Anti-Boilerplate Heuristics, and 1-Click Atomic Publishing.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
