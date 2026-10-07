@@ -269,3 +269,30 @@
 .markdown-body table tr:nth-child(2n) {
   background-color: var(--gh-table-row-alt);
 }
+
+/* Print & PDF Export Hygiene */
+@media print {
+  header,
+  nav,
+  .no-print,
+  button:not(.print-include) {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .markdown-body {
+    --gh-bg: #ffffff !important;
+    --gh-fg: #000000 !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

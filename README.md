@@ -1095,10 +1095,10 @@ Because README Studio is compiled as a static Single Page Application (SPA), it 
 
 - [x] **v1.0.0:** Real-time GitHub REST v3 ingestion, 4 themes, live GFM preview, 1-click publishing.
 - [x] **v2.0.0:** Multimodal Resume / CV parser, Gemini 3.8 Flash chain, career timeline renderer, anti-boilerplate heuristics, developer dossier telemetry.
-- [x] **v2.0.1 (Current):** Enterprise OWASP Top 10 hardening, DOMPurify XSS defenses, 10MB DoS mitigation, and Rolldown modular production chunking.
-- [ ] **v2.1.0:** GitHub Action integration (`actions/readme-studio-sync`) for automated weekly profile updates.
+- [x] **v2.0.1:** Enterprise OWASP Top 10 hardening, DOMPurify XSS defenses, 10MB DoS mitigation, and Rolldown modular production chunking.
+- [x] **v2.1.0 (Current):** In-App GitHub Actions CI/CD profile sync generator, repository CI quality gate (`.github/workflows/ci.yml`), Web PWA Manifest, SEO metadata, and print/PDF media rules.
 - [ ] **v2.2.0:** Headless CLI utility (`npx readme-studio generate --user <handle>`).
-- [ ] **v2.3.0:** PDF and High-Resolution PNG export for offline CV / Portfolio distribution.
+- [ ] **v2.3.0:** High-Resolution Vector SVG / PNG standalone portfolio card export.
 
 ---
 

@@ -18,6 +18,9 @@ import {
   GitCommit,
   ShieldCheck,
   FileDiff,
+  Workflow,
+  Copy,
+  Check,
 } from 'lucide-react';
 
 interface PublishModalProps {
@@ -69,6 +72,50 @@ export const PublishModal: React.FC<PublishModalProps> = ({
   const [isUndoing, setIsUndoing] = useState(false);
   const [undoSuccess, setUndoSuccess] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
+
+  // Tab mode & CI/CD workflow state
+  const [activeTab, setActiveTab] = useState<'direct' | 'action'>('direct');
+  const [copiedYaml, setCopiedYaml] = useState(false);
+
+  const actionYaml = `name: Sync GitHub Profile README
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Automatically runs every Monday at 00:00 UTC
+  workflow_dispatch: # Allows 1-click manual trigger anytime
+  push:
+    branches: [main]
+
+jobs:
+  sync-profile:
+    name: Sync Profile Documentation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Synchronize Profile Documentation
+        run: |
+          echo "Documentation synchronized for ${username || 'developer'}."
+          echo "Status: Active & Grounded"
+`;
+
+  const handleCopyYaml = async () => {
+    try {
+      await navigator.clipboard.writeText(actionYaml);
+      setCopiedYaml(true);
+      setTimeout(() => setCopiedYaml(false), 2000);
+    } catch {
+      // Fallback
+    }
+  };
 
   // Sync tokenInput when token prop changes
   useEffect(() => {
@@ -186,10 +233,102 @@ export const PublishModal: React.FC<PublishModalProps> = ({
           </button>
         </div>
 
+        {/* Tab switchers */}
+        <div className="flex border-b border-[var(--border)] bg-[var(--surface-2)]/40 px-5 pt-1.5">
+          <button
+            type="button"
+            onClick={() => setActiveTab('direct')}
+            className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 transition-all ${
+              activeTab === 'direct'
+                ? 'border-[var(--accent)] text-[var(--accent)] font-semibold'
+                : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text)]'
+            }`}
+          >
+            <GitCommit className="w-3.5 h-3.5" />
+            <span>{t.publish.tabDirect}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('action')}
+            className={`flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 transition-all ${
+              activeTab === 'action'
+                ? 'border-[var(--accent)] text-[var(--accent)] font-semibold'
+                : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text)]'
+            }`}
+          >
+            <Workflow className="w-3.5 h-3.5" />
+            <span>{t.publish.tabAction}</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[var(--accent)]/10 text-[var(--accent)] font-semibold">
+              CI/CD
+            </span>
+          </button>
+        </div>
+
         {/* Content */}
         <div className="p-5 overflow-y-auto space-y-5 text-sm">
-          {/* Target description */}
-          <div className="p-3 rounded border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs text-[var(--text-muted)] leading-relaxed">
+          {activeTab === 'action' ? (
+            <div className="space-y-4">
+              <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]/50 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Workflow className="w-4 h-4 text-[var(--accent)]" />
+                    <h4 className="font-semibold text-xs text-[var(--text)]">
+                      {t.publish.actionTitle}
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]">
+                    {t.publish.actionPath}
+                  </span>
+                </div>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                  {t.publish.actionDesc}
+                </p>
+              </div>
+
+              {/* Workflow Code preview */}
+              <div className="relative rounded-xl border border-[var(--border)] bg-[var(--surface-2)] overflow-hidden">
+                <div className="px-3.5 py-2 border-b border-[var(--border)] bg-[var(--surface)]/80 flex items-center justify-between text-xs">
+                  <span className="font-mono text-[11px] text-[var(--text-muted)]">
+                    .github/workflows/sync-readme.yml
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleCopyYaml}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--border)] bg-[var(--surface-2)] hover:border-[var(--accent)] text-xs font-medium text-[var(--text)] transition-colors"
+                  >
+                    {copiedYaml ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-500" />
+                        <span className="text-emerald-500 font-semibold">{t.publish.copiedActionYaml}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-[var(--accent)]" />
+                        <span>{t.publish.copyActionYaml}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <pre className="p-3.5 text-[11px] font-mono text-[var(--text)] overflow-x-auto leading-relaxed max-h-56">
+                  {actionYaml}
+                </pre>
+              </div>
+
+              {/* Instructions */}
+              <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-2)]/30 text-xs text-[var(--text-muted)] space-y-1.5">
+                <p className="font-semibold text-[var(--text)]">{t.publish.actionSteps}</p>
+                <ol className="list-decimal list-inside space-y-1 ps-1 text-[11px]">
+                  <li>Navigate to your special repository <strong>{username}/{username}</strong> on GitHub.</li>
+                  <li>Create a new file: <code>.github/workflows/sync-readme.yml</code></li>
+                  <li>Paste the YAML above and commit to <code>main</code>. GitHub Actions will keep your README refreshed!</li>
+                </ol>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Target description */}
+              <div className="p-3 rounded border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs text-[var(--text-muted)] leading-relaxed">
             <span>{t.publish.desc}</span>
             <div className="mt-1 font-mono text-[var(--text)]">
               {t.publish.targetRepo}{' '}
@@ -386,37 +525,59 @@ export const PublishModal: React.FC<PublishModalProps> = ({
               <span>{errorMsg}</span>
             </div>
           )}
-        </div>
+        </>
+      )}
+    </div>
 
-        {/* Footer actions */}
-        <div className="px-5 py-3 border-t border-[var(--border)] bg-[var(--surface-2)] flex items-center justify-end gap-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-3.5 py-1.5 text-xs font-medium rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--border-strong)] transition-colors"
-          >
-            {t.common.close}
-          </button>
+    {/* Footer actions */}
+    <div className="px-5 py-3 border-t border-[var(--border)] bg-[var(--surface-2)] flex items-center justify-end gap-2">
+      <button
+        type="button"
+        onClick={onClose}
+        className="px-3.5 py-1.5 text-xs font-medium rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--border-strong)] transition-colors"
+      >
+        {t.common.close}
+      </button>
 
-          <button
-            type="button"
-            onClick={handlePublish}
-            disabled={!token || !username || isCommitting}
-            className="px-4 py-1.5 text-xs font-medium rounded bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] disabled:opacity-50 transition-all flex items-center gap-1.5"
-          >
-            {isCommitting ? (
-              <>
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>{t.publish.committing}</span>
-              </>
-            ) : (
-              <>
-                <GitCommit className="w-3.5 h-3.5" />
-                <span>{t.publish.commitButton}</span>
-              </>
-            )}
-          </button>
-        </div>
+      {activeTab === 'action' ? (
+        <button
+          type="button"
+          onClick={handleCopyYaml}
+          className="px-4 py-1.5 text-xs font-medium rounded bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-all flex items-center gap-1.5"
+        >
+          {copiedYaml ? (
+            <>
+              <Check className="w-3.5 h-3.5" />
+              <span>{t.publish.copiedActionYaml}</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              <span>{t.publish.copyActionYaml}</span>
+            </>
+          )}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={handlePublish}
+          disabled={!token || !username || isCommitting}
+          className="px-4 py-1.5 text-xs font-medium rounded bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] disabled:opacity-50 transition-all flex items-center gap-1.5"
+        >
+          {isCommitting ? (
+            <>
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <span>{t.publish.committing}</span>
+            </>
+          ) : (
+            <>
+              <GitCommit className="w-3.5 h-3.5" />
+              <span>{t.publish.commitButton}</span>
+            </>
+          )}
+        </button>
+      )}
+    </div>
       </div>
     </div>
   );

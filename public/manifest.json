@@ -1,0 +1,17 @@
+{
+  "name": "README Studio",
+  "short_name": "README Studio",
+  "description": "Enterprise GitHub Profile README Orchestration with Multimodal CV Synergy and Real-Time Telemetry",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1B1C1E",
+  "theme_color": "#5A7188",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
