@@ -1,6 +1,6 @@
 <div align="center">
 
-# Bavly-Hamdy / README Studio (v2.0)
+# Bavly-Hamdy / README Studio (v2.1.0)
 
 **An enterprise-grade orchestration platform for automated repository documentation, GitHub telemetry analytics, multimodal CV synergy, and AI-driven developer persona synthesis.**
 
@@ -10,7 +10,7 @@
 
 <br /><br />
 
-[![Release: v2.0.0](https://img.shields.io/badge/Release-v2.0.0--Multimodal-8B5CF6?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/Bavly-Hamdy/readme-studio/releases)
+[![Release: v2.1.0](https://img.shields.io/badge/Release-v2.1.0--Current-8B5CF6?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/Bavly-Hamdy/readme-studio/releases)
 [![Language: TypeScript](https://img.shields.io/badge/Language-TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Frontend: React 19](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Build: Vite 8.3](https://img.shields.io/badge/Build-Vite_8.3_(Rolldown)-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -23,7 +23,7 @@
 
 <br />
 
-[What's New in v2.0](#-whats-new-in-version-20) •
+[What's New in v2.1](#-whats-new-in-version-21-current) •
 [Overview](#-overview--architectural-intent) •
 [Why README Studio](#-why-readme-studio-v20-vs-alternatives) •
 [Architecture & Workflow](#-architecture--workflow) •
@@ -49,15 +49,15 @@
 <br />
 
 > [!IMPORTANT]
-> ### 🚀 Version 2.0 Milestone Release: Multimodal Resume Synergy + OWASP Top 10 Enterprise Hardening
-> **README Studio v2.0** bridges active codebases and real-world career trajectory with enterprise-grade security. Ingest your CV/Resume (PDF or plain text) via Gemini 3.8 Flash, eliminate secondary framework boilerplate across 100% of your repositories, render production-ready career timelines across 4 handcrafted theme designs, and publish with complete confidence backed by **DOMPurify XSS defenses, OWASP Top 10 hardening, and Rolldown modular production chunking**.
+> ### 🚀 Version 2.1.0 Milestone Release (Current): Multimodal Resume Synergy + GitHub Actions CI/CD + OWASP Top 10
+> **README Studio v2.1.0 (Current)** bridges active codebases and real-world career trajectory with enterprise-grade security and automated synchronization. Ingest your CV/Resume (PDF or plain text) via Gemini 3.8 Flash, eliminate secondary framework boilerplate across 100% of your repositories, render production-ready career timelines across 4 handcrafted theme designs, and publish with complete confidence backed by **in-app GitHub Actions CI/CD workflows, DOMPurify XSS defenses, OWASP Top 10 hardening, and Rolldown modular production chunking**.
 
 <br />
 
 ## 📋 Table of Contents
-1. [What's New in Version 2.0](#-whats-new-in-version-20)
+1. [What's New in Version 2.1 (Current)](#-whats-new-in-version-21-current)
 2. [Overview & Architectural Intent](#-overview--architectural-intent)
-3. [Why README Studio v2.0 vs Alternatives](#-why-readme-studio-v20-vs-alternatives)
+3. [Why README Studio v2.1 vs Alternatives](#-why-readme-studio-v21-vs-alternatives)
 4. [Architecture & Workflow](#-architecture--workflow)
    - [System Topology](#system-topology)
    - [Live Execution Sequence](#live-execution-sequence)
@@ -100,9 +100,9 @@
 
 ---
 
-## 🚀 What's New in Version 2.0
+## 🚀 What's New in Version 2.1 (Current)
 
-Version 2.0 is an architectural leap forward, introducing **Multimodal Resume Ingestion**, **Anti-Boilerplate Tech Qualification**, and **Native Career Timelines**.
+Version 2.1 is a major architectural milestone, delivering **In-App GitHub Actions CI/CD Profile Synchronization**, **OWASP Top 10 Security Hardening**, **Multimodal Resume Ingestion**, **Anti-Boilerplate Tech Qualification**, and **Native Career Timelines**.
 
 ```mermaid
 flowchart LR
@@ -128,10 +128,12 @@ flowchart LR
     ThemeEngine --> LiveMD
 ```
 
-### 🌟 Version 2.0 Feature Matrix
+### 🌟 Version 2.1 Feature Matrix (Current)
 
 | Capability | Implementation Module | Architectural Description |
 | :--- | :--- | :--- |
+| **🤖 GitHub Actions Profile Sync** | [`src/components/PublishModal.tsx`](file:///e:/README%20Studio/src/components/PublishModal.tsx) | Turnkey `.github/workflows/profile-sync.yml` generator with CRON schedules, target branch auto-detection, and atomic commit tokens. |
+| **🧪 Enterprise CI Quality Gate** | [`.github/workflows/ci.yml`](file:///e:/README%20Studio/.github/workflows/ci.yml) | Automated GitHub Actions CI workflow executing multi-node testing, strict TypeScript verification (`tsc --noEmit`), and production builds on push/PR. |
 | **📄 Multimodal CV Synergy** | [`src/services/resumeParser.ts`](file:///e:/README%20Studio/src/services/resumeParser.ts) | Parses binary PDF buffers or raw text using Gemini 3.8 Flash to extract verified employment chronologies, university degrees, GPA, and industry certificates. |
 | **🛡️ Anti-Boilerplate Qualification** | [`src/services/techDetection.ts`](file:///e:/README%20Studio/src/services/techDetection.ts) | Filters out framework noise (e.g., Xcode Swift or Android Kotlin template files for web developers) by weighting authentic code bytes across 100% of repositories. |
 | **💼 Dynamic Career Timelines** | [`src/services/markdownRenderer.ts`](file:///e:/README%20Studio/src/services/markdownRenderer.ts) | Handcrafted markdown timeline generators for Work Experience, Higher Education, and Certifications across all 4 theme styles. |
@@ -162,9 +164,9 @@ The architecture strictly decouples the three core responsibilities:
 
 ---
 
-## ⚖️ Why README Studio v2.0 vs Alternatives
+## ⚖️ Why README Studio v2.1 vs Alternatives
 
-| Architectural Feature | Generic AI Prompts (ChatGPT / Claude) | Standard README Generators | README Studio v2.0 |
+| Architectural Feature | Generic AI Prompts (ChatGPT / Claude) | Standard README Generators | README Studio v2.1 (Current) |
 | :--- | :---: | :---: | :---: |
 | **Data Grounding** | Hallucinates unverified skills | Superficial top-5 repo sampling | **100% Paginated GitHub Repositories** |
 | **Language Composition** | Guesses from repo titles | Counts repo names (misleading) | **Exact Byte-Level Summation Matrix** |
@@ -380,7 +382,7 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 
 ---
 
-### 10. Version 2.0 Architectural Hub & Release Changelog
+### 10. Version 2.1 (Current) Architectural Hub & Release Changelog
 *Interactive release modal showcasing multimodal resume synergy, anti-boilerplate tech qualification, and native career timelines.*
 
 ![10 What's New Modal](public/screenshots/10_whats_new_modal.png)
@@ -406,7 +408,7 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 
 ## 📄 Multimodal CV Intelligence & Career Fusion
 
-README Studio v2.0 solves the disconnection between codebases and formal careers. A developer's GitHub may contain 40 repositories, but without context on former employers, engineering roles, and university degrees, the profile remains incomplete.
+README Studio v2.1 solves the disconnection between codebases and formal careers. A developer's GitHub may contain 40 repositories, but without context on former employers, engineering roles, and university degrees, the profile remains incomplete.
 
 ### The Ingestion & Fusion Pipeline
 
@@ -821,7 +823,7 @@ README-Studio/
 │   │   ├── SidebarSections.tsx   # Tactile drag/toggle section navigation
 │   │   ├── TokenGuideModal.tsx   # In-app GitHub PAT acquisition walkthrough
 │   │   ├── UsernameBar.tsx       # Fast-switcher profile input & ingestion bar
-│   │   └── WhatsNewModal.tsx     # Editorial v2.0 release changelog modal
+│   │   └── WhatsNewModal.tsx     # Editorial v2.1 release changelog modal
 │   ├── services/                 # Domain logic & headless services
 │   │   ├── aiBio.ts              # Deterministic rule-based 3-tone bio engine
 │   │   ├── archetypes.ts         # Developer taxonomy & rhythm definitions
@@ -868,14 +870,14 @@ Provides a tactile drag-and-drop file upload zone with live OCR progress simulat
 ### 6. `src/services/geminiService.ts` (LLM Persona Synthesis)
 Constructs a structured prompt containing the developer's top repositories, detected tech stack, and primary language weights. Dispatches the payload directly to `gemini-3.8-flash` via `@google/genai` to generate 3 tailored voices with bilingual Arabic/English support.
 
-### 7. `src/components/PublishModal.tsx` (Atomic GitHub Commits)
-Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, and issues an authenticated `PUT` commit using standards-compliant `TextEncoder` Base64 encoding.
+### 7. `src/components/PublishModal.tsx` (Atomic GitHub Commits & CI/CD Generator)
+Executes a zero-risk publishing pipeline. Inspects if the user has an existing `username/username` repository, snapshots the active `README.md` to `localStorage` for rollback, reads the existing file's SHA to prevent race conditions, issues an authenticated `PUT` commit using standards-compliant `TextEncoder` Base64 encoding, and provides turnkey GitHub Actions workflow code for automated profile synchronization.
 
 ### 8. `src/components/AnalyticsDashboard.tsx` (Professional Developer Telemetry)
 Presents a comprehensive developer audit: Real GitHub avatar dossier, unified Codebase Quality Index, filtered Language DNA, circadian commit distribution, and repository spotlights with zero AI tropes.
 
-### 9. `src/components/WhatsNewModal.tsx` (Version 2.0 Architectural Hub)
-An interactive release modal spotlighting the architectural pillars of README Studio v2.0 with direct triggers for resume ingestion, bilingual copy, and technical release notes.
+### 9. `src/components/WhatsNewModal.tsx` (Version 2.1 Architectural Hub)
+An interactive release modal spotlighting the architectural pillars of README Studio v2.1 (Current) with direct triggers for resume ingestion, CI/CD workflow generation, bilingual copy, and technical release notes.
 
 ### 10. `src/services/sanitize.ts` (Enterprise Sanitizer & Input Hardener)
 Provides enterprise-grade HTML sanitization for dynamic Markdown using `DOMPurify`. Enforces strict tag and attribute whitelisting tailored for GitHub Flavored Markdown (GFM), strips dangerous inline executable scripts and event handlers (`onclick`, `onerror`, `onload`), and attaches an attribute hook enforcing `rel="noopener noreferrer nofollow"` and `target="_blank"` on external anchors to eliminate reverse tabnabbing vectors. Also houses `sanitizeGitHubUsername` and `isValidGitHubUsername`, which normalize and validate usernames against official GitHub regular expression constraints.
@@ -1075,7 +1077,7 @@ Because README Studio is compiled as a static Single Page Application (SPA), it 
 ## ❓ Troubleshooting & Frequently Asked Questions
 
 ### Q1: Why are some small languages (like Swift or Makefile) missing from my Language DNA?
-> **Answer:** README Studio v2.0 incorporates an **Anti-Boilerplate Qualification Threshold** (`< 0.4%`). When a developer builds React Native or Flutter apps, Xcode automatically generates boilerplate Swift/Objective-C files, even if the developer never wrote native Swift code. The analyzer filters out these minute template artifacts to prevent false claims and noise on your profile.
+> **Answer:** README Studio v2.1 incorporates an **Anti-Boilerplate Qualification Threshold** (`< 0.4%`). When a developer builds React Native or Flutter apps, Xcode automatically generates boilerplate Swift/Objective-C files, even if the developer never wrote native Swift code. The analyzer filters out these minute template artifacts to prevent false claims and noise on your profile.
 
 ### Q2: Do I need a GitHub Personal Access Token (PAT) to use README Studio?
 > **Answer:** No. Public profile ingestion works seamlessly without authentication. However, GitHub enforces an unauthenticated rate limit of 60 requests per hour. For accounts with dozens of repositories, providing a lightweight personal token (`read:user` and `repo` scope) expands your rate limit to **5,000 requests per hour**.

@@ -23,6 +23,24 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({
 
   const changelogItems = [
     {
+      versionTag: 'v2.1.0',
+      title: isAr
+        ? 'أتمتة CI/CD عبر GitHub Actions ومعايير الـ PWA'
+        : 'GitHub Actions CI/CD Profile Sync & PWA Architecture',
+      description: isAr
+        ? 'أداة لتوليد ملفات GitHub Actions مخصصة لتحديث البروفايل أسبوعياً، مع نظام CI متكامل للمستودع ودعم كامل لمعايير الـ Progressive Web App.'
+        : 'In-app GitHub Actions workflow generator for automated weekly profile updates, repository CI quality gates, PWA manifest, and print media rules.',
+    },
+    {
+      versionTag: 'Security',
+      title: isAr
+        ? 'حماية أمنية مؤسسية بموجب معايير OWASP Top 10'
+        : 'Enterprise Security & OWASP Top 10 Hardening',
+      description: isAr
+        ? 'تنقية كاملة للـ Markdown عبر DOMPurify بقائمة بيضاء صارمة، وحماية من الـ Reverse Tabnabbing، وحد أقصى 10MB لحماية الذاكرة من الـ DoS.'
+        : 'Strict GFM tag whitelisting via DOMPurify, reverse tabnabbing defense, 10MB client DoS protection on CV uploads, and Rolldown modular chunking.',
+    },
+    {
       versionTag: 'Engine',
       title: isAr
         ? 'تكامل السيرة الذاتية (CV) مع مستودعات GitHub الحقيقية'
@@ -49,15 +67,6 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({
         ? 'فحص شامل لكافة المستودعات (40+ repo) وحساب النسب المئوية لحجم الأكواد بالبايت، مع استبعاد الشفرات الجانبية الافتراضية مثل ملفات Xcode أو إعدادات Kotlin الثانوية.'
         : 'Strict multi-repo qualification based on authentic byte weights. Boilerplate framework noise (e.g., Xcode Swift templates for web developers) is cleanly eliminated.',
     },
-    {
-      versionTag: 'AI Chain',
-      title: isAr
-        ? 'ترقية محرك الذكاء الاصطناعي إلى Gemini 3.8 Flash'
-        : 'Gemini 3.8 Flash Resilient Inference Chain',
-      description: isAr
-        ? 'سلسلة نماذج مرنة ودقيقة لصياغة 3 نبرات مهنية (معمارية، مجتمعية، مباشرة) ترتكز حصرياً على مستودعاتك البرمجية الفعلية مع دعم كامل للغتين العربية والإنجليزية.'
-        : 'Multi-tiered model fallback ladder (gemini-3.8-flash → 2.5-flash → 1.5-flash) providing 3 authentic developer voices grounded directly in your code.',
-    },
   ];
 
   return (
@@ -74,19 +83,19 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] font-semibold tracking-wider uppercase text-[var(--accent)]">
-                Changelog · v2.0.0
+                Changelog · v2.1.0 (Current)
               </span>
               <span className="text-[10px] font-mono text-[var(--text-subtle)]">
                 October 2026
               </span>
             </div>
             <h2 className="font-serif text-2xl font-normal tracking-tight text-[var(--text)]">
-              {isAr ? 'الإصدار الثاني: تكامل الـ CV والبيانات الحقيقية' : 'Version 2.0 Release Notes'}
+              {isAr ? 'الإصدار v2.1.0 (الحالي): أتمتة CI/CD والأمان المؤسسي' : 'Version 2.1.0 Release Notes (Current)'}
             </h2>
             <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-lg">
               {isAr
-                ? 'ترقية هندسية تركز على دقة البيانات، دمج السيرة الذاتية مع كود المستودعات الفعلي، وإلغاء القوالب الوهمية.'
-                : 'Bridging active GitHub repository telemetry with verified real-world career trajectory.'}
+                ? 'ترقية هندسية شاملة تضم أتمتة GitHub Actions، وتحصين أمني بموجب OWASP Top 10، وتكامل السيرة الذاتية مع كود المستودعات الفعلي.'
+                : 'Enterprise-grade update introducing GitHub Actions CI/CD automation, OWASP Top 10 security hardening, and multimodal CV synergy.'}
             </p>
           </div>
 

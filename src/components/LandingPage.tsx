@@ -421,10 +421,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <button
               type="button"
               onClick={() => onOpenWhatsNew?.()}
-              title={isAr ? 'سجل التحديثات v2.0' : 'Release notes v2.0'}
+              title={isAr ? 'سجل التحديثات v2.1.0 (الحالي)' : 'Release notes v2.1.0 (Current)'}
               className="hidden sm:inline-flex items-center text-[11px] font-mono px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-all cursor-pointer font-medium"
             >
-              v2.0
+              v2.1.0
             </button>
           </div>
         </div>
@@ -533,7 +533,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 2. Hero Section */}
       <section className="pt-14 pb-8 sm:pt-20 sm:pb-12 px-4 sm:px-8 max-w-6xl mx-auto w-full text-center space-y-5">
-        {/* Release 2.0 Editorial Ribbon */}
+        {/* Release 2.1.0 Editorial Ribbon */}
         <div className="flex items-center justify-center">
           <button
             type="button"
@@ -541,7 +541,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             className="group inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)] text-xs text-[var(--text-muted)] hover:text-[var(--text)] transition-all cursor-pointer shadow-2xs"
           >
             <span className="font-mono text-[10px] font-medium px-1.5 py-0.5 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]">
-              v2.0
+              v2.1.0 (Current)
             </span>
             <span>
               {isAr ? 'تكامل السيرة الذاتية والمؤهلات الأكاديمية' : 'Multimodal Resume Synergy & Career Timelines'}

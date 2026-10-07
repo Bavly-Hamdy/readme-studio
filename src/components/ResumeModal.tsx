@@ -215,7 +215,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
                   {rm.title}
                 </h2>
                 <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)]">
-                  v2.0 Ingest
+                  v2.1 Ingest
                 </span>
               </div>
               <p className="text-xs text-[var(--text-muted)] mt-0.5 line-clamp-1">

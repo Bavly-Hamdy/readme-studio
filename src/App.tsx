@@ -458,7 +458,7 @@ export default function App() {
           onOpenWhatsNew={() => setIsWhatsNewOpen(true)}
           onOpenResume={() => setIsResumeOpen(true)}
         />
-        {/* What's New v2.0 Modal */}
+        {/* What's New v2.1.0 (Current) Modal */}
         <WhatsNewModal
           isOpen={isWhatsNewOpen}
           onClose={() => setIsWhatsNewOpen(false)}
@@ -682,7 +682,7 @@ export default function App() {
           }}
         />
 
-        {/* What's New v2.0 Modal */}
+        {/* What's New v2.1.0 (Current) Modal */}
         <WhatsNewModal
           isOpen={isWhatsNewOpen}
           onClose={() => setIsWhatsNewOpen(false)}

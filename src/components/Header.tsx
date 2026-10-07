@@ -91,10 +91,10 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={() => onOpenWhatsNew?.()}
-          title={isAr ? 'سجل التحديثات v2.0' : 'Release notes v2.0'}
+          title={isAr ? 'سجل التحديثات v2.1.0 (الحالي)' : 'Release notes v2.1.0 (Current)'}
           className="text-[11px] font-mono px-1.5 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--border-strong)] transition-all cursor-pointer font-medium"
         >
-          v2.0
+          v2.1.0
         </button>
 
         {activeUsername && activeView !== 'landing' && (
