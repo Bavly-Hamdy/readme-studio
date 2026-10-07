@@ -1136,7 +1136,8 @@ This project is open-source software licensed under the **MIT License**.
 ```
 MIT License
 
-Copyright (c) 2026 Bavly Hamdy
+Copyright (c) 2026 Bavly Hamdy <https://github.com/Bavly-Hamdy>
+Project: README Studio <https://github.com/Bavly-Hamdy/readme-studio>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1155,6 +1156,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+DISCLAIMER & THIRD-PARTY ACKNOWLEDGMENTS:
+- "GitHub" and the GitHub Octocat logo are registered trademarks of GitHub, Inc.
+- "Google", "Gemini", and related marks or logos are trademarks of Google LLC.
+- README Studio is an independent open-source project and is not affiliated with
+  or endorsed by GitHub, Inc., Google LLC, or Microsoft Corporation.
 ```
 
 <div align="center">
