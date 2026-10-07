@@ -71,11 +71,31 @@ def capture_readme_studio():
             pub_btn.click()
             page.wait_for_timeout(800)
             page.screenshot(path=os.path.join(output_dir, '07_publish_modal.png'))
-            page.keyboard.press('Escape')
-            page.wait_for_timeout(400)
+            page.reload(wait_until='networkidle')
+            page.wait_for_timeout(600)
 
-        # 8. Deep Analytics Dashboard View
-        print('8. Capturing Analytics Dashboard...')
+        # 8. Resume Ingestion Modal
+        print('8. Capturing Multimodal Resume / CV Modal...')
+        resume_btn = page.locator('button:has-text("Import CV"), button:has-text("استيراد السيرة الذاتية"), button[title*="Resume"]').first
+        if resume_btn.count() > 0:
+            resume_btn.click()
+            page.wait_for_timeout(800)
+            page.screenshot(path=os.path.join(output_dir, '09_resume_modal.png'))
+            page.reload(wait_until='networkidle')
+            page.wait_for_timeout(600)
+
+        # 9. What's New v2.0 Architectural Modal
+        print('9. Capturing What\'s New v2.0 Modal...')
+        whats_new_btn = page.locator('button:has-text("v2.0")').first
+        if whats_new_btn.count() > 0:
+            whats_new_btn.click()
+            page.wait_for_timeout(800)
+            page.screenshot(path=os.path.join(output_dir, '10_whats_new_modal.png'))
+            page.reload(wait_until='networkidle')
+            page.wait_for_timeout(600)
+
+        # 10. Deep Analytics Dashboard View
+        print('10. Capturing Analytics Dashboard...')
         page.evaluate("""() => {
             localStorage.setItem('readme_studio_view', 'analytics');
         }""")
@@ -84,7 +104,7 @@ def capture_readme_studio():
         page.screenshot(path=os.path.join(output_dir, '08_analytics_dashboard.png'))
 
         browser.close()
-        print('All 8 high-res screenshots captured successfully in public/screenshots/ !')
+        print('All 10 high-res screenshots captured successfully in public/screenshots/ !')
 
 if __name__ == '__main__':
     capture_readme_studio()

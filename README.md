@@ -373,6 +373,20 @@ All screenshots are captured at **2x Retina resolution** from the live productio
 
 ---
 
+### 9. Multimodal Resume & CV Ingestion Modal
+*Tactile drag-and-drop document parser with 10MB safety bounds, real-time OCR progress simulation, and Bento Grid milestone review.*
+
+![09 Resume Modal](public/screenshots/09_resume_modal.png)
+
+---
+
+### 10. Version 2.0 Architectural Hub & Release Changelog
+*Interactive release modal showcasing multimodal resume synergy, anti-boilerplate tech qualification, and native career timelines.*
+
+![10 What's New Modal](public/screenshots/10_whats_new_modal.png)
+
+---
+
 ## ✨ Core Features & Capabilities
 
 * **📄 Multimodal Resume & CV Synergy:** Upload your CV in PDF format or paste plain text. Gemini 3.8 Flash parses your employment history, academic background, and certifications, fusing them with GitHub repository metadata.
@@ -789,7 +803,9 @@ README-Studio/
 │       ├── 05_creator_spotlight.png
 │       ├── 06_studio_builder.png
 │       ├── 07_publish_modal.png
-│       └── 08_analytics_dashboard.png
+│       ├── 08_analytics_dashboard.png
+│       ├── 09_resume_modal.png
+│       └── 10_whats_new_modal.png
 ├── src/
 │   ├── components/               # View orchestrators & UI primitives
 │   │   ├── AnalyticsDashboard.tsx# Professional developer telemetry & scorecard
