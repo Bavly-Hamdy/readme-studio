@@ -396,7 +396,8 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                   { id: 'terminal', name: isAr ? 'طرفية أوامر' : 'Terminal Shell', desc: 'UNIX prompt specs' },
                   { id: 'minimal', name: isAr ? 'هادئ وموجز' : 'Minimal Text', desc: 'Zen markdown quote' },
                 ].map(styleOpt => {
-                  const isCurrent = (config.header.data.headerStyle || 'badge-hero') === styleOpt.id;
+                  const currentHeaderStyle = config.header.data.headerStyle || 'capsule';
+                  const isCurrent = currentHeaderStyle === styleOpt.id;
                   return (
                     <button
                       key={styleOpt.id}
@@ -416,12 +417,12 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
               </div>
             </div>
 
-            {/* Capsule Options (Theme & Pattern) */}
-            {(config.header.data.headerStyle || 'capsule') === 'capsule' && (
+            {/* Visual Styling: Banner Palette & Badges & Pattern */}
+            {((config.header.data.headerStyle || 'capsule') === 'capsule' || config.header.data.headerStyle === 'badge-hero') && (
               <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3.5">
                 <div>
                   <label className="block text-xs font-medium text-[var(--text-muted)] mb-2">
-                    {isAr ? 'تدرج ألوان البانر (Color Palette)' : 'Banner Theme Palette'}
+                    {isAr ? 'تدرج ألوان البانر والنمط (Color Palette)' : 'Banner Theme Palette'}
                   </label>
                   <div className="grid grid-cols-3 sm:grid-cols-7 gap-2">
                     {[
@@ -452,26 +453,28 @@ export const SectionEditor: React.FC<SectionEditorProps> = ({
                 </div>
 
                 <div className="flex items-center gap-3 pt-1">
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
-                      {isAr ? 'نمط حركة الموجة (Pattern)' : 'Banner Pattern Shape'}
-                    </label>
-                    <select
-                      value={config.header.data.bannerPattern || 'waving'}
-                      onChange={(e) => updateSectionData('header', { bannerPattern: e.target.value as BannerPattern })}
-                      className="w-full h-8 px-2.5 text-xs bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)] rounded outline-none"
-                    >
-                      <option value="waving">Waving Wave</option>
-                      <option value="soft">Soft Curve</option>
-                      <option value="slice">Diagonal Slice</option>
-                      <option value="rect">Clean Rectangle</option>
-                      <option value="cylinder">Cylinder Arc</option>
-                    </select>
-                  </div>
+                  {(config.header.data.headerStyle || 'capsule') === 'capsule' && (
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
+                        {isAr ? 'نمط حركة الموجة (Pattern)' : 'Banner Pattern Shape'}
+                      </label>
+                      <select
+                        value={config.header.data.bannerPattern || 'waving'}
+                        onChange={(e) => updateSectionData('header', { bannerPattern: e.target.value as BannerPattern })}
+                        className="w-full h-8 px-2.5 text-xs bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)] rounded outline-none"
+                      >
+                        <option value="waving">Waving Wave</option>
+                        <option value="soft">Soft Curve</option>
+                        <option value="slice">Diagonal Slice</option>
+                        <option value="rect">Clean Rectangle</option>
+                        <option value="cylinder">Cylinder Arc</option>
+                      </select>
+                    </div>
+                  )}
 
                   <div className="flex-1">
                     <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
-                      {isAr ? 'طابع الشارات' : 'Badges Style'}
+                      {isAr ? 'طابع الشارات (Badges Style)' : 'Badges Style'}
                     </label>
                     <select
                       value={config.header.data.badgeStyle || 'for-the-badge'}

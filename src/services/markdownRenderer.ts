@@ -95,13 +95,13 @@ type Copy = (typeof COPY)[Locale];
 /* ------------------------------------------------------------------ */
 
 const BANNER_THEMES: Record<string, { gradient: string; accent: string }> = {
-  inkwash: { gradient: '0:18181b,50:27272a,100:3f3f46', accent: '94a3b8' },
-  cyberpunk: { gradient: '0:09090b,50:18181b,100:27272a', accent: '38bdf8' },
-  oceanic: { gradient: '0:020617,50:0f172a,100:1e293b', accent: '38bdf8' },
-  sunset: { gradient: '0:1c1917,50:292524,100:44403c', accent: 'f59e0b' },
-  emerald: { gradient: '0:022c22,50:064e3b,100:065f46', accent: '10b981' },
-  monochrome: { gradient: '0:09090b,50:18181b,100:27272a', accent: 'e4e4e7' },
-  midnight: { gradient: '0:020617,50:0f172a,100:1e293b', accent: '60a5fa' },
+  inkwash: { gradient: '0:1e1f21,50:4a4a4a,100:6d8196', accent: '6d8196' },
+  monochrome: { gradient: '0:18181b,50:3f3f46,100:71717a', accent: 'e4e4e7' },
+  oceanic: { gradient: '0:0369a1,50:0284c7,100:38bdf8', accent: '38bdf8' },
+  sunset: { gradient: '0:b91c1c,50:ea580c,100:f59e0b', accent: 'f59e0b' },
+  emerald: { gradient: '0:065f46,50:059669,100:34d399', accent: '10b981' },
+  cyberpunk: { gradient: '0:701a75,50:a855f7,100:ec4899', accent: 'ec4899' },
+  midnight: { gradient: '0:020617,50:1e3a8a,100:3b82f6', accent: '60a5fa' },
 };
 
 function compact(n: number): string {
@@ -172,10 +172,11 @@ function renderHeader(
 ): string {
   const h = config.header.data;
   const name = h.name || profile?.name || username;
-  const headerStyle = h.headerStyle || (theme === 'showcase' ? 'badge-hero' : 'minimal');
-  const bTheme = BANNER_THEMES[h.bannerTheme || 'cyberpunk'] || BANNER_THEMES.cyberpunk;
+  const headerStyle = h.headerStyle || (theme === 'mono' ? 'terminal' : theme === 'minimal' || theme === 'paper' ? 'minimal' : 'badge-hero');
+  const bTheme = BANNER_THEMES[h.bannerTheme || 'inkwash'] || BANNER_THEMES.inkwash;
   const pattern = h.bannerPattern || 'waving';
-  const badgeStyle = 'flat-square'; // Sleek, modern, and disciplined
+  const badgeStyle = h.badgeStyle || 'for-the-badge';
+  const viewsColor = (h.viewsCounterColor || bTheme.accent || '6d8196').replace(/^#/, '');
 
   // Typing lines for dynamic typing SVG
   const defaultHeadline = h.headline ? sanitizeTypingLine(h.headline) : 'Software Engineer';
@@ -200,11 +201,11 @@ function renderHeader(
     if (!avatarSrc || avatarSrc.includes('108342478')) {
       avatarSrc = `https://github.com/${encodeURIComponent(username || profile?.login || 'Bavly-Hamdy')}.png`;
     }
-    const radius = h.avatarShape === 'circle' ? '50%' : h.avatarShape === 'rounded' ? '20px' : '8px';
-    avatarHtml = `<a href="https://github.com/${username}"><img src="${avatarSrc}" width="115" height="115" style="border-radius:${radius};border:2px solid #38bdf8;padding:2px;" alt="${name}" /></a>`;
+    const radius = h.avatarShape === 'circle' ? '50%' : h.avatarShape === 'rounded' ? '18px' : '0px';
+    avatarHtml = `<a href="https://github.com/${username}"><img src="${avatarSrc}" width="115" height="115" style="border-radius:${radius};border:2px solid #${bTheme.accent};padding:2px;" alt="${name}" /></a>`;
   }
 
-  // Cohesive, professional badge strip (Monochrome & subtle dark tones)
+  // Cohesive, professional badge strip
   const badges: string[] = [];
   if (profile) {
     badges.push(`<a href="https://github.com/${username}?tab=followers"><img src="${shield('Followers', compact(profile.followers), '18181b', 'github', badgeStyle)}" alt="followers" /></a>`);
@@ -217,11 +218,12 @@ function renderHeader(
     badges.push(`<img src="${shield('Location', h.location, '18181b', 'googlemaps', badgeStyle)}" alt="location" />`);
   }
   if (h.showViewsCounter || (config.stats.enabled && config.stats.data.showProfileViews)) {
-    badges.push(`<img src="https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=${badgeStyle}&color=18181b&label=Profile+Views" alt="views" />`);
+    badges.push(`<img src="https://komarev.com/ghpvc/?username=${encodeURIComponent(username)}&style=${badgeStyle}&color=${viewsColor}&label=Profile+Views" alt="views" />`);
   }
 
   const badgesLine = badges.length ? `<p align="center">\n${badges.join('\n')}\n</p>` : '';
 
+  // 1. Capsule Wave Style
   if (headerStyle === 'capsule') {
     const cleanDesc = h.headline ? sanitizeTypingLine(h.headline) : '';
     const capsule =
@@ -246,7 +248,8 @@ function renderHeader(
       .join('\n');
   }
 
-  if (headerStyle === 'terminal' || theme === 'mono') {
+  // 2. Terminal Shell Style
+  if (headerStyle === 'terminal') {
     const lines = [
       '```text',
       '┌──(developer@github)-[~]',
@@ -261,11 +264,16 @@ function renderHeader(
       analytics ? `UPTIME:    ${analytics.accountAgeYears} years on GitHub` : '',
       '```',
     ];
-    return [lines.filter(Boolean).join('\n'), '', badges.join(' ')].filter(Boolean).join('\n\n');
+    const termBlock = lines.filter(Boolean).join('\n');
+    return [
+      avatarHtml ? `<div align="center">\n${avatarHtml}\n</div>` : '',
+      termBlock,
+      badgesLine,
+    ].filter(Boolean).join('\n\n');
   }
 
-  // Modern Hero (Default for showcase and badge-hero)
-  if (headerStyle === 'badge-hero' || theme === 'showcase') {
+  // 3. Modern Hero Style (badge-hero)
+  if (headerStyle === 'badge-hero') {
     const greetingText = h.greeting || (locale === 'ar' ? 'مرحباً، أنا' : "Hi, I'm");
     const metaParts = [
       h.location ? `${h.location}` : '',
@@ -294,8 +302,23 @@ function renderHeader(
       .join('\n');
   }
 
-  // Minimal
-  let md = `# ${h.greeting || "Hi, I'm"} ${name}\n\n`;
+  // 4. Paper Theme Layout
+  if (theme === 'paper') {
+    const greetingText = h.greeting || (locale === 'ar' ? 'مرحباً، أنا' : "Hi, I'm");
+    const meta: string[] = [];
+    if (h.location) meta.push(h.location);
+    if (h.status) meta.push(h.status);
+    return [
+      `# ${greetingText} ${name}`,
+      h.headline ? `### *${h.headline}*` : '',
+      meta.length ? `\n> ${meta.join(' · ')}\n` : '',
+      badges.length ? `<p align="left">\n${badges.join(' ')}\n</p>` : '',
+    ].filter(Boolean).join('\n\n').trim();
+  }
+
+  // 5. Minimal Text (Minimal Layout)
+  const greetingText = h.greeting || (locale === 'ar' ? 'مرحباً، أنا' : "Hi, I'm");
+  let md = `# ${greetingText} ${name}\n\n`;
   if (h.headline) md += `> ${h.headline}\n\n`;
   const meta: string[] = [];
   if (h.location) meta.push(h.location);
@@ -305,12 +328,50 @@ function renderHeader(
   return md.trim();
 }
 
-function renderAbout(config: ProfileSectionsConfig, _theme: ReadmeTheme, c: Copy): string {
+function renderAbout(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string {
   const a = config.about.data;
   const heading = `## ${c.about}`;
+
+  if (theme === 'mono') {
+    const rawRows: Array<[string, string]> = [
+      ['FOCUS', a.currentRole],
+      ['WORKING', a.currentWork],
+      ['LEARNING', a.currentLearning],
+      ['ASK_ME', a.askMeAbout],
+      ['CONTACT', a.howToReach],
+      ['PHILOSOPHY', a.funFact],
+    ];
+    const rows = rawRows.filter((r): r is [string, string] => Boolean(r[1]));
+
+    let md = `${heading}\n\n\`\`\`text\n`;
+    if (a.summary) md += `[BIO] ${a.summary}\n\n`;
+    rows.forEach(([k, v]) => {
+      md += `${padEnd(k, 12)}: ${v}\n`;
+    });
+    return `${md.trimEnd()}\n\`\`\``;
+  }
+
+  if (theme === 'paper') {
+    let md = `${heading}\n\n`;
+    if (a.summary) md += `> *${a.summary}*\n\n`;
+    const rawRows: Array<[string, string]> = [
+      [c.focus, a.currentRole],
+      [c.working, a.currentWork],
+      [c.learning, a.currentLearning],
+      [c.ask, a.askMeAbout],
+      [c.reach, a.howToReach],
+      [c.fun, a.funFact],
+    ];
+    const rows = rawRows.filter((r): r is [string, string] => Boolean(r[1]));
+    if (rows.length) {
+      md += rows.map(([l, v]) => `* **${l}** — ${v}`).join('\n');
+    }
+    return md.trim();
+  }
+
   let md = `${heading}\n\n`;
   if (a.summary) md += `${a.summary}\n\n`;
-  const rows: Array<[string, string]> = [
+  const rawRows: Array<[string, string]> = [
     [c.focus, a.currentRole],
     [c.working, a.currentWork],
     [c.learning, a.currentLearning],
@@ -318,17 +379,22 @@ function renderAbout(config: ProfileSectionsConfig, _theme: ReadmeTheme, c: Copy
     [c.reach, a.howToReach],
     [c.fun, a.funFact],
   ];
-  const filled = rows.filter(r => r[1]);
+  const filled = rawRows.filter((r): r is [string, string] => Boolean(r[1]));
   if (filled.length) md += filled.map(([l, v]) => `- **${l}**: ${v}`).join('\n');
   return md.trim();
 }
 
-function renderTech(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string | null {
+function renderTech(
+  config: ProfileSectionsConfig,
+  theme: ReadmeTheme,
+  c: Copy,
+  locale: Locale = 'en'
+): string | null {
   const ts = config.techStack.data;
   const active = ts.items.filter(i => i.enabled);
   if (!active.length) return null;
   const heading = `## ${c.tech}`;
-  const badgeStyle = 'flat-square';
+  const badgeStyle = ts.badgeStyle || config.header.data.badgeStyle || 'for-the-badge';
 
   const catLabels: Record<string, { en: string; ar: string }> = {
     languages: { en: 'Languages & Runtimes', ar: 'لغات البرمجة وبيئات التشغيل' },
@@ -349,27 +415,48 @@ function renderTech(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy):
   const badge = (i: (typeof active)[number]) =>
     `<img src="https://img.shields.io/badge/${encodeURIComponent(i.name.replace(/-/g, '--'))}-${i.color || '24292e'}?style=${badgeStyle}&logo=${encodeURIComponent(i.badgeSlug || i.id)}&logoColor=white" alt="${i.name}" />`;
 
-  if (ts.style === 'badges' || ts.style === 'grouped-cards') {
+  // Mono theme aesthetic
+  if (theme === 'mono') {
+    let md = `${heading}\n\n\`\`\`text\n`;
+    grouped.forEach((items, cat) => {
+      const info = catLabels[cat]?.[locale] || catLabels[cat]?.en || cat;
+      const paddedCat = padEnd(info.toUpperCase(), 30);
+      md += `${paddedCat} : ${items.map(i => i.name).join(' · ')}\n`;
+    });
+    return `${md.trimEnd()}\n\`\`\``;
+  }
+
+  // 1. Badges Cloud: Unified single stream of all badges without category dividers
+  if (ts.style === 'badges') {
+    return `${heading}\n\n<p align="left">\n${active.map(badge).join('\n')}\n</p>`;
+  }
+
+  // 2. Grouped Badges: Badges organized under category subheadings
+  if (ts.style === 'grouped-cards') {
     let md = `${heading}\n\n`;
     grouped.forEach((items, cat) => {
-      const info = catLabels[cat]?.en || cat;
+      const info = catLabels[cat]?.[locale] || catLabels[cat]?.en || cat;
       md += `### ${info}\n\n<p align="left">\n${items.map(badge).join('\n')}\n</p>\n\n`;
     });
     return md.trim();
   }
 
+  // 3. Table: Markdown table
   if (ts.style === 'minimal-table') {
-    let md = `${heading}\n\n| Category | Technologies |\n| :--- | :--- |\n`;
+    const catCol = locale === 'ar' ? 'التصنيف' : 'Category';
+    const techCol = locale === 'ar' ? 'التقنيات' : 'Technologies';
+    let md = `${heading}\n\n| ${catCol} | ${techCol} |\n| :--- | :--- |\n`;
     grouped.forEach((items, cat) => {
-      const info = catLabels[cat]?.en || cat;
+      const info = catLabels[cat]?.[locale] || catLabels[cat]?.en || cat;
       md += `| **${info}** | ${items.map(i => i.name).join(', ')} |\n`;
     });
     return md.trim();
   }
 
+  // 4. Text List: Clean bulleted list
   let md = `${heading}\n\n`;
   grouped.forEach((items, cat) => {
-    const info = catLabels[cat]?.en || cat;
+    const info = catLabels[cat]?.[locale] || catLabels[cat]?.en || cat;
     md += `- **${info}**: ${items.map(i => i.name).join(' · ')}\n`;
   });
   return md.trim();
@@ -708,7 +795,7 @@ function renderStats(config: ProfileSectionsConfig, theme: ReadmeTheme, username
   return `${heading}\n\n<div align="center">\n\n${out.join('\n\n')}\n\n</div>`;
 }
 
-function renderConnect(config: ProfileSectionsConfig, _theme: ReadmeTheme, c: Copy): string | null {
+function renderConnect(config: ProfileSectionsConfig, theme: ReadmeTheme, c: Copy): string | null {
   const data = config.connect.data;
   const links = data.links.filter(l => l.enabled && l.usernameOrUrl.trim());
   if (!links.length && !data.customCta) return null;
@@ -724,7 +811,34 @@ function renderConnect(config: ProfileSectionsConfig, _theme: ReadmeTheme, c: Co
     hashnode: { title: 'Hashnode', color: '2962FF', logo: 'hashnode', url: v => `https://hashnode.com/@${v}` },
   };
 
-  const badgeStyle = 'flat-square';
+  const badgeStyle = config.header.data.badgeStyle || 'for-the-badge';
+  const heading = `## ${c.connect}`;
+
+  // Mono aesthetic
+  if (theme === 'mono') {
+    let md = `${heading}\n\n\`\`\`text\n`;
+    if (data.customCta) md += `[NOTE] ${data.customCta}\n\n`;
+    links.forEach(link => {
+      const meta = META[link.platform];
+      if (meta) {
+        md += `${padEnd(meta.title.toUpperCase(), 12)}: ${meta.url(link.usernameOrUrl)}\n`;
+      }
+    });
+    return `${md.trimEnd()}\n\`\`\``;
+  }
+
+  // Paper or Minimal: Clean markdown links
+  if (theme === 'paper' || theme === 'minimal') {
+    const textLinks = links.map(link => {
+      const meta = META[link.platform];
+      if (!meta) return null;
+      return `[**${meta.title}**](${meta.url(link.usernameOrUrl)})`;
+    }).filter(Boolean);
+
+    return `${heading}\n\n${data.customCta ? `${data.customCta}\n\n` : ''}${textLinks.join('  ·  ')}`;
+  }
+
+  // Showcase: Visual badges
   const badges = links
     .map(link => {
       const meta = META[link.platform];
@@ -735,8 +849,8 @@ function renderConnect(config: ProfileSectionsConfig, _theme: ReadmeTheme, c: Co
     })
     .filter(Boolean);
 
-  const heading = `## ${c.connect}`;
-  return `${heading}\n\n<div align="center">\n\n${data.customCta ? `${data.customCta}\n\n` : ''}${badges.join('\n')}\n\n</div>`;
+  const headingTag = `<div align="center">\n\n${heading}\n\n`;
+  return `${headingTag}${data.customCta ? `${data.customCta}\n\n` : ''}${badges.join('\n')}\n\n</div>`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -757,7 +871,7 @@ export function generateReadmeMarkdown(
   if (config.header.enabled) parts.push(renderHeader(config, theme, username, analytics, profile, locale));
   if (config.about.enabled) parts.push(renderAbout(config, theme, c));
   if (config.techStack.enabled) {
-    const t = renderTech(config, theme, c);
+    const t = renderTech(config, theme, c, locale);
     if (t) parts.push(t);
   }
   if (config.experience?.enabled) {
@@ -786,7 +900,8 @@ export function generateReadmeMarkdown(
     if (k) parts.push(k);
   }
 
-  let body = parts.join(theme === 'showcase' ? '\n\n<br/>\n\n' : '\n\n---\n\n');
+  const separator = theme === 'showcase' ? '\n\n<br/>\n\n' : '\n\n---\n\n';
+  let body = parts.join(separator);
 
   if (theme === 'showcase') {
     body +=
@@ -794,7 +909,16 @@ export function generateReadmeMarkdown(
       `<div align="center">\n\n` +
       `<sub>Designed with intention by <a href="https://github.com/${username}">@${username}</a> · ${c.footer}</sub>\n\n` +
       `</div>`;
+  } else if (theme === 'paper') {
+    body +=
+      `\n\n---\n\n` +
+      `*Curated with precision · ${c.footer}*`;
+  } else if (theme === 'mono') {
+    body +=
+      `\n\n---\n\n` +
+      `\`// END OF PROFILE TRANSMISSION\``;
   }
+
   if (locale === 'ar') body = `<div dir="rtl">\n\n${body}\n\n</div>`;
   return body;
 }
